@@ -1,0 +1,16 @@
+.navbarControls {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  width: calc(100% - 1.6rem - 7.5rem);
+  height: calc(100% - 1.6rem);
+  max-height: 2.4rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  img {
+    transform: scale(0.9);
+    height: 100%;
+  }
+}
