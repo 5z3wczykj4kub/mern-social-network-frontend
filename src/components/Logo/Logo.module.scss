@@ -12,14 +12,5 @@
 
   p {
     font-size: 1.2rem;
-
-    span {
-      &:first-of-type {
-        padding: 2px 4px;
-        border-radius: 0.3rem;
-        background-color: #000;
-        color: #fff;
-      }
-    }
   }
 }

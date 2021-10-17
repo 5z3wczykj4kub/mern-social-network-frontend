@@ -20,8 +20,9 @@ function Search(props) {
           type="text"
           placeholder="Search"
           ref={inputRef}
-          onFocus={props.onFocus}
           onBlur={props.onBlur}
+          onFocus={props.onFocus}
+          onChange={props.onInput}
         />
         <span>
           <img src={loupe} alt="search loupe" />
