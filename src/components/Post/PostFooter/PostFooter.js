@@ -6,7 +6,7 @@ import comments from '../../../assets/comments.png';
 
 import classes from './PostFooter.module.scss';
 
-function PostFooter() {
+function PostFooter(props) {
   const [isLiked, setIsLiked] = useState(false);
 
   function toggleLikeHandler() {
@@ -19,10 +19,10 @@ function PostFooter() {
         <button onClick={toggleLikeHandler}>
           <img src={isLiked ? liked : like} alt="like button" />
         </button>
-        <span>69</span>
+        <span>{props.likes}</span>
       </div>
       <div>
-        <span>7000</span>
+        <span>{props.comments}</span>
         <button>
           <img src={comments} alt="comments button" />
         </button>

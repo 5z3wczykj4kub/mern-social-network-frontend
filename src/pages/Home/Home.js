@@ -1,27 +1,45 @@
+import { useState, useEffect } from 'react';
+
 import Navbar from '../../components/Navbar/Navbar';
 import Post from '../../components/Post/Post';
+import Loader from '../../components/Loader/Loader';
 
 import classes from './Home.module.scss';
 
 function Home() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(
+    () =>
+      (async () => {
+        const res = await fetch('/posts');
+        const posts = await res.json();
+        setPosts(posts);
+      })(),
+    []
+  );
+
+  const postsList = posts.map(
+    ({ id, author, textContent, imageUrl, likes, comments }, index) => (
+      <Post
+        className={
+          index === 0 ? `${classes.post} ${classes.first}` : classes.post
+        }
+        key={id}
+        id={id}
+        author={author}
+        textContent={textContent}
+        imageUrl={imageUrl}
+        likes={likes}
+        comments={comments}
+      />
+    )
+  );
+
   return (
     <main className={classes.home}>
       <Navbar />
-      <Post
-        className={`${classes.post} ${classes.first}`}
-        author="John Doe"
-        textContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut tortor mauris. Etiam mauris metus, commodo id ex a, interdum porttitor ex. Vestibulum nulla velit, accumsan vulputate commodo ut, semper in augue. Nullam ut mauris urna. Pellentesque consectetur lacus tellus, id pharetra purus congue quis. Nunc tempor diam ut laoreet tincidunt. Quisque maximus diam quam, id accumsan lacus aliquam at."
-      />
-      <Post
-        className={classes.post}
-        author="Jan Kowalski"
-        textContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut tortor mauris. Etiam mauris metus, commodo id ex a, interdum porttitor ex. Vestibulum nulla velit, accumsan vulputate commodo ut, semper in augue. Nullam ut mauris urna. Pellentesque consectetur lacus tellus, id pharetra purus congue quis. Nunc tempor diam ut laoreet tincidunt. Quisque maximus diam quam, id accumsan lacus aliquam at."
-      />
-      <Post
-        className={classes.post}
-        author="Max Mustermann"
-        textContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut tortor mauris. Etiam mauris metus, commodo id ex a, interdum porttitor ex. Vestibulum nulla velit, accumsan vulputate commodo ut, semper in augue. Nullam ut mauris urna. Pellentesque consectetur lacus tellus, id pharetra purus congue quis. Nunc tempor diam ut laoreet tincidunt. Quisque maximus diam quam, id accumsan lacus aliquam at."
-      />
+      {posts.length > 0 ? postsList : <Loader />}
     </main>
   );
 }

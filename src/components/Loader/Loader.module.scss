@@ -1,0 +1,74 @@
+@mixin circle {
+  position: absolute;
+  top: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+
+.loader {
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3rem;
+
+  div {
+    position: relative;
+
+    &::before,
+    &::after {
+      @include circle;
+      transform: scale(0);
+      content: '';
+    }
+
+    &::before {
+      left: 0;
+      animation: circle1 0.8s ease-in-out alternate infinite;
+    }
+
+    &::after {
+      right: 0;
+      animation: circle3 0.8s 0.6s ease-in-out alternate infinite;
+    }
+
+    span {
+      @include circle;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      animation: circle2 0.8s 0.3s ease-in-out alternate infinite;
+    }
+  }
+}
+
+@keyframes circle1 {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes circle2 {
+  from {
+    transform: translateX(-50%) scale(0);
+  }
+
+  to {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes circle3 {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}

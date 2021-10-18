@@ -22,7 +22,7 @@ function Search(props) {
           ref={inputRef}
           onBlur={props.onBlur}
           onFocus={props.onFocus}
-          onChange={props.onInput}
+          onInput={props.onInput}
         />
         <span>
           <img src={loupe} alt="search loupe" />

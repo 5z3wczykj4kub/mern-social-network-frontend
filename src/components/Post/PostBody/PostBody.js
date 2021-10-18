@@ -4,10 +4,9 @@ function PostBody(props) {
   return (
     <main className={classes.postBody}>
       <p>{props.textContent}</p>
-      <img
-        src="https://images.pexels.com/photos/9686076/pexels-photo-9686076.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-        alt=""
-      />
+      {props.imageUrl && props.imageUrl.length > 0 && (
+        <img src={props.imageUrl} alt="post" />
+      )}
     </main>
   );
 }

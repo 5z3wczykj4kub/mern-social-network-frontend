@@ -8,8 +8,10 @@ import classes from './DropdownMenu.module.scss';
 
 function DropdownMenu() {
   const dropdownMenuRef = useRef();
+  const [timer, setTimer] = useState(null);
+  const [users, setUsers] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [isSearchEmpty, setIsSearchEmpty] = useState(true);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [dropdownMenuHeight, setDropdownMenuHeight] = useState(null);
 
@@ -17,14 +19,24 @@ function DropdownMenu() {
     setDropdownMenuHeight(dropdownMenuRef.current.clientHeight);
   }, []);
 
-  useEffect(() => {
-    if (inputValue.length > 0) setIsTyping(true);
-    const id = setTimeout(() => setIsTyping(false), 1000);
-    return () => clearTimeout(id);
-  }, [inputValue]);
-
   function onInputHandler(event) {
-    setInputValue(event.target.value.trim());
+    clearTimeout(timer);
+    const inputValue = event.target.value.trim();
+    if (inputValue.length === 0) {
+      setIsSearchEmpty(true);
+      setIsTyping(false);
+      setUsers([]);
+      return;
+    }
+    setIsTyping(true);
+    setIsSearchEmpty(false);
+    const timerId = setTimeout(async () => {
+      const res = await fetch(`/users?query=${encodeURI(inputValue)}`);
+      const users = await res.json();
+      setUsers(users);
+      setIsTyping(false);
+    }, 1000);
+    setTimer(timerId);
   }
 
   function style() {
@@ -45,7 +57,13 @@ function DropdownMenu() {
         onInput={onInputHandler}
       />
       {!isSearchFocused && <NavbarControls />}
-      {isSearchFocused && <SearchList isLoading={isTyping} />}
+      {isSearchFocused && (
+        <SearchList
+          isLoading={isTyping}
+          isSearchEmpty={isSearchEmpty}
+          users={users}
+        />
+      )}
     </div>
   );
 }

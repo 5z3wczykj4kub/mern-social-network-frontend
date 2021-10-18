@@ -12,8 +12,8 @@ function Post(props) {
   return (
     <div className={className()}>
       <PostHeader author={props.author} />
-      <PostBody textContent={props.textContent} />
-      <PostFooter />
+      <PostBody textContent={props.textContent} imageUrl={props.imageUrl} />
+      <PostFooter likes={props.likes} comments={props.comments} />
     </div>
   );
 }
