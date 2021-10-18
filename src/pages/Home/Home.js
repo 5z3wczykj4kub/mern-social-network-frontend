@@ -9,17 +9,17 @@ function Home() {
       <Navbar />
       <Post
         className={`${classes.post} ${classes.first}`}
-        name="John Doe"
+        author="John Doe"
         textContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut tortor mauris. Etiam mauris metus, commodo id ex a, interdum porttitor ex. Vestibulum nulla velit, accumsan vulputate commodo ut, semper in augue. Nullam ut mauris urna. Pellentesque consectetur lacus tellus, id pharetra purus congue quis. Nunc tempor diam ut laoreet tincidunt. Quisque maximus diam quam, id accumsan lacus aliquam at."
       />
       <Post
         className={classes.post}
-        name="Jan Kowalski"
+        author="Jan Kowalski"
         textContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut tortor mauris. Etiam mauris metus, commodo id ex a, interdum porttitor ex. Vestibulum nulla velit, accumsan vulputate commodo ut, semper in augue. Nullam ut mauris urna. Pellentesque consectetur lacus tellus, id pharetra purus congue quis. Nunc tempor diam ut laoreet tincidunt. Quisque maximus diam quam, id accumsan lacus aliquam at."
       />
       <Post
         className={classes.post}
-        name="Max Mustermann"
+        author="Max Mustermann"
         textContent="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut tortor mauris. Etiam mauris metus, commodo id ex a, interdum porttitor ex. Vestibulum nulla velit, accumsan vulputate commodo ut, semper in augue. Nullam ut mauris urna. Pellentesque consectetur lacus tellus, id pharetra purus congue quis. Nunc tempor diam ut laoreet tincidunt. Quisque maximus diam quam, id accumsan lacus aliquam at."
       />
     </main>

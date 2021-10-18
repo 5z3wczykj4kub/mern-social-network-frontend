@@ -1,5 +1,7 @@
-import PostBody from '../PostBody/PostBody';
-import PostHeader from '../PostHeader/PostHeader';
+import PostHeader from './PostHeader/PostHeader';
+import PostBody from './PostBody/PostBody';
+import PostFooter from './PostFooter/PostFooter';
+
 import classes from './Post.module.scss';
 
 function Post(props) {
@@ -9,8 +11,9 @@ function Post(props) {
 
   return (
     <div className={className()}>
-      <PostHeader name={props.name} />
+      <PostHeader author={props.author} />
       <PostBody textContent={props.textContent} />
+      <PostFooter />
     </div>
   );
 }

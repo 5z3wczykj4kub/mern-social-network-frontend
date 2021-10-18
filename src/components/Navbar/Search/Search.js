@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import loupe from '../../assets/loupe.png';
+import loupe from '../../../assets/loupe.png';
 
 import classes from './Search.module.scss';
 

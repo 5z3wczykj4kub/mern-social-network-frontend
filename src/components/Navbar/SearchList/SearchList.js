@@ -1,4 +1,4 @@
-import SearchListItem from '../SearchListItem/SearchListItem';
+import SearchListItem from './SearchListItem/SearchListItem';
 
 import classes from './SearchList.module.scss';
 

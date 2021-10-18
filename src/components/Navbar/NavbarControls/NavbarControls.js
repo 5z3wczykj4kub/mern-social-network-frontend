@@ -1,6 +1,6 @@
-import user from '../../assets/user.png';
-import newPost from '../../assets/new-post.png';
-import bell from '../../assets/bell.png';
+import user from '../../../assets/user.png';
+import newPost from '../../../assets/new-post.png';
+import bell from '../../../assets/bell.png';
 
 import classes from './NavbarControls.module.scss';
 

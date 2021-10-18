@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import Logo from '../Logo/Logo';
-import Toggler from '../Toggler/Toggler';
+import Logo from './Logo/Logo';
+import Toggler from './Toggler/Toggler';
 import Backdrop from '../Backdrop/Backdrop';
-import DropdownMenu from '../DropdownMenu/DropdownMenu';
+import DropdownMenu from './DropdownMenu/DropdownMenu';
 
-import dropdownMenuClasses from '../DropdownMenu/DropdownMenu.module.scss';
+import dropdownMenuClasses from './DropdownMenu/DropdownMenu.module.scss';
 import backdropClasses from '../Backdrop/Backdrop.module.scss';
 import classes from './Navbar.module.scss';
 

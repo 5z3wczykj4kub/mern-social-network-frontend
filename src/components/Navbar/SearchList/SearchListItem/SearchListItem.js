@@ -1,4 +1,4 @@
-import avatar from '../../assets/avatar-64.png';
+import avatar from '../../../../assets/avatar-64.png';
 
 import classes from './SearchListItem.module.scss';
 
