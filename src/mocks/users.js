@@ -1,21 +1,21 @@
 const USERS = [
   {
-    id: 1,
+    id: 'u1',
     firstName: 'John',
     lastName: 'Doe',
   },
   {
-    id: 2,
+    id: 'u2',
     firstName: 'Max',
     lastName: 'Mustermann',
   },
   {
-    id: 3,
+    id: 'u3',
     firstName: 'Jan',
     lastName: 'Kowalski',
   },
   {
-    id: 4,
+    id: 'u4',
     firstName: 'Iwan',
     lastName: 'Pietrowicz',
   },

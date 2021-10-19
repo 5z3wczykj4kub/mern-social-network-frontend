@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { sendLikePostReq } from '../../../redux/postSlice';
 
 import like from '../../../assets/like.png';
 import liked from '../../../assets/liked.png';
@@ -6,25 +7,31 @@ import comments from '../../../assets/comments.png';
 
 import classes from './PostFooter.module.scss';
 
-function PostFooter(props) {
-  const [isLiked, setIsLiked] = useState(false);
+import USERS from '../../../mocks/users'; // remove later
 
-  function toggleLikeHandler() {
-    setIsLiked((prevLiked) => !prevLiked);
-  }
+function PostFooter(props) {
+  const { fetchedPosts } = useSelector(({ post }) => post);
+  const dispatch = useDispatch();
 
   return (
     <footer className={classes.postFooter}>
       <div>
-        <button onClick={toggleLikeHandler}>
-          <img src={isLiked ? liked : like} alt="like button" />
+        <button
+          onClick={() =>
+            dispatch(sendLikePostReq(fetchedPosts[props.index].id, USERS[0].id))
+          }
+        >
+          <img
+            src={fetchedPosts[props.index].isLiked ? liked : like}
+            alt="like"
+          />
         </button>
-        <span>{props.likes}</span>
+        <span>{fetchedPosts[props.index].likes.length}</span>
       </div>
       <div>
-        <span>{props.comments}</span>
+        <span>{fetchedPosts[props.index].comments}</span>
         <button>
-          <img src={comments} alt="comments button" />
+          <img src={comments} alt="comments" />
         </button>
       </div>
     </footer>

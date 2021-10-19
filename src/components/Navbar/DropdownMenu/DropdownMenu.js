@@ -1,7 +1,10 @@
 import { useRef, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { calcDropdownMenuHeight } from '../../../redux/navbarSlice';
+import {
+  calcDropdownMenuHeight,
+  cleanupSearch,
+} from '../../../redux/navbarSlice';
 
 import Search from '../Search/Search';
 import SearchList from '../SearchList/SearchList';
@@ -19,6 +22,7 @@ function DropdownMenu() {
 
   useEffect(() => {
     dispatch(calcDropdownMenuHeight(dropdownMenuRef.current.clientHeight));
+    return () => dispatch(cleanupSearch());
   }, [dispatch]);
 
   function style() {

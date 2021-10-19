@@ -1,12 +1,17 @@
+import { useSelector } from 'react-redux';
+
 import classes from './PostBody.module.scss';
 
 function PostBody(props) {
+  const { fetchedPosts } = useSelector(({ post }) => post);
+
   return (
     <main className={classes.postBody}>
-      <p>{props.textContent}</p>
-      {props.imageUrl && props.imageUrl.length > 0 && (
-        <img src={props.imageUrl} alt="post" />
-      )}
+      <p>{fetchedPosts[props.index].textContent}</p>
+      {fetchedPosts[props.index].imageUrl &&
+        fetchedPosts[props.index].imageUrl.length > 0 && (
+          <img src={fetchedPosts[props.index].imageUrl} alt="post" />
+        )}
     </main>
   );
 }

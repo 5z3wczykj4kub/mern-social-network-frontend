@@ -35,6 +35,10 @@ export const navbarSclice = createSlice({
     setSearchedUsers: (state, action) => {
       state.searchedUsers = action.payload;
     },
+    cleanupSearch: (state) => {
+      state.searchedUsers = [];
+      state.isSearchEmpty = true;
+    },
   },
 });
 
@@ -67,6 +71,7 @@ export const {
   setIsSearchUsed,
   setDebounceSearchTimerId,
   setSearchedUsers,
+  cleanupSearch,
 } = navbarSclice.actions;
 
 export default navbarSclice.reducer;

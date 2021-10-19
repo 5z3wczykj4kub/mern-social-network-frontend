@@ -11,9 +11,9 @@ function Post(props) {
 
   return (
     <div className={className()}>
-      <PostHeader author={props.author} />
-      <PostBody textContent={props.textContent} imageUrl={props.imageUrl} />
-      <PostFooter likes={props.likes} comments={props.comments} />
+      <PostHeader index={props.index} />
+      <PostBody index={props.index} />
+      <PostFooter index={props.index} />
     </div>
   );
 }
