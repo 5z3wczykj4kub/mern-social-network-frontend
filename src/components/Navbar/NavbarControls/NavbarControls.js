@@ -4,7 +4,7 @@ import bell from '../../../assets/bell.png';
 
 import classes from './NavbarControls.module.scss';
 
-function NavbarControls(props) {
+function NavbarControls() {
   return (
     <div className={classes.navbarControls}>
       <img src={user} alt="user icon" />

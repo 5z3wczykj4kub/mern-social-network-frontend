@@ -1,5 +1,7 @@
-import { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleDropdownMenu } from '../../redux/navbarSlice';
 
 import Logo from './Logo/Logo';
 import Toggler from './Toggler/Toggler';
@@ -11,24 +13,14 @@ import backdropClasses from '../Backdrop/Backdrop.module.scss';
 import classes from './Navbar.module.scss';
 
 function Navbar() {
-  const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
-
-  function toggleDropdownMenuHandler() {
-    setIsDropdownMenuOpen((prevIsDropdownMenuOpen) => !prevIsDropdownMenuOpen);
-  }
-
-  function closeDropdownMenuHandler() {
-    setIsDropdownMenuOpen(false);
-  }
+  const { isDropdownMenuOpen } = useSelector(({ navbar }) => navbar);
+  const dispatch = useDispatch();
 
   return (
     <>
       <nav className={classes.navbar}>
         <Logo />
-        <Toggler
-          isToggled={isDropdownMenuOpen}
-          onClick={toggleDropdownMenuHandler}
-        />
+        <Toggler />
       </nav>
       <CSSTransition
         in={isDropdownMenuOpen}
@@ -46,7 +38,7 @@ function Navbar() {
         mountOnEnter
         unmountOnExit
       >
-        <Backdrop onClick={closeDropdownMenuHandler} />
+        <Backdrop onClick={() => dispatch(toggleDropdownMenu())} />
       </CSSTransition>
     </>
   );

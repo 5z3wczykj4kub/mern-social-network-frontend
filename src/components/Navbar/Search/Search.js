@@ -1,14 +1,20 @@
 import { useRef } from 'react';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsSearchFocued, searchUsers } from '../../../redux/navbarSlice';
+
 import loupe from '../../../assets/loupe.png';
 
 import classes from './Search.module.scss';
 
-function Search(props) {
+function Search() {
   const inputRef = useRef();
 
+  const { isSearchFocused } = useSelector(({ navbar }) => navbar);
+  const dispatch = useDispatch();
+
   function className() {
-    return props.isFocused
+    return isSearchFocused
       ? `${classes.search} ${classes.focused}`
       : classes.search;
   }
@@ -20,12 +26,12 @@ function Search(props) {
           type="text"
           placeholder="Search"
           ref={inputRef}
-          onBlur={props.onBlur}
-          onFocus={props.onFocus}
-          onInput={props.onInput}
+          onBlur={() => dispatch(setIsSearchFocued(false))}
+          onFocus={() => dispatch(setIsSearchFocued(true))}
+          onInput={(event) => dispatch(searchUsers(event))}
         />
         <span>
-          <img src={loupe} alt="search loupe" />
+          <img src={loupe} alt="loupe icon" />
         </span>
       </div>
     </>

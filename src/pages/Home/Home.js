@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchPosts } from '../../redux/postSlice';
 
 import Navbar from '../../components/Navbar/Navbar';
 import Post from '../../components/Post/Post';
@@ -7,17 +9,10 @@ import Loader from '../../components/Loader/Loader';
 import classes from './Home.module.scss';
 
 function Home() {
-  const [posts, setPosts] = useState([]);
+  const { posts } = useSelector(({ post }) => post);
+  const dispatch = useDispatch();
 
-  useEffect(
-    () =>
-      (async () => {
-        const res = await fetch('/posts');
-        const posts = await res.json();
-        setPosts(posts);
-      })(),
-    []
-  );
+  useEffect(() => dispatch(fetchPosts()), []);
 
   const postsList = posts.map(
     ({ id, author, textContent, imageUrl, likes, comments }, index) => (

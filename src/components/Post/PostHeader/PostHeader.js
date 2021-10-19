@@ -1,6 +1,6 @@
 import classes from './PostHeader.module.scss';
 
-import avatar from '../../../assets/avatar-64.png';
+import avatar from '../../../assets/avatar64x64.png';
 
 function PostHeader(props) {
   return (

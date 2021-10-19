@@ -1,25 +1,24 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleDropdownMenu } from '../../../redux/navbarSlice';
 
 import classes from './Toggler.module.scss';
 
-function Toggler(props) {
-  const [isTouched, setIsTouched] = useState(false);
-
-  function onClickHandler() {
-    setIsTouched(true);
-    props.onClick();
-  }
+function Toggler() {
+  const { isDropdownMenuOpen, isTogglerTouched } = useSelector(
+    ({ navbar }) => navbar
+  );
+  const dispatch = useDispatch();
 
   function className() {
-    if (!props.isToggled && !isTouched) return classes.toggler;
-    if (props.isToggled && isTouched)
+    if (!isDropdownMenuOpen && !isTogglerTouched) return classes.toggler;
+    if (isDropdownMenuOpen && isTogglerTouched)
       return `${classes.toggler} ${classes.togglerActive}`;
-    if (!props.isToggled && isTouched)
+    if (!isDropdownMenuOpen && isTogglerTouched)
       return `${classes.toggler} ${classes.togglerInactive}`;
   }
 
   return (
-    <div className={className()} onClick={onClickHandler}>
+    <div className={className()} onClick={() => dispatch(toggleDropdownMenu())}>
       <div></div>
     </div>
   );

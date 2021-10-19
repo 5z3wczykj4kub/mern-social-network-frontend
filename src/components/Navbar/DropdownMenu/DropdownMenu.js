@@ -1,4 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { calcDropdownMenuHeight } from '../../../redux/navbarSlice';
 
 import Search from '../Search/Search';
 import SearchList from '../SearchList/SearchList';
@@ -8,36 +11,15 @@ import classes from './DropdownMenu.module.scss';
 
 function DropdownMenu() {
   const dropdownMenuRef = useRef();
-  const [timer, setTimer] = useState(null);
-  const [users, setUsers] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
-  const [isSearchEmpty, setIsSearchEmpty] = useState(true);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [dropdownMenuHeight, setDropdownMenuHeight] = useState(null);
+
+  const { dropdownMenuHeight, isSearchFocused } = useSelector(
+    ({ navbar }) => navbar
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setDropdownMenuHeight(dropdownMenuRef.current.clientHeight);
-  }, []);
-
-  function onInputHandler(event) {
-    clearTimeout(timer);
-    const inputValue = event.target.value.trim();
-    if (inputValue.length === 0) {
-      setIsSearchEmpty(true);
-      setIsTyping(false);
-      setUsers([]);
-      return;
-    }
-    setIsTyping(true);
-    setIsSearchEmpty(false);
-    const timerId = setTimeout(async () => {
-      const res = await fetch(`/users?query=${encodeURI(inputValue)}`);
-      const users = await res.json();
-      setUsers(users);
-      setIsTyping(false);
-    }, 1000);
-    setTimer(timerId);
-  }
+    dispatch(calcDropdownMenuHeight(dropdownMenuRef.current.clientHeight));
+  }, [dispatch]);
 
   function style() {
     return {
@@ -50,20 +32,9 @@ function DropdownMenu() {
 
   return (
     <div className={classes.dropdownMenu} style={style()} ref={dropdownMenuRef}>
-      <Search
-        isFocused={isSearchFocused}
-        onBlur={() => setIsSearchFocused(false)}
-        onFocus={() => setIsSearchFocused(true)}
-        onInput={onInputHandler}
-      />
+      <Search />
       {!isSearchFocused && <NavbarControls />}
-      {isSearchFocused && (
-        <SearchList
-          isLoading={isTyping}
-          isSearchEmpty={isSearchEmpty}
-          users={users}
-        />
-      )}
+      {isSearchFocused && <SearchList />}
     </div>
   );
 }
