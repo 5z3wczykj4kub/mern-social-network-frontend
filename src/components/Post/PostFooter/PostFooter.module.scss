@@ -1,5 +1,5 @@
 @mixin button {
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -23,7 +23,7 @@
   div {
     &:first-of-type {
       display: flex;
-      align-items: baseline;
+      align-items: center;
 
       button {
         @include button;
@@ -37,7 +37,7 @@
 
     &:last-of-type {
       display: flex;
-      align-items: baseline;
+      align-items: center;
 
       button {
         @include button;
@@ -46,12 +46,7 @@
 
       img {
         @include img;
-        transform: translateY(15%);
       }
-    }
-
-    span {
-      transform: translateY(-15%);
     }
   }
 }

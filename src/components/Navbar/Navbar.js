@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleDropdownMenu } from '../../redux/navbarSlice';
+import { closeDropdownMenu } from '../../redux/navbarSlice';
 
 import Logo from './Logo/Logo';
 import Toggler from './Toggler/Toggler';
@@ -15,6 +16,14 @@ import classes from './Navbar.module.scss';
 function Navbar() {
   const { isDropdownMenuOpen } = useSelector(({ navbar }) => navbar);
   const dispatch = useDispatch();
+
+  useEffect(
+    () =>
+      isDropdownMenuOpen
+        ? (document.body.style = 'overflow-y: hidden')
+        : (document.body.style = null),
+    [isDropdownMenuOpen]
+  );
 
   return (
     <>
@@ -38,7 +47,7 @@ function Navbar() {
         mountOnEnter
         unmountOnExit
       >
-        <Backdrop onClick={() => dispatch(toggleDropdownMenu())} />
+        <Backdrop onClick={() => dispatch(closeDropdownMenu())} />
       </CSSTransition>
     </>
   );

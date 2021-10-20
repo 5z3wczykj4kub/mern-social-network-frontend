@@ -4,11 +4,10 @@
   padding: 0.2rem;
   border-radius: 2rem;
   background-color: #eee;
-  // transition: width 0.2s;
 
   &.focused {
     width: 100%;
-    animation: search-expand 150ms;
+    animation: search-expand-animation 0.1s;
   }
 
   input {
@@ -38,7 +37,7 @@
   }
 }
 
-@keyframes search-expand {
+@keyframes search-expand-animation {
   from {
     width: 7.5rem;
   }

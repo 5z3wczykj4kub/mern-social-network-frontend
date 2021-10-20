@@ -5,7 +5,6 @@ export const navbarSclice = createSlice({
   initialState: {
     isTogglerTouched: false,
     isDropdownMenuOpen: false,
-    dropdownMenuHeight: null,
     isSearchFocused: false,
     isSearchEmpty: true,
     isSearchUsed: false,
@@ -17,8 +16,8 @@ export const navbarSclice = createSlice({
       state.isTogglerTouched = true;
       state.isDropdownMenuOpen = !state.isDropdownMenuOpen;
     },
-    calcDropdownMenuHeight: (state, action) => {
-      state.dropdownMenuHeight = action.payload;
+    closeDropdownMenu: (state) => {
+      state.isDropdownMenuOpen = false;
     },
     setIsSearchFocued: (state, action) => {
       state.isSearchFocused = action.payload;
@@ -65,7 +64,7 @@ export const searchUsers = (event) => (dispatch, getState) => {
 
 export const {
   toggleDropdownMenu,
-  calcDropdownMenuHeight,
+  closeDropdownMenu,
   setIsSearchFocued,
   setIsSearchEmpty,
   setIsSearchUsed,

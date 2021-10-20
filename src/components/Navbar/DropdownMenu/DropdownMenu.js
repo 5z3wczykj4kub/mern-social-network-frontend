@@ -1,10 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  calcDropdownMenuHeight,
-  cleanupSearch,
-} from '../../../redux/navbarSlice';
+import { cleanupSearch } from '../../../redux/navbarSlice';
 
 import Search from '../Search/Search';
 import SearchList from '../SearchList/SearchList';
@@ -13,29 +10,21 @@ import NavbarControls from '../NavbarControls/NavbarControls';
 import classes from './DropdownMenu.module.scss';
 
 function DropdownMenu() {
-  const dropdownMenuRef = useRef();
-
-  const { dropdownMenuHeight, isSearchFocused } = useSelector(
-    ({ navbar }) => navbar
-  );
+  const { isSearchFocused } = useSelector(({ navbar }) => navbar);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(calcDropdownMenuHeight(dropdownMenuRef.current.clientHeight));
     return () => dispatch(cleanupSearch());
   }, [dispatch]);
 
-  function style() {
-    return {
-      height:
-        isSearchFocused && dropdownMenuHeight
-          ? 'calc(100vh - 3.5rem)'
-          : dropdownMenuHeight,
-    };
+  function className() {
+    return isSearchFocused
+      ? `${classes.dropdownMenu} ${classes.dropdownMenuExpanded}`
+      : classes.dropdownMenu;
   }
 
   return (
-    <div className={classes.dropdownMenu} style={style()} ref={dropdownMenuRef}>
+    <div className={className()}>
       <Search />
       {!isSearchFocused && <NavbarControls />}
       {isSearchFocused && <SearchList />}

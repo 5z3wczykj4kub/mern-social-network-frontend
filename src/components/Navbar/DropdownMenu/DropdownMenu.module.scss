@@ -6,7 +6,10 @@
   width: 100%;
   padding: 0.8rem;
   background-color: #fff;
-  // transition: height 0.2s;
+
+  &.dropdownMenuExpanded {
+    height: calc(100% - 3.5rem);
+  }
 }
 
 .dropdownMenuEnter {
