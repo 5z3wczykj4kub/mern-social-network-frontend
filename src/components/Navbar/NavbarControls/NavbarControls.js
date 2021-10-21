@@ -7,9 +7,15 @@ import classes from './NavbarControls.module.scss';
 function NavbarControls() {
   return (
     <div className={classes.navbarControls}>
-      <img src={user} alt="user icon" />
-      <img src={newPost} alt="new post icon" />
-      <img src={bell} alt="bell icon" />
+      <button>
+        <img src={user} alt="user icon" />
+      </button>
+      <button>
+        <img src={newPost} alt="new post icon" />
+      </button>
+      <button>
+        <img src={bell} alt="bell icon" />
+      </button>
     </div>
   );
 }

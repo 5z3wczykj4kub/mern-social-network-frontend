@@ -15,6 +15,7 @@ export const navbarSclice = createSlice({
     toggleDropdownMenu: (state) => {
       state.isTogglerTouched = true;
       state.isDropdownMenuOpen = !state.isDropdownMenuOpen;
+      if (state.isSearchFocused) state.isSearchFocused = false;
     },
     closeDropdownMenu: (state) => {
       state.isDropdownMenuOpen = false;
