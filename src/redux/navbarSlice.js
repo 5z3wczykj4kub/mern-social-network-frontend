@@ -5,9 +5,9 @@ export const navbarSclice = createSlice({
   initialState: {
     isTogglerTouched: false,
     isDropdownMenuOpen: false,
-    isSearchFocused: false,
-    isSearchEmpty: true,
-    isSearchUsed: false,
+    isSearchListVisible: false,
+    isSearchListEmpty: true,
+    isLoading: false,
     debounceSearchTimerId: null,
     searchedUsers: [],
   },
@@ -15,19 +15,19 @@ export const navbarSclice = createSlice({
     toggleDropdownMenu: (state) => {
       state.isTogglerTouched = true;
       state.isDropdownMenuOpen = !state.isDropdownMenuOpen;
-      if (state.isSearchFocused) state.isSearchFocused = false;
+      if (state.isSearchListVisible) state.isSearchListVisible = false;
     },
     closeDropdownMenu: (state) => {
       state.isDropdownMenuOpen = false;
     },
-    setIsSearchFocued: (state, action) => {
-      state.isSearchFocused = action.payload;
+    setIsSearchListVisible: (state, action) => {
+      state.isSearchListVisible = action.payload;
     },
-    setIsSearchEmpty: (state, action) => {
-      state.isSearchEmpty = action.payload;
+    setIsSearchListEmpty: (state, action) => {
+      state.isSearchListEmpty = action.payload;
     },
-    setIsSearchUsed: (state, action) => {
-      state.isSearchUsed = action.payload;
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
     },
     setDebounceSearchTimerId: (state, action) => {
       state.debounceSearchTimerId = action.payload;
@@ -37,7 +37,7 @@ export const navbarSclice = createSlice({
     },
     cleanupSearch: (state) => {
       state.searchedUsers = [];
-      state.isSearchEmpty = true;
+      state.isSearchListEmpty = true;
     },
   },
 });
@@ -47,18 +47,18 @@ export const searchUsers = (event) => (dispatch, getState) => {
   clearTimeout(debounceSearchTimerId);
   const inputValue = event.target.value.trim();
   if (inputValue.length === 0) {
-    dispatch(setIsSearchEmpty(true));
-    dispatch(setIsSearchUsed(false));
+    dispatch(setIsSearchListEmpty(true));
+    dispatch(setIsLoading(false));
     dispatch(setSearchedUsers([]));
     return;
   }
-  dispatch(setIsSearchUsed(true));
-  dispatch(setIsSearchEmpty(false));
+  dispatch(setIsLoading(true));
+  dispatch(setIsSearchListEmpty(false));
   const timerId = setTimeout(async () => {
-    const res = await fetch(`/users?query=${encodeURI(inputValue)}`);
+    const res = await fetch(`/users?query=${encodeURI(inputValue)}&limit=${4}`);
     const users = await res.json();
     dispatch(setSearchedUsers(users));
-    dispatch(setIsSearchUsed(false));
+    dispatch(setIsLoading(false));
   }, 1000);
   dispatch(setDebounceSearchTimerId(timerId));
 };
@@ -66,9 +66,9 @@ export const searchUsers = (event) => (dispatch, getState) => {
 export const {
   toggleDropdownMenu,
   closeDropdownMenu,
-  setIsSearchFocued,
-  setIsSearchEmpty,
-  setIsSearchUsed,
+  setIsSearchListVisible,
+  setIsSearchListEmpty,
+  setIsLoading,
   setDebounceSearchTimerId,
   setSearchedUsers,
   cleanupSearch,

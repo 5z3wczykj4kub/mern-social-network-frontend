@@ -5,7 +5,7 @@ import SearchListItem from './SearchListItem/SearchListItem';
 import classes from './SearchList.module.scss';
 
 function SearchList() {
-  const { isSearchEmpty, isSearchUsed, searchedUsers } = useSelector(
+  const { isSearchListEmpty, isLoading, searchedUsers } = useSelector(
     ({ navbar }) => navbar
   );
 
@@ -18,16 +18,19 @@ function SearchList() {
     </>
   );
   const usersList = searchedUsers.map((user) => (
-    <SearchListItem key={user.id}>
-      {`${user.firstName} ${user.lastName}`}
-    </SearchListItem>
+    <SearchListItem
+      key={user.id}
+      firstName={user.firstName}
+      lastName={user.lastName}
+      avatarImageUrl={user.avatarImageUrl}
+    />
   ));
 
   return (
     <ul className={classes.searchList}>
-      {isSearchUsed && skeletonUsersList}
-      {!isSearchUsed && searchedUsers.length > 0 && usersList}
-      {!isSearchUsed && !isSearchEmpty && searchedUsers.length === 0 && (
+      {isLoading && skeletonUsersList}
+      {!isLoading && searchedUsers.length > 0 && usersList}
+      {!isLoading && !isSearchListEmpty && searchedUsers.length === 0 && (
         <li>
           <p>No users found</p>
         </li>

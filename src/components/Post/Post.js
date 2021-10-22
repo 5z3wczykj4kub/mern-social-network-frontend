@@ -6,7 +6,7 @@ import classes from './Post.module.scss';
 
 function Post(props) {
   function className() {
-    return `${props.className} ${classes.post}`;
+    return `${classes.post} ${props.className}`;
   }
 
   return (

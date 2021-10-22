@@ -5,18 +5,22 @@ import avatar from '../../../../assets/avatar64x64.png';
 import classes from './SearchListItem.module.scss';
 
 function SearchListItem(props) {
-  const { isSearchUsed } = useSelector(({ navbar }) => navbar);
+  const { isLoading } = useSelector(({ navbar }) => navbar);
 
   function className() {
-    return isSearchUsed
+    return isLoading
       ? `${classes.searchListItem} ${classes.loading}`
       : classes.searchListItem;
   }
 
   return (
     <li className={className()}>
-      <img src={avatar} alt="avatar" />
-      <span>{props.children}</span>
+      {props.avatarImageUrl ? (
+        <img src={props.avatarImageUrl} alt="avatar" />
+      ) : (
+        <img src={avatar} alt="avatar" />
+      )}
+      <span>{`${props.firstName} ${props.lastName}`}</span>
     </li>
   );
 }

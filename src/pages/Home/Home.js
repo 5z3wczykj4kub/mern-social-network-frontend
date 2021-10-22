@@ -3,17 +3,25 @@ import { useSelector, useDispatch } from 'react-redux';
 import { sendFetchPostsReq } from '../../redux/postSlice';
 
 import Navbar from '../../components/Navbar/Navbar';
+import SkeletonPost from '../../components/Post/SkeletonPost/SkeletonPost';
 import Post from '../../components/Post/Post';
-import Loader from '../../components/Loader/Loader';
 
 import classes from './Home.module.scss';
 
 function Home() {
-  const { fetchedPosts } = useSelector(({ post }) => post);
+  const { fetchedPosts, arePostsLoading } = useSelector(({ post }) => post);
   const dispatch = useDispatch();
 
   useEffect(() => dispatch(sendFetchPostsReq()), [dispatch]);
 
+  const skeletonPostsList = (
+    <>
+      <SkeletonPost className={`${classes.skeletonPost} ${classes.first}`} />
+      <SkeletonPost className={classes.skeletonPost} />
+      <SkeletonPost className={classes.skeletonPost} />
+      <SkeletonPost className={classes.skeletonPost} />
+    </>
+  );
   const postsList = fetchedPosts.map(({ id }, index) => (
     <Post
       className={
@@ -27,7 +35,11 @@ function Home() {
   return (
     <main className={classes.home}>
       <Navbar />
-      {fetchedPosts.length > 0 ? postsList : <Loader />}
+      {arePostsLoading && skeletonPostsList}
+      {!arePostsLoading && fetchedPosts.length > 0 && postsList}
+      {!arePostsLoading && fetchedPosts.length === 0 && (
+        <p style={{ marginTop: '4rem', textAlign: 'center' }}>No posts found</p>
+      )}
     </main>
   );
 }

@@ -10,7 +10,7 @@ import NavbarControls from '../NavbarControls/NavbarControls';
 import classes from './DropdownMenu.module.scss';
 
 function DropdownMenu() {
-  const { isSearchFocused } = useSelector(({ navbar }) => navbar);
+  const { isSearchListVisible } = useSelector(({ navbar }) => navbar);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function DropdownMenu() {
   }, [dispatch]);
 
   function className() {
-    return isSearchFocused
+    return isSearchListVisible
       ? `${classes.dropdownMenu} ${classes.dropdownMenuExpanded}`
       : classes.dropdownMenu;
   }
@@ -26,8 +26,8 @@ function DropdownMenu() {
   return (
     <div className={className()}>
       <Search />
-      {!isSearchFocused && <NavbarControls />}
-      {isSearchFocused && <SearchList />}
+      {!isSearchListVisible && <NavbarControls />}
+      {isSearchListVisible && <SearchList />}
     </div>
   );
 }

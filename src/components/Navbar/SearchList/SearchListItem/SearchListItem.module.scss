@@ -5,17 +5,21 @@
   cursor: pointer;
 
   &.loading {
-    animation: skeleton-loading-animation 0.6s infinite alternate;
-
     span {
       background-color: #eee;
       color: #eee;
+    }
+
+    img {
+      filter: invert(50%) brightness(1.87);
     }
   }
 
   img {
     width: 2rem;
     height: 2rem;
+    border-radius: 50%;
+    background-color: #eee;
   }
 
   span {
@@ -26,12 +30,12 @@
   }
 }
 
-@keyframes skeleton-loading-animation {
-  from {
-    filter: invert(50%) brightness(1.87);
-  }
+// @keyframes skeleton-loading-animation {
+//   from {
+//     filter: invert(50%) brightness(1.87);
+//   }
 
-  to {
-    filter: invert(50%) brightness(1.8);
-  }
-}
+//   to {
+//     filter: invert(50%) brightness(1.8);
+//   }
+// }

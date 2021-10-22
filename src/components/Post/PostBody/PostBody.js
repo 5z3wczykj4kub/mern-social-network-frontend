@@ -4,14 +4,12 @@ import classes from './PostBody.module.scss';
 
 function PostBody(props) {
   const { fetchedPosts } = useSelector(({ post }) => post);
+  const { textContent, postImageUrl } = fetchedPosts[props.index];
 
   return (
     <main className={classes.postBody}>
-      <p>{fetchedPosts[props.index].textContent}</p>
-      {fetchedPosts[props.index].imageUrl &&
-        fetchedPosts[props.index].imageUrl.length > 0 && (
-          <img src={fetchedPosts[props.index].imageUrl} alt="post" />
-        )}
+      <p>{textContent}</p>
+      {postImageUrl && <img src={postImageUrl} alt="post" />}
     </main>
   );
 }

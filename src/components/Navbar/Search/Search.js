@@ -1,7 +1,10 @@
 import { useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsSearchFocued, searchUsers } from '../../../redux/navbarSlice';
+import {
+  setIsSearchListVisible,
+  searchUsers,
+} from '../../../redux/navbarSlice';
 
 import arrow from '../../../assets/arrow.png';
 import loupe from '../../../assets/loupe.png';
@@ -11,11 +14,11 @@ import classes from './Search.module.scss';
 function Search() {
   const inputRef = useRef();
 
-  const { isSearchFocused } = useSelector(({ navbar }) => navbar);
+  const { isSearchListVisible } = useSelector(({ navbar }) => navbar);
   const dispatch = useDispatch();
 
   function className() {
-    return isSearchFocused
+    return isSearchListVisible
       ? `${classes.search} ${classes.focused}`
       : classes.search;
   }
@@ -28,15 +31,14 @@ function Search() {
           alt="arrow"
           onClick={(event) => {
             event.stopPropagation();
-            dispatch(setIsSearchFocued(false));
+            dispatch(setIsSearchListVisible(false));
           }}
         />
         <input
           type="text"
           placeholder="Search"
           ref={inputRef}
-          // onBlur={() => dispatch(setIsSearchFocued(false))}
-          onFocus={() => dispatch(setIsSearchFocued(true))}
+          onFocus={() => dispatch(setIsSearchListVisible(true))}
           onInput={(event) => dispatch(searchUsers(event))}
         />
         <span>
