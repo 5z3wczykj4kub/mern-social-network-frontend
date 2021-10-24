@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { sendLikePostReq } from '../../../redux/postSlice';
+import { sendLikePostReq, openLikeDrawer } from '../../../redux/postSlice';
+
+import Spinner from '../../Spinner/Spinner';
 
 import like from '../../../assets/like.png';
 import liked from '../../../assets/liked.png';
@@ -9,18 +11,34 @@ import classes from './PostFooter.module.scss';
 
 import USERS from '../../../mocks/users'; // remove later - mock logged in user
 
-function PostFooter(props) {
+function PostFooter({ index }) {
   const { fetchedPosts } = useSelector(({ post }) => post);
   const dispatch = useDispatch();
 
-  const { id, likes, isLiked, comments } = fetchedPosts[props.index];
+  const { id, likes, isLiked, comments, isLikeLoading } = fetchedPosts[index];
 
   return (
-    <footer className={classes.postFooter}>
+    <footer
+      className={classes.postFooter}
+      onClick={() => dispatch(openLikeDrawer(index))}
+    >
       <div>
-        <button onClick={() => dispatch(sendLikePostReq(id, USERS[0].id))}>
-          <img src={isLiked ? liked : like} alt="like" />
-        </button>
+        {isLikeLoading && (
+          <button className={classes.noHover}>
+            <Spinner />
+          </button>
+        )}
+        {!isLikeLoading && (
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              dispatch(sendLikePostReq(id, USERS[0].id, index));
+            }}
+          >
+            {!isLiked && <img src={like} alt="like" />}
+            {isLiked && <img src={liked} alt="liked" />}
+          </button>
+        )}
         <span>{likes.length}</span>
       </div>
       <div>

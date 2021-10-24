@@ -32,4 +32,11 @@ function DropdownMenu() {
   );
 }
 
+export const dropdownMenuClassNames = () => ({
+  enter: classes.dropdownMenuEnter,
+  enterActive: classes.dropdownMenuEnterActive,
+  exit: classes.dropdownMenuExit,
+  exitActive: classes.dropdownMenuExitActive,
+});
+
 export default DropdownMenu;

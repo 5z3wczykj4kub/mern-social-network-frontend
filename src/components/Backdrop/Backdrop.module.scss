@@ -1,10 +1,28 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.backdropDelayedEnter {
+  opacity: 0;
+}
+
+.backdropDelayedEnterActive {
+  opacity: 1;
+  transition: opacity 0.2s 0.2s;
+}
+
+.backdropDelayedExit {
+  opacity: 1;
+}
+
+.backdropDelayedExitActive {
+  opacity: 0;
+  transition: opacity 0.2s 0.2s;
 }
 
 .backdropEnter {
@@ -13,7 +31,7 @@
 
 .backdropEnterActive {
   opacity: 1;
-  transition: opacity 0.2s 0.2s;
+  transition: opacity 0.2s;
 }
 
 .backdropExit {
@@ -22,5 +40,5 @@
 
 .backdropExitActive {
   opacity: 0;
-  transition: opacity 0.2s 0.2s;
+  transition: opacity 0.2s;
 }

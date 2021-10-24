@@ -4,8 +4,11 @@ export const postSlice = createSlice({
   name: 'post',
   initialState: {
     fetchedPosts: [],
-    arePostsLoading: false,
-    isLikeLoading: false,
+    arePostsLoading: true,
+    likeDrawer: {
+      isOpen: false,
+      postIndex: null,
+    },
   },
   reducers: {
     fetchPosts: (state, action) => {
@@ -22,7 +25,16 @@ export const postSlice = createSlice({
       state.arePostsLoading = action.payload;
     },
     setIsLikeLoading: (state, action) => {
-      state.isLikeLoading = action.payload;
+      state.fetchedPosts[action.payload.index].isLikeLoading =
+        action.payload.isLikeLoading;
+    },
+    openLikeDrawer: (state, action) => {
+      state.likeDrawer.isOpen = true;
+      state.likeDrawer.postIndex = action.payload;
+    },
+    closeLikeDrawer: (state) => {
+      state.likeDrawer.isOpen = false;
+      state.likeDrawer.postIndex = null;
     },
   },
 });
@@ -35,17 +47,23 @@ export const sendFetchPostsReq = () => async (dispatch) => {
   dispatch(fetchPosts(posts));
 };
 
-export const sendLikePostReq = (postId, userId) => async (dispatch) => {
-  dispatch(setIsLikeLoading(true));
+export const sendLikePostReq = (postId, userId, index) => async (dispatch) => {
+  dispatch(setIsLikeLoading({ index, isLikeLoading: true }));
   const res = await fetch(`posts/like/${postId}/${userId}`, {
     method: 'PUT',
   });
   const { likes, isLiked } = await res.json();
-  dispatch(setIsLikeLoading(false));
+  dispatch(setIsLikeLoading({ index, isLikeLoading: false }));
   dispatch(likePost({ postId, likes, isLiked }));
 };
 
-export const { fetchPosts, likePost, setArePostsLoading, setIsLikeLoading } =
-  postSlice.actions;
+export const {
+  fetchPosts,
+  likePost,
+  setArePostsLoading,
+  setIsLikeLoading,
+  openLikeDrawer,
+  closeLikeDrawer,
+} = postSlice.actions;
 
 export default postSlice.reducer;
