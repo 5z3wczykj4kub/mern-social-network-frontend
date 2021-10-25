@@ -1,0 +1,42 @@
+.closeIcon {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.25rem;
+  background-color: #eee;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: #ccc;
+    }
+  }
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    background-color: #000;
+    border-radius: 1rem;
+  }
+
+  &::before {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 750%) rotate(45deg);
+  }
+
+  &::after {
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -750%) rotate(-45deg);
+  }
+}

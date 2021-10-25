@@ -4,7 +4,10 @@ import classes from './Backdrop.module.scss';
 
 function Backdrop(props) {
   useEffect(() => {
-    document.body.style = 'overflow-y: hidden';
+    document.body.style.overflowY = 'scroll';
+    const scrollbarWidth = window.innerWidth - document.body.clientWidth;
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    document.body.style.overflowY = 'hidden';
     return () => (document.body.style = null);
   }, []);
 

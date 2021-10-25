@@ -9,8 +9,27 @@
   background-color: #fff;
   overflow-y: auto;
 
-  p {
-    margin: 0.25rem 0.3rem;
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+
+    & > div:first-of-type {
+      margin-left: 0.3rem;
+    }
+  }
+
+  ul {
+    li {
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 
   &.likeDrawerEnter {
@@ -31,13 +50,27 @@
     transition: transform 0.2s;
   }
 
-  @media (min-width: 500px) {
+  @media (min-width: 768px) {
     width: 30rem;
     height: 20rem;
     bottom: 50%;
     left: 50%;
     transform: translate(-50%, 50%);
     border-radius: 0.3rem;
+
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #eee;
+      border-radius: 0.3rem;
+      opacity: 0;
+
+      &:hover {
+        background-color: #ccc;
+      }
+    }
 
     &.likeDrawerEnter {
       opacity: 0;

@@ -7,6 +7,7 @@ import {
 } from '../../../redux/postSlice';
 
 import UserListItem from '../../Navbar/SearchList/SearchListItem/SearchListItem';
+import CloseIcon from '../../CloseIcon/CloseIcon';
 
 import classes from './LikeDrawer.module.scss';
 
@@ -41,7 +42,12 @@ function LikeDrawer() {
 
   return (
     <div className={classes.likeDrawer}>
-      <p>{likes.length} likes</p>
+      <div>
+        <div>{likes.length} likes</div>
+        <div>
+          <CloseIcon />
+        </div>
+      </div>
       <ul>
         {likeDrawer.isLoading && skeletonUsersList}
         {!likeDrawer.isLoading && likeDrawer.users.length > 0 && usersList}
