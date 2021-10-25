@@ -7,7 +7,9 @@ export const postSlice = createSlice({
     arePostsLoading: true,
     likeDrawer: {
       isOpen: false,
+      isLoading: true,
       postIndex: null,
+      users: [],
     },
   },
   reducers: {
@@ -34,7 +36,16 @@ export const postSlice = createSlice({
     },
     closeLikeDrawer: (state) => {
       state.likeDrawer.isOpen = false;
-      state.likeDrawer.postIndex = null;
+    },
+    setLikeDrawerUsers: (state, action) => {
+      state.likeDrawer.users = action.payload;
+    },
+    setIsLikeDrawerLoading: (state, action) => {
+      state.likeDrawer.isLoading = action.payload;
+    },
+    cleanupLikeDrawer: (state) => {
+      state.likeDrawer.isLoading = true;
+      state.likeDrawer.users = [];
     },
   },
 });
@@ -57,6 +68,18 @@ export const sendLikePostReq = (postId, userId, index) => async (dispatch) => {
   dispatch(likePost({ postId, likes, isLiked }));
 };
 
+export const sendGetUsersWhoLikedThePostReq = (likes) => async (dispatch) => {
+  if (likes.length === 0) {
+    dispatch(setIsLikeDrawerLoading(false));
+    return;
+  }
+  dispatch(setIsLikeDrawerLoading(true));
+  const res = await fetch(`/users?ids=${likes.join(',')}&limit=10`);
+  const users = await res.json();
+  dispatch(setIsLikeDrawerLoading(false));
+  dispatch(setLikeDrawerUsers(users));
+};
+
 export const {
   fetchPosts,
   likePost,
@@ -64,6 +87,9 @@ export const {
   setIsLikeLoading,
   openLikeDrawer,
   closeLikeDrawer,
+  setIsLikeDrawerLoading,
+  setLikeDrawerUsers,
+  cleanupLikeDrawer,
 } = postSlice.actions;
 
 export default postSlice.reducer;

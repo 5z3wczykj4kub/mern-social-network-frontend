@@ -22,7 +22,17 @@ const POSTS = [
     postImageUrl: null,
     textContent:
       'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\n\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.\n\nDuis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.\n\nIn sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
-    likes: [],
+    likes: [
+      '07b0e82f-13ff-4679-b0d2-31097b2dba39',
+      'd9565a34-1279-4aa6-844c-05a6391b3495',
+      '8c69835d-284e-483a-81f8-cd484fff62af',
+      '76f40eb1-b62e-424b-b495-4a848680fa45',
+      'e64e1497-f0fe-43ca-92ca-e005d7e44d0a',
+      'd5fa8f3e-1447-4462-bcec-50b8c0399f62',
+      'f9ebb4c1-6387-4359-bcb9-d583252c0f8d',
+      '62761174-30e8-4a51-a54b-bc4444bdd8d7',
+      'ead00447-04fc-4982-a7ca-cdd60c6fe7c3',
+    ],
     isLiked: false,
     comments: 42,
   },

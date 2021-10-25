@@ -1,14 +1,10 @@
-import { useSelector } from 'react-redux';
-
 import avatar from '../../../../assets/avatar64x64.png';
 
 import classes from './SearchListItem.module.scss';
 
 function SearchListItem(props) {
-  const { isLoading } = useSelector(({ navbar }) => navbar);
-
   function className() {
-    return isLoading
+    return props.isLoading
       ? `${classes.searchListItem} ${classes.loading}`
       : classes.searchListItem;
   }

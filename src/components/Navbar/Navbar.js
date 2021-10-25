@@ -25,20 +25,20 @@ function Navbar() {
       <CSSTransition
         in={isDropdownMenuOpen}
         timeout={400}
-        classNames={dropdownMenuClassNames()}
-        mountOnEnter
-        unmountOnExit
-      >
-        <DropdownMenu />
-      </CSSTransition>
-      <CSSTransition
-        in={isDropdownMenuOpen}
-        timeout={400}
         classNames={backdropClassNames(true)}
         mountOnEnter
         unmountOnExit
       >
         <Backdrop onClick={() => dispatch(closeDropdownMenu())} />
+      </CSSTransition>
+      <CSSTransition
+        in={isDropdownMenuOpen}
+        timeout={400}
+        classNames={dropdownMenuClassNames()}
+        mountOnEnter
+        unmountOnExit
+      >
+        <DropdownMenu />
       </CSSTransition>
     </>
   );

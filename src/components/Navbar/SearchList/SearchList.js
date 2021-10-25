@@ -11,10 +11,11 @@ function SearchList() {
 
   const skeletonUsersList = (
     <>
-      <SearchListItem />
-      <SearchListItem />
-      <SearchListItem />
-      <SearchListItem />
+      <SearchListItem isLoading={isLoading} />
+      <SearchListItem isLoading={isLoading} />
+      <SearchListItem isLoading={isLoading} />
+      <SearchListItem isLoading={isLoading} />
+      <SearchListItem isLoading={isLoading} />
     </>
   );
   const usersList = searchedUsers.map((user) => (

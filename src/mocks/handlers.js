@@ -8,19 +8,28 @@ export const handlers = [
   rest.get('/posts', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(POSTS));
   }),
-  // get n users that match the query
+  // get n (limit) users that match the query
   rest.get('/users', (req, res, ctx) => {
-    const query = req.url.searchParams
-      .get('query')
-      .toLowerCase()
-      .split(' ')
-      .join('');
+    let query = req.url.searchParams.get('query');
+    let usersIds = req.url.searchParams.get('ids');
     const limit = +req.url.searchParams.get('limit');
-    const users = USERS.filter((user) => {
-      const fullName = (user.firstName + user.lastName).toLowerCase();
-      return fullName.includes(query);
-    }).slice(0, limit);
-    return res(ctx.status(200), ctx.json(users));
+
+    if (query) {
+      query = query.toLowerCase().split(' ').join('');
+      const users = USERS.filter((user) => {
+        const fullName = (user.firstName + user.lastName).toLowerCase();
+        return fullName.includes(query);
+      }).slice(0, limit);
+      return res(ctx.status(200), ctx.json(users));
+    }
+    if (usersIds) {
+      usersIds = usersIds.split(',');
+      const users = USERS.filter(({ id }) => usersIds.includes(id)).slice(
+        0,
+        limit
+      );
+      return res(ctx.status(200), ctx.json(users));
+    }
   }),
   // like post
   rest.put('/posts/like/:postId/:userId', (req, res, ctx) => {
