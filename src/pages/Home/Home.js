@@ -53,7 +53,7 @@ function Home() {
       <>
         <CSSTransition
           in={likeDrawer.isOpen}
-          timeout={400}
+          timeout={200}
           classNames={backdropClassNames()}
           mountOnEnter
           unmountOnExit
@@ -65,7 +65,7 @@ function Home() {
         </CSSTransition>
         <CSSTransition
           in={likeDrawer.isOpen}
-          timeout={400}
+          timeout={200}
           classNames={likeDrawerClassNames()}
           mountOnEnter
           unmountOnExit

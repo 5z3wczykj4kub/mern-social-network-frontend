@@ -41,13 +41,10 @@ function LikeDrawer() {
 
   return (
     <div className={classes.likeDrawer}>
-      <p>Likes:</p>
+      <p>{likes.length} likes</p>
       <ul>
         {likeDrawer.isLoading && skeletonUsersList}
         {!likeDrawer.isLoading && likeDrawer.users.length > 0 && usersList}
-        {!likeDrawer.isLoading &&
-          likeDrawer.users.length === 0 &&
-          likes.length === 0 && <li>No one has liked this post yet</li>}
       </ul>
     </div>
   );
