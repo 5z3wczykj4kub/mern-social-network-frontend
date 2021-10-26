@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,18 +17,37 @@ import Backdrop, {
 import classes from './Home.module.scss';
 
 function Home() {
-  const { fetchedPosts, arePostsLoading, likeDrawer } = useSelector(
-    ({ post }) => post
-  );
+  const lastPostRef = useRef();
+
+  const {
+    fetchedPosts,
+    fetchingMorePosts,
+    page,
+    hasMorePosts,
+    arePostsLoading,
+    likeDrawer,
+  } = useSelector(({ post }) => post);
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(sendFetchPostsReq()), [dispatch]);
+  useEffect(() => {
+    if (page !== 0) return;
+    dispatch(sendFetchPostsReq(page, 10));
+  }, [dispatch, page]);
+
+  useEffect(() => {
+    if (!hasMorePosts) return;
+    if (fetchingMorePosts) dispatch(sendFetchPostsReq(page, 10));
+  }, [dispatch, fetchingMorePosts, page, hasMorePosts]);
 
   const skeletonPostsList = (
     <>
-      <SkeletonPost className={`${classes.skeletonPost} ${classes.first}`} />
-      <SkeletonPost className={classes.skeletonPost} />
-      <SkeletonPost className={classes.skeletonPost} />
+      <SkeletonPost
+        className={
+          fetchedPosts.length === 0
+            ? `${classes.skeletonPost} ${classes.first}`
+            : classes.skeletonPost
+        }
+      />
       <SkeletonPost className={classes.skeletonPost} />
     </>
   );
@@ -39,14 +58,15 @@ function Home() {
       }
       key={id}
       index={index}
+      ref={index === fetchedPosts.length - 1 ? lastPostRef : null}
     />
   ));
 
   return (
     <main className={classes.home}>
       <Navbar />
+      {fetchedPosts.length > 0 && postsList}
       {arePostsLoading && skeletonPostsList}
-      {!arePostsLoading && fetchedPosts.length > 0 && postsList}
       {!arePostsLoading && fetchedPosts.length === 0 && (
         <p style={{ marginTop: '4rem', textAlign: 'center' }}>No posts found</p>
       )}

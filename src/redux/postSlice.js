@@ -4,6 +4,9 @@ export const postSlice = createSlice({
   name: 'post',
   initialState: {
     fetchedPosts: [],
+    page: 0,
+    fetchingMorePosts: false,
+    hasMorePosts: true,
     arePostsLoading: true,
     likeDrawer: {
       isOpen: false,
@@ -13,8 +16,17 @@ export const postSlice = createSlice({
     },
   },
   reducers: {
-    fetchPosts: (state, action) => {
-      state.fetchedPosts = action.payload;
+    setFetchedPosts: (state, action) => {
+      state.fetchedPosts = [...state.fetchedPosts, ...action.payload];
+    },
+    incrementPage: (state) => {
+      state.page++;
+    },
+    setFetchingMorePosts: (state, action) => {
+      state.fetchingMorePosts = action.payload;
+    },
+    setHasMorePosts: (state, action) => {
+      state.hasMorePosts = action.payload;
     },
     likePost: (state, action) => {
       const post = state.fetchedPosts.find(
@@ -50,12 +62,19 @@ export const postSlice = createSlice({
   },
 });
 
-export const sendFetchPostsReq = () => async (dispatch) => {
+export const sendFetchPostsReq = (page, limit) => async (dispatch) => {
   dispatch(setArePostsLoading(true));
-  const res = await fetch('/posts');
+  dispatch(setFetchingMorePosts(false));
+  const res = await fetch(`/posts?page=${page}&limit=${limit}`);
   const posts = await res.json();
   dispatch(setArePostsLoading(false));
-  dispatch(fetchPosts(posts));
+  if (posts.length === 0) {
+    dispatch(setHasMorePosts(false));
+    return;
+  }
+  dispatch(setFetchedPosts(posts));
+  dispatch(incrementPage());
+  dispatch(setFetchingMorePosts(false));
 };
 
 export const sendLikePostReq = (postId, userId, index) => async (dispatch) => {
@@ -81,7 +100,10 @@ export const sendGetUsersWhoLikedThePostReq = (likes) => async (dispatch) => {
 };
 
 export const {
-  fetchPosts,
+  setFetchedPosts,
+  incrementPage,
+  setFetchingMorePosts,
+  setHasMorePosts,
   likePost,
   setArePostsLoading,
   setIsLikeLoading,

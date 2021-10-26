@@ -4,11 +4,16 @@ import POSTS from './posts';
 import USERS from './users';
 
 export const handlers = [
-  // get all posts
+  // get posts
   rest.get('/posts', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(POSTS));
+    const page = +req.url.searchParams.get('page');
+    const limit = +req.url.searchParams.get('limit');
+    return res(
+      ctx.status(200),
+      ctx.json(POSTS.slice(page * limit, (page + 1) * limit))
+    );
   }),
-  // get n (limit) users that match the query
+  // get users that match the search query
   rest.get('/users', (req, res, ctx) => {
     let query = req.url.searchParams.get('query');
     let usersIds = req.url.searchParams.get('ids');
