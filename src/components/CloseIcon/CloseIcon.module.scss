@@ -22,6 +22,8 @@
   &::after {
     content: '';
     position: absolute;
+    top: 50%;
+    left: 50%;
     width: 50%;
     height: 2px;
     background-color: #000;
@@ -29,14 +31,10 @@
   }
 
   &::before {
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 750%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
   }
 
   &::after {
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, -750%) rotate(-45deg);
+    transform: translate(-50%, -50%) rotate(-45deg);
   }
 }
