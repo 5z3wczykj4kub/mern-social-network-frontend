@@ -19,6 +19,7 @@ export const handlers = [
     let usersIds = req.url.searchParams.get('ids');
     const limit = +req.url.searchParams.get('limit');
 
+    // user search
     if (query) {
       query = query.toLowerCase().split(' ').join('');
       const users = USERS.filter((user) => {
@@ -27,12 +28,10 @@ export const handlers = [
       }).slice(0, limit);
       return res(ctx.status(200), ctx.json(users));
     }
+    // users who liked the post
     if (usersIds) {
       usersIds = usersIds.split(',');
-      const users = USERS.filter(({ id }) => usersIds.includes(id)).slice(
-        0,
-        limit
-      );
+      const users = USERS.filter(({ id }) => usersIds.includes(id));
       return res(ctx.status(200), ctx.json(users));
     }
   }),

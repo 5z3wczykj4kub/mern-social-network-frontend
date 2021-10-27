@@ -1,7 +1,9 @@
-import { useEffect, forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 
-import { useDispatch } from 'react-redux';
-import { setFetchingMorePosts } from '../../redux/postSlice';
+import { useSelector } from 'react-redux';
+import { sendFetchPostsReq } from '../../redux/postSlice';
+
+import useInfiniteScrolling from '../../hooks/useInfiniteScrolling';
 
 import PostHeader from './PostHeader/PostHeader';
 import PostBody from './PostBody/PostBody';
@@ -10,18 +12,11 @@ import PostFooter from './PostFooter/PostFooter';
 import classes from './Post.module.scss';
 
 const Post = forwardRef((props, lastPostRef) => {
-  const dispatch = useDispatch();
+  const { hasMorePosts, page } = useSelector(({ post }) => post);
 
-  useEffect(() => {
-    if (!lastPostRef) return;
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        dispatch(setFetchingMorePosts(true));
-      }
-    });
-    observer.observe(lastPostRef.current);
-    return () => observer.disconnect();
-  }, [dispatch, lastPostRef]);
+  const action = useMemo(() => sendFetchPostsReq(page, 10), [page]);
+
+  useInfiniteScrolling(lastPostRef, action, hasMorePosts, page);
 
   function className() {
     return `${classes.post} ${props.className}`;

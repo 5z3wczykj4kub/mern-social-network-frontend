@@ -1,4 +1,5 @@
 const USERS = [
+  // page 1
   {
     id: 'fa1b0974-bd0b-46c7-8e7a-7d0e3a8a22a5',
     firstName: 'Bambi',
@@ -67,6 +68,76 @@ const USERS = [
     avatarImageUrl:
       'https://robohash.org/estcumqueerror.png?size=64x64&set=set1',
   },
+  // page 2
+  {
+    id: 'db941d84-3277-4edd-b9ae-7b2c641deb1b',
+    firstName: 'Jan',
+    lastName: 'Kowalski',
+    avatarImageUrl:
+      'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+  },
+  {
+    id: 'ecb478b9-cf8d-4bb0-bbb3-328a0491cd89',
+    firstName: 'John',
+    lastName: 'Doe',
+    avatarImageUrl:
+      'https://images.pexels.com/photos/4041013/pexels-photo-4041013.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+  },
+  {
+    id: 'b41d9475-a8e3-4026-af96-772a08fd8024',
+    firstName: 'Max',
+    lastName: 'Mustermann',
+    avatarImageUrl:
+      'https://images.pexels.com/photos/3990502/pexels-photo-3990502.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+  },
+  {
+    id: '0cba1a0d-1fb6-4ec1-9bbd-ebf4b0279d94',
+    firstName: 'Jane',
+    lastName: 'Doe',
+    avatarImageUrl:
+      'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+  },
+  {
+    id: '16e732e5-e96c-426d-80c9-fd03b2ceb456',
+    firstName: 'Iwan',
+    lastName: 'Pietrowicz',
+    avatarImageUrl:
+      'https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+  },
+  {
+    id: '9c6f1eb5-bd70-4d9e-9fee-315ed5a30212',
+    firstName: 'Gall',
+    lastName: 'Anonim',
+    avatarImageUrl: null,
+  },
+  // {
+  //   id: 'db941d84-3277-4edd-b9ae-7b2c641deb1b',
+  //   firstName: 'Jan',
+  //   lastName: 'Kowalski',
+  //   avatarImageUrl:
+  //     'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+  // },
+  // {
+  //   id: 'db941d84-3277-4edd-b9ae-7b2c641deb1b',
+  //   firstName: 'Jan',
+  //   lastName: 'Kowalski',
+  //   avatarImageUrl:
+  //     'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+  // },
+  // {
+  //   id: 'db941d84-3277-4edd-b9ae-7b2c641deb1b',
+  //   firstName: 'Jan',
+  //   lastName: 'Kowalski',
+  //   avatarImageUrl:
+  //     'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+  // },
+  // {
+  //   id: 'db941d84-3277-4edd-b9ae-7b2c641deb1b',
+  //   firstName: 'Jan',
+  //   lastName: 'Kowalski',
+  //   avatarImageUrl:
+  //     'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+  // },
 ];
 
 export default USERS;

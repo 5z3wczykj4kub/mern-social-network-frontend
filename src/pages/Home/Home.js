@@ -19,25 +19,15 @@ import classes from './Home.module.scss';
 function Home() {
   const lastPostRef = useRef();
 
-  const {
-    fetchedPosts,
-    fetchingMorePosts,
-    page,
-    hasMorePosts,
-    arePostsLoading,
-    likeDrawer,
-  } = useSelector(({ post }) => post);
+  const { fetchedPosts, page, arePostsLoading, likeDrawer } = useSelector(
+    ({ post }) => post
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (page !== 0) return;
     dispatch(sendFetchPostsReq(page, 10));
   }, [dispatch, page]);
-
-  useEffect(() => {
-    if (!hasMorePosts) return;
-    if (fetchingMorePosts) dispatch(sendFetchPostsReq(page, 10));
-  }, [dispatch, fetchingMorePosts, page, hasMorePosts]);
 
   const skeletonPostsList = (
     <>
