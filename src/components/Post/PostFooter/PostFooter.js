@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { sendLikePostReq, openLikeDrawer } from '../../../redux/postSlice';
+import { sendLikePostReq } from '../../../redux/postSlice';
+import { openLikeDrawer } from '../../../redux/likeDrawer';
 
 import Spinner from '../../Spinner/Spinner';
 

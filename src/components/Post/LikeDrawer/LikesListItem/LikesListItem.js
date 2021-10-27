@@ -1,7 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
 import { useSelector } from 'react-redux';
-import { sendGetUsersWhoLikedThePostReq } from '../../../../redux/postSlice';
+import { sendGetUsersWhoLikedThePostReq } from '../../../../redux/likeDrawer';
 
 import useInfiniteScrolling from '../../../../hooks/useInfiniteScrolling';
 
@@ -10,10 +10,12 @@ import avatar from '../../../../assets/avatar64x64.png';
 import classes from './LikesListItem.module.scss';
 
 const LikesListItem = forwardRef((props, lastUserListItemRef) => {
-  const { likeDrawer, fetchedPosts } = useSelector(({ post }) => post);
+  const { fetchedPosts } = useSelector(({ post }) => post);
+  const { page, hasMoreLikes, postIndex } = useSelector(
+    ({ likeDrawer }) => likeDrawer
+  );
 
-  const { likes } = fetchedPosts[likeDrawer.postIndex];
-  const { page, hasMoreLikes } = likeDrawer;
+  const { likes } = fetchedPosts[postIndex];
 
   const action = useMemo(
     () =>

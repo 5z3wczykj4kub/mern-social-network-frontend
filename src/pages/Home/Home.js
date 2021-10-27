@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { sendFetchPostsReq, closeLikeDrawer } from '../../redux/postSlice';
+import { sendFetchPostsReq } from '../../redux/postSlice';
+import { closeLikeDrawer } from '../../redux/likeDrawer';
 
 import Navbar from '../../components/Navbar/Navbar';
 import SkeletonPost from '../../components/Post/SkeletonPost/SkeletonPost';
@@ -19,9 +20,10 @@ import classes from './Home.module.scss';
 function Home() {
   const lastPostRef = useRef();
 
-  const { fetchedPosts, page, arePostsLoading, likeDrawer } = useSelector(
+  const { fetchedPosts, page, arePostsLoading } = useSelector(
     ({ post }) => post
   );
+  const { isOpen } = useSelector(({ likeDrawer }) => likeDrawer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -62,7 +64,7 @@ function Home() {
       )}
       <>
         <CSSTransition
-          in={likeDrawer.isOpen}
+          in={isOpen}
           timeout={200}
           classNames={backdropClassNames()}
           mountOnEnter
@@ -74,7 +76,7 @@ function Home() {
           />
         </CSSTransition>
         <CSSTransition
-          in={likeDrawer.isOpen}
+          in={isOpen}
           timeout={200}
           classNames={likeDrawerClassNames()}
           mountOnEnter

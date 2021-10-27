@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { closeLikeDrawer } from '../../redux/postSlice';
+import { closeLikeDrawer } from '../../redux/likeDrawer';
 
 import classes from './CloseIcon.module.scss';
 
