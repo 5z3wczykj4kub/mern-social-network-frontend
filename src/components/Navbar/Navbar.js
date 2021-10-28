@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { closeDropdownMenu } from '../../redux/navbarSlice';
+import { closeDropdownMenu, cleanupNavbar } from '../../redux/navbarSlice';
 
 import Logo from './Logo/Logo';
 import Toggler from './Toggler/Toggler';
@@ -15,6 +16,8 @@ import classes from './Navbar.module.scss';
 function Navbar() {
   const { isDropdownMenuOpen } = useSelector(({ navbar }) => navbar);
   const dispatch = useDispatch();
+
+  useEffect(() => () => dispatch(cleanupNavbar()), [dispatch]);
 
   return (
     <>

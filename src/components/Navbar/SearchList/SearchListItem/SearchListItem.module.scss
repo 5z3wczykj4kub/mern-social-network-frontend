@@ -16,11 +16,12 @@
   }
 
   img {
+    flex-shrink: 0;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
     background-color: #eee;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   span {

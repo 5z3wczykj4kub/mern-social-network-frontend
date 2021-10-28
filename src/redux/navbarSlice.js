@@ -10,6 +10,7 @@ export const navbarSclice = createSlice({
     isLoading: false,
     debounceSearchTimerId: null,
     searchedUsers: [],
+    isNavbarDesktopUsed: window.matchMedia('(min-width: 768px)').matches,
   },
   reducers: {
     toggleDropdownMenu: (state) => {
@@ -38,6 +39,20 @@ export const navbarSclice = createSlice({
     cleanupSearch: (state) => {
       state.searchedUsers = [];
       state.isSearchListEmpty = true;
+    },
+    setIsNavbarDesktopUsed: (state, action) => {
+      state.isNavbarDesktopUsed = action.payload;
+    },
+    cleanupNavbar: (state) => {
+      state.isTogglerTouched = false;
+      state.isDropdownMenuOpen = false;
+      state.isSearchListVisible = false;
+      state.isSearchListEmpty = true;
+      state.isLoading = false;
+      state.debounceSearchTimerId = null;
+      state.searchedUsers = [];
+      state.isNavbarDesktopUsed =
+        window.matchMedia('(min-width: 768px)').matches;
     },
   },
 });
@@ -72,6 +87,8 @@ export const {
   setDebounceSearchTimerId,
   setSearchedUsers,
   cleanupSearch,
+  setIsNavbarDesktopUsed,
+  cleanupNavbar,
 } = navbarSclice.actions;
 
 export default navbarSclice.reducer;

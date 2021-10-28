@@ -1,14 +1,22 @@
-import user from '../../../assets/user.png';
+import USERS from '../../../mocks/users';
+
+import avatar from '../../../assets/avatar64x64.png';
 import newPost from '../../../assets/new-post.png';
 import bell from '../../../assets/bell.png';
 
 import classes from './NavbarControls.module.scss';
 
 function NavbarControls() {
+  const { avatarImageUrl } = USERS[14]; // remove later - mock logged in user
+
   return (
     <div className={classes.navbarControls}>
-      <button>
-        <img src={user} alt="user icon" />
+      <button className={classes.avatar}>
+        {avatarImageUrl ? (
+          <img src={avatarImageUrl} alt="avatar" />
+        ) : (
+          <img src={avatar} alt="avatar" />
+        )}
       </button>
       <button>
         <img src={newPost} alt="new post icon" />
