@@ -14,7 +14,9 @@ import classes from './Search.module.scss';
 function Search() {
   const inputRef = useRef();
 
-  const { isSearchListVisible } = useSelector(({ navbar }) => navbar);
+  const { isSearchListVisible, isNavbarDesktopUsed } = useSelector(
+    ({ navbar }) => navbar
+  );
   const dispatch = useDispatch();
 
   function className() {
@@ -40,6 +42,9 @@ function Search() {
           ref={inputRef}
           onFocus={() => dispatch(setIsSearchListVisible(true))}
           onInput={(event) => dispatch(searchUsers(event))}
+          onBlur={() => {
+            if (isNavbarDesktopUsed) dispatch(setIsSearchListVisible(false));
+          }}
         />
         <span>
           <img src={loupe} alt="loupe" />

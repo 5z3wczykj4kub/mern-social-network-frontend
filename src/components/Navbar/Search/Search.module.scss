@@ -5,16 +5,37 @@
   border-radius: 2rem;
   background-color: #eee;
 
+  @media (min-width: 768px) {
+    position: absolute;
+    top: 50%;
+    left: 8.5rem;
+    transform: translateY(-50%);
+    width: 7.5rem;
+  }
+
   &.focused {
     width: 100%;
     animation: search-expand-animation 0.1s;
 
+    @media (min-width: 768px) {
+      width: 20rem;
+      animation: search-desktop-expand-animation 0.1s;
+    }
+
     & > img {
       display: block;
+
+      @media (min-width: 768px) {
+        display: none;
+      }
     }
 
     input {
       padding-left: 2rem;
+
+      @media (min-width: 768px) {
+        padding-left: 0.8rem;
+      }
     }
   }
 
@@ -68,5 +89,15 @@
 
   to {
     width: 100%;
+  }
+}
+
+@keyframes search-desktop-expand-animation {
+  from {
+    width: 7.5rem;
+  }
+
+  to {
+    width: 20rem;
   }
 }
