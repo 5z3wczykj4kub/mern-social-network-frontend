@@ -13,7 +13,7 @@ import signOut from '../../../assets/sign-out.png';
 import classes from './NavbarDesktopControls.module.scss';
 
 function NavbarDesktopControls() {
-  const { firstName, lastName, avatarImageUrl } = USERS[11]; // remove later - mock logged in user
+  const { firstName, lastName, avatarImageUrl } = USERS[USERS.length - 1]; // remove later - mock logged in user
 
   return (
     <div className={classes.navbarDesktopControls}>

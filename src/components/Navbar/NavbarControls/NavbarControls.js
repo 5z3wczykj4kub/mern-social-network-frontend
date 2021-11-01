@@ -7,7 +7,7 @@ import bell from '../../../assets/bell.png';
 import classes from './NavbarControls.module.scss';
 
 function NavbarControls() {
-  const { avatarImageUrl } = USERS[14]; // remove later - mock logged in user
+  const { avatarImageUrl } = USERS[USERS.length - 1]; // remove later - mock logged in user
 
   return (
     <div className={classes.navbarControls}>

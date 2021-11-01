@@ -33,7 +33,7 @@ function PostFooter({ index }) {
           <button
             onClick={(event) => {
               event.stopPropagation();
-              dispatch(sendLikePostReq(id, USERS[0].id, index));
+              dispatch(sendLikePostReq(id, USERS[USERS.length - 1].id, index));
             }}
           >
             {!isLiked && <img src={like} alt="like" />}
