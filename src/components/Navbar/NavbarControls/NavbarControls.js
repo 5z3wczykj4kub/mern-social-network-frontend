@@ -1,4 +1,4 @@
-import USERS from '../../../mocks/users';
+import { useSelector } from 'react-redux';
 
 import avatar from '../../../assets/avatar64x64.png';
 import newPost from '../../../assets/new-post.png';
@@ -7,7 +7,7 @@ import bell from '../../../assets/bell.png';
 import classes from './NavbarControls.module.scss';
 
 function NavbarControls() {
-  const { avatarImageUrl } = USERS[USERS.length - 1]; // remove later - mock logged in user
+  const { avatarImageUrl } = useSelector(({ profile }) => profile);
 
   return (
     <div className={classes.navbarControls}>

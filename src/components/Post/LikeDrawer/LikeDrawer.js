@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   sendGetUsersWhoLikedThePostReq,
   cleanupLikeDrawer,
-} from '../../../redux/likeDrawer';
+} from '../../../redux/likeDrawerSlice';
 
 import LikesListItem from './LikesListItem/LikesListItem';
 import CloseIcon from '../../CloseIcon/CloseIcon';

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { sendLikePostReq } from '../../../redux/postSlice';
-import { openLikeDrawer } from '../../../redux/likeDrawer';
+import { openLikeDrawer } from '../../../redux/likeDrawerSlice';
 
 import Spinner from '../../Spinner/Spinner';
 
@@ -10,10 +10,9 @@ import commentsIcon from '../../../assets/comments.png';
 
 import classes from './PostFooter.module.scss';
 
-import USERS from '../../../mocks/users'; // remove later - mock logged in user
-
 function PostFooter({ index }) {
   const { fetchedPosts } = useSelector(({ post }) => post);
+  const { id: profileId } = useSelector(({ profile }) => profile);
   const dispatch = useDispatch();
 
   const { id, likes, isLiked, comments, isLikeLoading } = fetchedPosts[index];
@@ -33,7 +32,7 @@ function PostFooter({ index }) {
           <button
             onClick={(event) => {
               event.stopPropagation();
-              dispatch(sendLikePostReq(id, USERS[USERS.length - 1].id, index));
+              dispatch(sendLikePostReq(id, profileId, index));
             }}
           >
             {!isLiked && <img src={like} alt="like" />}

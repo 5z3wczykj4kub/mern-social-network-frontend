@@ -1,19 +1,23 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { signOut } from '../../../redux/profileSlice';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-import USERS from '../../../mocks/users';
-
-import avatar from '../../../assets/avatar64x64.png';
-import profile from '../../../assets/user.png';
-import newPost from '../../../assets/new-post.png';
-import bell from '../../../assets/bell.png';
-import settings from '../../../assets/settings.png';
-import signOut from '../../../assets/sign-out.png';
+import avatarIcon from '../../../assets/avatar64x64.png';
+import profileIcon from '../../../assets/user.png';
+import newPostIcon from '../../../assets/new-post.png';
+import bellIcon from '../../../assets/bell.png';
+import settingsIcon from '../../../assets/settings.png';
+import signOutIcon from '../../../assets/sign-out.png';
 
 import classes from './NavbarDesktopControls.module.scss';
 
 function NavbarDesktopControls() {
-  const { firstName, lastName, avatarImageUrl } = USERS[USERS.length - 1]; // remove later - mock logged in user
+  const { firstName, lastName, avatarImageUrl } = useSelector(
+    ({ profile }) => profile
+  );
+  const dispatch = useDispatch();
 
   return (
     <div className={classes.navbarDesktopControls}>
@@ -21,7 +25,7 @@ function NavbarDesktopControls() {
         {avatarImageUrl ? (
           <img src={avatarImageUrl} alt="avatar" />
         ) : (
-          <img src={avatar} alt="avatar" />
+          <img src={avatarIcon} alt="avatar" />
         )}
         <p>
           {firstName} {lastName}
@@ -29,24 +33,24 @@ function NavbarDesktopControls() {
         <FontAwesomeIcon icon={faChevronDown} />
         <div className={classes.profileMenu}>
           <p>
-            <img src={profile} alt="profile" />
+            <img src={profileIcon} alt="profile" />
             See profile
           </p>
           <p>
-            <img src={settings} alt="settings" />
+            <img src={settingsIcon} alt="settings" />
             Settings
           </p>
-          <p>
-            <img src={signOut} alt="sign out" />
+          <p onClick={() => dispatch(signOut())}>
+            <img src={signOutIcon} alt="sign out" />
             Sign out
           </p>
         </div>
       </button>
       <button>
-        <img src={newPost} alt="new post" />
+        <img src={newPostIcon} alt="new post" />
       </button>
       <button>
-        <img src={bell} alt="bell" />
+        <img src={bellIcon} alt="bell" />
       </button>
     </div>
   );

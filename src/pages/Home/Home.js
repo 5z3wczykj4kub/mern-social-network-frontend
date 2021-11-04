@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsNavbarDesktopUsed } from '../../redux/navbarSlice';
 import { sendFetchPostsReq } from '../../redux/postSlice';
-import { closeLikeDrawer } from '../../redux/likeDrawer';
+import { closeLikeDrawer } from '../../redux/likeDrawerSlice';
 
 import Navbar from '../../components/Navbar/Navbar';
 import NavbarDesktop from '../../components/NavbarDesktop/NavbarDesktop';
@@ -32,6 +32,9 @@ function Home() {
   // adjust navbar to viewport size
   useEffect(() => {
     const mql = window.matchMedia('(min-width: 768px)');
+    mql.matches
+      ? dispatch(setIsNavbarDesktopUsed(true))
+      : dispatch(setIsNavbarDesktopUsed(false));
     const changeHandler = () =>
       mql.matches
         ? dispatch(setIsNavbarDesktopUsed(true))

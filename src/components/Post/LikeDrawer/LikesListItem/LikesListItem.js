@@ -1,7 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
 import { useSelector } from 'react-redux';
-import { sendGetUsersWhoLikedThePostReq } from '../../../../redux/likeDrawer';
+import { sendGetUsersWhoLikedThePostReq } from '../../../../redux/likeDrawerSlice';
 
 import useInfiniteScrolling from '../../../../hooks/useInfiniteScrolling';
 

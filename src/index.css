@@ -10,3 +10,13 @@ body {
   background-color: #eee;
   font-family: sans-serif;
 }
+
+body.whiteBackgroundColor {
+  background-color: #fff;
+}
+
+@media (min-width: 768px) {
+  body.whiteBackgroundColor {
+    background-color: #eee;
+  }
+}
