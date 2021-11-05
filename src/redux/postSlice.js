@@ -37,7 +37,11 @@ export const postSlice = createSlice({
 
 export const sendFetchPostsReq = (page, limit) => async (dispatch) => {
   dispatch(setArePostsLoading(true));
-  const res = await fetch(`/posts?page=${page}&limit=${limit}`);
+  const res = await fetch(`api/posts?page=${page}&limit=${limit}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
   const posts = await res.json();
   dispatch(setArePostsLoading(false));
   if (posts.length === 0) {
@@ -50,8 +54,11 @@ export const sendFetchPostsReq = (page, limit) => async (dispatch) => {
 
 export const sendLikePostReq = (postId, userId, index) => async (dispatch) => {
   dispatch(setIsLikeLoading({ index, isLikeLoading: true }));
-  const res = await fetch(`posts/like/${postId}/${userId}`, {
+  const res = await fetch(`/api/posts/like/${postId}/${userId}`, {
     method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
   });
   const { likes, isLiked } = await res.json();
   dispatch(setIsLikeLoading({ index, isLikeLoading: false }));

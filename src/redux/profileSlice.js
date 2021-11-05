@@ -1,34 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import USERS from '../mocks/users';
-
-// REMOVE LATER - mock signing in
-const { id, firstName, lastName, avatarImageUrl } = USERS[USERS.length - 1];
-const isAuth = !!localStorage.getItem('isAuth') || false;
-
 export const profileSlice = createSlice({
   name: 'profile',
   initialState: {
-    isAuth,
-    id: isAuth ? id : null,
-    firstName: isAuth ? firstName : null,
-    lastName: isAuth ? lastName : null,
-    avatarImageUrl: isAuth ? avatarImageUrl : null,
+    isAuth: false,
+    id: null,
+    firstName: null,
+    lastName: null,
+    avatarImageUrl: null,
   },
   reducers: {
-    signIn: (state) => {
-      localStorage.setItem('isAuth', true);
-      state.isAuth = !!localStorage.getItem('isAuth');
-
-      state.id = id;
-      state.firstName = firstName;
-      state.lastName = lastName;
-      state.avatarImageUrl = avatarImageUrl;
+    setProfile: (state, action) => {
+      state.isAuth = action.payload.isAuth;
+      state.id = action.payload.id;
+      state.firstName = action.payload.firstName;
+      state.lastName = action.payload.lastName;
+      state.avatarImageUrl = action.payload.avatarImageUrl;
     },
     signOut: (state) => {
-      localStorage.removeItem('isAuth');
-      state.isAuth = !!localStorage.getItem('isAuth');
-
+      localStorage.removeItem('token');
+      state.isAuth = false;
       state.id = null;
       state.firstName = null;
       state.lastName = null;
@@ -37,6 +28,32 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { signIn, signOut } = profileSlice.actions;
+export const getAuthUser = (token) => async (dispatch) => {
+  const res = await fetch('/api/auth/profile', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const { id, firstName, lastName, avatarImageUrl } = await res.json();
+  dispatch(
+    setProfile({ isAuth: true, id, firstName, lastName, avatarImageUrl })
+  );
+};
+
+export const signIn = (email, password) => async (dispatch) => {
+  const res = await fetch('/api/auth/signin', {
+    method: 'POST',
+    body: JSON.stringify({ email, password }),
+  });
+  if (!res.ok) {
+    alert('Signing in failed.'); // show custom error dialog
+    return;
+  }
+  const { token } = await res.json();
+  localStorage.setItem('token', token);
+  dispatch(getAuthUser(localStorage.getItem('token')));
+};
+
+export const { signOut, setProfile } = profileSlice.actions;
 
 export default profileSlice.reducer;

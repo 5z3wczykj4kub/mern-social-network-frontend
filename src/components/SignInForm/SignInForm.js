@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router';
+import { useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { signIn } from '../../redux/profileSlice';
@@ -6,21 +6,26 @@ import { signIn } from '../../redux/profileSlice';
 import classes from './SignInForm.module.scss';
 
 function SignInForm() {
-  const dispatch = useDispatch();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   function submitHanlder(event) {
     event.preventDefault();
-    dispatch(signIn());
-    history.push('/');
+    dispatch(signIn(emailRef.current.value, passwordRef.current.value));
   }
 
   return (
     <form className={classes.signInForm} onSubmit={submitHanlder}>
       <p>Connect with people from all around the world!</p>
-      <input id="email" type="email" placeholder="Email" autoComplete="off" />
-      <input id="password" type="password" placeholder="Password" />
+      <input
+        ref={emailRef}
+        type="email"
+        placeholder="Email"
+        autoComplete="off"
+      />
+      <input ref={passwordRef} type="password" placeholder="Password" />
       <button>Sign In</button>
       <p>
         Don't have an account? <a href="#">Sign up</a>

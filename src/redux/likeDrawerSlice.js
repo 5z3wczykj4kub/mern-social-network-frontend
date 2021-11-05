@@ -44,7 +44,11 @@ export const sendGetUsersWhoLikedThePostReq = (likes) => async (dispatch) => {
     return;
   }
   dispatch(setIsLikeDrawerLoading(true));
-  const res = await fetch(`/users?ids=${likes.join(',')}`);
+  const res = await fetch(`/api/users?ids=${likes.join(',')}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
   const users = await res.json();
   dispatch(setIsLikeDrawerLoading(false));
   if (users.length === 0) {

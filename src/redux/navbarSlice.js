@@ -70,7 +70,14 @@ export const searchUsers = (event) => (dispatch, getState) => {
   dispatch(setIsLoading(true));
   dispatch(setIsSearchListEmpty(false));
   const timerId = setTimeout(async () => {
-    const res = await fetch(`/users?query=${encodeURI(inputValue)}&limit=5`);
+    const res = await fetch(
+      `/api/users?query=${encodeURI(inputValue)}&limit=5`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
     const users = await res.json();
     dispatch(setSearchedUsers(users));
     dispatch(setIsLoading(false));
