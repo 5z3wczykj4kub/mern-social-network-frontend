@@ -2,8 +2,7 @@ import { useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsNavbarDesktopUsed } from '../../redux/navbarSlice';
-import { sendFetchPostsReq, clearState } from '../../redux/postSlice';
+import { sendFetchPostsReq, cleanupPosts } from '../../redux/postSlice';
 import { closeLikeDrawer } from '../../redux/likeDrawerSlice';
 
 import Navbar from '../../components/Navbar/Navbar';
@@ -17,6 +16,8 @@ import Backdrop, {
   backdropClassNames,
 } from '../../components/Backdrop/Backdrop';
 
+import useNavbar from '../../hooks/useNavbar';
+
 import classes from './Home.module.scss';
 
 function Home() {
@@ -29,26 +30,20 @@ function Home() {
   const { isOpen } = useSelector(({ likeDrawer }) => likeDrawer);
   const dispatch = useDispatch();
 
-  // adjust navbar to viewport size
-  useEffect(() => {
-    const mql = window.matchMedia('(min-width: 768px)');
-    mql.matches
-      ? dispatch(setIsNavbarDesktopUsed(true))
-      : dispatch(setIsNavbarDesktopUsed(false));
-    const changeHandler = () =>
-      mql.matches
-        ? dispatch(setIsNavbarDesktopUsed(true))
-        : dispatch(setIsNavbarDesktopUsed(false));
-    mql.addEventListener('change', changeHandler);
-    return () => mql.removeEventListener('change', changeHandler);
-  }, [dispatch]);
+  useNavbar();
 
   useEffect(() => {
     if (page !== 0) return;
     dispatch(sendFetchPostsReq(page, 10));
   }, [dispatch, page]);
 
-  useEffect(() => () => dispatch(clearState()), [dispatch]);
+  useEffect(
+    () => () => {
+      dispatch(cleanupPosts());
+      dispatch(closeLikeDrawer());
+    },
+    [dispatch]
+  );
 
   const skeletonPostsList = (
     <>

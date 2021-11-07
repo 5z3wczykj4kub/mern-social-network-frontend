@@ -33,7 +33,7 @@ export const handlers = [
       })
     );
   }),
-  // get posts
+  // get many posts
   rest.get('/api/posts', (req, res, ctx) => {
     const token = req.headers.get('Authorization').split(' ')[1];
     const user = USERS.find((user) => user.token === token);
@@ -45,6 +45,14 @@ export const handlers = [
       ctx.status(200),
       ctx.json(POSTS.slice(page * limit, (page + 1) * limit))
     );
+  }),
+  // get specific post
+  rest.get('/api/posts/:postId', (req, res, ctx) => {
+    const { postId } = req.params;
+    const post = POSTS.find((post) => post.id === postId);
+    if (!post) return res(ctx.status(404));
+
+    return res(ctx.status(200), ctx.json([post]));
   }),
   // get users that match the search query
   rest.get('/api/users', (req, res, ctx) => {

@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { sendLikePostReq } from '../../../redux/postSlice';
 import { openLikeDrawer } from '../../../redux/likeDrawerSlice';
@@ -14,6 +17,8 @@ function PostFooter({ index }) {
   const { fetchedPosts } = useSelector(({ post }) => post);
   const { id: profileId } = useSelector(({ profile }) => profile);
   const dispatch = useDispatch();
+
+  const history = useHistory();
 
   const { id, likes, isLiked, comments, isLikeLoading } = fetchedPosts[index];
 
@@ -43,8 +48,14 @@ function PostFooter({ index }) {
       </div>
       <div>
         <span>{comments}</span>
-        <button>
-          <img src={commentsIcon} alt="comments" />
+        <button
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          <Link to={`/comments/${id}`}>
+            <img src={commentsIcon} alt="comments" />
+          </Link>
         </button>
       </div>
     </footer>

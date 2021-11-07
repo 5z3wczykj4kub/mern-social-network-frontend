@@ -1,8 +1,7 @@
-import { nanoid } from '@reduxjs/toolkit';
-
 import USERS from './users';
 
 const POSTS = USERS.map((user, index) => ({
+  id: `p${index + 1}`,
   firstName: user.firstName,
   lastName: user.lastName,
   avatarImageUrl: user.avatarImageUrl,
@@ -13,4 +12,4 @@ const POSTS = USERS.map((user, index) => ({
   comments: 0,
 }));
 
-export default POSTS.map((post) => ({ ...post, id: nanoid() }));
+export default POSTS;

@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { cleanupPosts } from './postSlice';
+
 export const profileSlice = createSlice({
   name: 'profile',
   initialState: {
@@ -17,7 +19,7 @@ export const profileSlice = createSlice({
       state.lastName = action.payload.lastName;
       state.avatarImageUrl = action.payload.avatarImageUrl;
     },
-    signOut: (state) => {
+    cleanupProfile: (state) => {
       localStorage.removeItem('token');
       state.isAuth = false;
       state.id = null;
@@ -58,6 +60,11 @@ export const signIn = (email, password) => async (dispatch) => {
   dispatch(getAuthUser(localStorage.getItem('token')));
 };
 
-export const { signOut, setProfile } = profileSlice.actions;
+export const signOut = () => (dispatch) => {
+  dispatch(cleanupProfile());
+  dispatch(cleanupPosts());
+};
+
+export const { setProfile, cleanupProfile } = profileSlice.actions;
 
 export default profileSlice.reducer;

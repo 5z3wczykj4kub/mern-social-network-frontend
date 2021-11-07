@@ -12,6 +12,7 @@ import { getAuthUser } from './redux/profileSlice';
 import Preload from './pages/Preload/Preload';
 import SignIn from './pages/SignIn/SignIn';
 import Home from './pages/Home/Home';
+import Comments from './pages/Comments/Comments';
 
 function App() {
   const [isPreloading, setIsPreloading] = useState(true);
@@ -42,6 +43,9 @@ function App() {
         </Route>
         <Route path="/" exact>
           {isAuth ? <Home /> : <Redirect to="/signin" />}
+        </Route>
+        <Route path="/comments/:postId" exact>
+          {isAuth ? <Comments /> : <Redirect to="/signin" />}
         </Route>
       </Switch>
     </Router>
