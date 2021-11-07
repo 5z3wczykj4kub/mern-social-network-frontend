@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,18 +9,30 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { getAuthUser } from './redux/profileSlice';
 
+import Preload from './pages/Preload/Preload';
 import SignIn from './pages/SignIn/SignIn';
 import Home from './pages/Home/Home';
 
 function App() {
+  const [isPreloading, setIsPreloading] = useState(true);
+
   const { isAuth } = useSelector(({ profile }) => profile);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) return;
+    if (!token) {
+      setIsPreloading(false);
+      return;
+    }
     dispatch(getAuthUser(token));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuth) setIsPreloading(false);
+  }, [isAuth]);
+
+  if (isPreloading) return <Preload />;
 
   return (
     <Router>

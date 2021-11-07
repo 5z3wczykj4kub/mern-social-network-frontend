@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsNavbarDesktopUsed } from '../../redux/navbarSlice';
-import { sendFetchPostsReq } from '../../redux/postSlice';
+import { sendFetchPostsReq, clearState } from '../../redux/postSlice';
 import { closeLikeDrawer } from '../../redux/likeDrawerSlice';
 
 import Navbar from '../../components/Navbar/Navbar';
@@ -47,6 +47,8 @@ function Home() {
     if (page !== 0) return;
     dispatch(sendFetchPostsReq(page, 10));
   }, [dispatch, page]);
+
+  useEffect(() => () => dispatch(clearState()), [dispatch]);
 
   const skeletonPostsList = (
     <>

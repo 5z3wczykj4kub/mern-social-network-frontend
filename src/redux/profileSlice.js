@@ -34,6 +34,10 @@ export const getAuthUser = (token) => async (dispatch) => {
       Authorization: `Bearer ${token}`,
     },
   });
+  if (!res.ok) {
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
   const { id, firstName, lastName, avatarImageUrl } = await res.json();
   dispatch(
     setProfile({ isAuth: true, id, firstName, lastName, avatarImageUrl })

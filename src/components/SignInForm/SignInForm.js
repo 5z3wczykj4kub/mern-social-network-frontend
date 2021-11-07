@@ -28,6 +28,7 @@ function SignInForm() {
       <input ref={passwordRef} type="password" placeholder="Password" />
       <button>Sign In</button>
       <p>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         Don't have an account? <a href="#">Sign up</a>
       </p>
     </form>

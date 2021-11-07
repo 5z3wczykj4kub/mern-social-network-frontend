@@ -32,6 +32,12 @@ export const postSlice = createSlice({
       state.fetchedPosts[action.payload.index].isLikeLoading =
         action.payload.isLikeLoading;
     },
+    clearState: (state) => {
+      state.fetchedPosts = [];
+      state.page = 0;
+      state.hasMorePosts = true;
+      state.arePostsLoading = true;
+    },
   },
 });
 
@@ -72,6 +78,7 @@ export const {
   likePost,
   setArePostsLoading,
   setIsLikeLoading,
+  clearState,
 } = postSlice.actions;
 
 export default postSlice.reducer;
