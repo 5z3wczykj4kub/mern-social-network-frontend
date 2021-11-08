@@ -10,12 +10,15 @@ import avatar from '../../../../assets/avatar64x64.png';
 import classes from './LikesListItem.module.scss';
 
 const LikesListItem = forwardRef((props, lastUserListItemRef) => {
-  const { fetchedPosts } = useSelector(({ post }) => post);
-  const { page, hasMoreLikes, postIndex } = useSelector(
+  const { page, hasMoreLikes, postId } = useSelector(
     ({ likeDrawer }) => likeDrawer
   );
+  const fetchedPost = useSelector(({ post }) =>
+    post.fetchedPosts.find(({ id }) => id === postId)
+  );
+  const { detailedPost } = useSelector(({ detailedPost }) => detailedPost);
 
-  const { likes } = fetchedPosts[postIndex];
+  const { likes } = !fetchedPost && detailedPost ? detailedPost : fetchedPost;
 
   const action = useMemo(
     () =>

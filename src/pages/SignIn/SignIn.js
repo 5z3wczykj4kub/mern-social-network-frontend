@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import NavbarDefault from '../../components/NavbarDefault/NavbarDefault';
 import SignInForm from '../../components/SignInForm/SignInForm';
 
 import classes from './SignIn.module.scss';
@@ -13,7 +12,6 @@ function SignIn() {
 
   return (
     <main className={classes.signIn}>
-      <NavbarDefault />
       <SignInForm />
     </main>
   );

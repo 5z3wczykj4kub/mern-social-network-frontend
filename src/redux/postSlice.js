@@ -29,8 +29,9 @@ export const postSlice = createSlice({
       state.arePostsLoading = action.payload;
     },
     setIsLikeLoading: (state, action) => {
-      state.fetchedPosts[action.payload.index].isLikeLoading =
-        action.payload.isLikeLoading;
+      state.fetchedPosts[
+        state.fetchedPosts.findIndex(({ id }) => id === action.payload.postId)
+      ].isLikeLoading = action.payload.isLikeLoading;
     },
     cleanupPosts: (state) => {
       state.fetchedPosts = [];
@@ -59,21 +60,8 @@ export const sendFetchPostsReq = (page, limit) => async (dispatch) => {
   dispatch(incrementPage());
 };
 
-// fetch specific post
-export const sendFetchPostReq = (postId) => async (dispatch) => {
-  dispatch(setArePostsLoading(true));
-  const res = await fetch(`/api/posts/${postId}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  const post = await res.json();
-  dispatch(setFetchedPosts(post));
-  dispatch(setArePostsLoading(false));
-};
-
-export const sendLikePostReq = (postId, userId, index) => async (dispatch) => {
-  dispatch(setIsLikeLoading({ index, isLikeLoading: true }));
+export const sendLikePostReq = (postId, userId) => async (dispatch) => {
+  dispatch(setIsLikeLoading({ postId, isLikeLoading: true }));
   const res = await fetch(`/api/posts/like/${postId}/${userId}`, {
     method: 'PUT',
     headers: {
@@ -81,7 +69,7 @@ export const sendLikePostReq = (postId, userId, index) => async (dispatch) => {
     },
   });
   const { likes, isLiked } = await res.json();
-  dispatch(setIsLikeLoading({ index, isLikeLoading: false }));
+  dispatch(setIsLikeLoading({ postId, isLikeLoading: false }));
   dispatch(likePost({ postId, likes, isLiked }));
 };
 

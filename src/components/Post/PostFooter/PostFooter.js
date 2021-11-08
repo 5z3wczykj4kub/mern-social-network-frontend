@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { sendLikePostReq } from '../../../redux/postSlice';
+import { sendLikeDetailedPostReq } from '../../../redux/detailedPostSlice';
 import { openLikeDrawer } from '../../../redux/likeDrawerSlice';
 
 import Spinner from '../../Spinner/Spinner';
@@ -13,53 +13,97 @@ import commentsIcon from '../../../assets/comments.png';
 
 import classes from './PostFooter.module.scss';
 
-function PostFooter({ index }) {
-  const { fetchedPosts } = useSelector(({ post }) => post);
+function PostFooter(props) {
+  const fetchedPost = useSelector(({ post }) =>
+    post.fetchedPosts.find(({ id }) => id === props.id)
+  );
+  const { detailedPost } = useSelector(({ detailedPost }) => detailedPost);
   const { id: profileId } = useSelector(({ profile }) => profile);
   const dispatch = useDispatch();
 
-  const history = useHistory();
-
-  const { id, likes, isLiked, comments, isLikeLoading } = fetchedPosts[index];
-
-  return (
-    <footer
-      className={classes.postFooter}
-      onClick={() => dispatch(openLikeDrawer(index))}
-    >
-      <div>
-        {isLikeLoading && (
-          <button className={classes.noHover}>
-            <Spinner />
-          </button>
-        )}
-        {!isLikeLoading && (
+  let postFooter = null;
+  if (fetchedPost) {
+    postFooter = (
+      <footer
+        className={classes.postFooter}
+        onClick={() => dispatch(openLikeDrawer(fetchedPost.id))}
+      >
+        <div>
+          {fetchedPost.isLikeLoading && (
+            <button className={classes.noHover}>
+              <Spinner />
+            </button>
+          )}
+          {!fetchedPost.isLikeLoading && (
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(sendLikePostReq(fetchedPost.id, profileId));
+              }}
+            >
+              {!fetchedPost.isLiked && <img src={like} alt="like" />}
+              {fetchedPost.isLiked && <img src={liked} alt="liked" />}
+            </button>
+          )}
+          <span>{fetchedPost.likes.length}</span>
+        </div>
+        <div>
+          <span>{fetchedPost.comments}</span>
           <button
             onClick={(event) => {
               event.stopPropagation();
-              dispatch(sendLikePostReq(id, profileId, index));
             }}
           >
-            {!isLiked && <img src={like} alt="like" />}
-            {isLiked && <img src={liked} alt="liked" />}
+            <Link to={`/posts/${fetchedPost.id}`}>
+              <img src={commentsIcon} alt="comments" />
+            </Link>
           </button>
-        )}
-        <span>{likes.length}</span>
-      </div>
-      <div>
-        <span>{comments}</span>
-        <button
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-        >
-          <Link to={`/comments/${id}`}>
-            <img src={commentsIcon} alt="comments" />
-          </Link>
-        </button>
-      </div>
-    </footer>
-  );
+        </div>
+      </footer>
+    );
+  }
+  if (!fetchedPost && detailedPost) {
+    postFooter = (
+      <footer
+        className={classes.postFooter}
+        onClick={() => dispatch(openLikeDrawer(detailedPost.id))}
+      >
+        <div>
+          {detailedPost.isLikeLoading && (
+            <button className={classes.noHover}>
+              <Spinner />
+            </button>
+          )}
+          {!detailedPost.isLikeLoading && (
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(sendLikeDetailedPostReq(detailedPost.id, profileId));
+              }}
+            >
+              {!detailedPost.isLiked && <img src={like} alt="like" />}
+              {detailedPost.isLiked && <img src={liked} alt="liked" />}
+            </button>
+          )}
+          <span>{detailedPost.likes.length}</span>
+        </div>
+        <div>
+          <span>{detailedPost.comments}</span>
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            <Link to={`/posts/${detailedPost.id}`}>
+              <img src={commentsIcon} alt="comments" />
+            </Link>
+          </button>
+        </div>
+      </footer>
+    );
+  }
+
+  return postFooter;
 }
 
 export default PostFooter;

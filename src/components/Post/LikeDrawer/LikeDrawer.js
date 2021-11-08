@@ -14,13 +14,16 @@ import classes from './LikeDrawer.module.scss';
 function LikeDrawer() {
   const lastUserListItemRef = useRef();
 
-  const { fetchedPosts } = useSelector(({ post }) => post);
-  const { users, isLoading, postIndex } = useSelector(
+  const { users, isLoading, postId } = useSelector(
     ({ likeDrawer }) => likeDrawer
   );
+  const fetchedPost = useSelector(({ post }) =>
+    post.fetchedPosts.find(({ id }) => id === postId)
+  );
+  const { detailedPost } = useSelector(({ detailedPost }) => detailedPost);
   const dispatch = useDispatch();
 
-  const { likes } = fetchedPosts[postIndex];
+  const { likes } = !fetchedPost && detailedPost ? detailedPost : fetchedPost;
 
   useEffect(() => {
     dispatch(sendGetUsersWhoLikedThePostReq(likes.slice(0, 10)));

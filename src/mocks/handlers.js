@@ -52,7 +52,7 @@ export const handlers = [
     const post = POSTS.find((post) => post.id === postId);
     if (!post) return res(ctx.status(404));
 
-    return res(ctx.status(200), ctx.json([post]));
+    return res(ctx.status(200), ctx.json(post));
   }),
   // get users that match the search query
   rest.get('/api/users', (req, res, ctx) => {

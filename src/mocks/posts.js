@@ -12,4 +12,13 @@ const POSTS = USERS.map((user, index) => ({
   comments: 0,
 }));
 
-export default POSTS;
+const authUser = USERS.find(
+  ({ token }) => token === localStorage.getItem('token')
+);
+
+POSTS[1].likes = USERS.map((user) => user.id);
+
+export default POSTS.map((post) => ({
+  ...post,
+  isLiked: !authUser ? false : post.likes.includes(authUser.id),
+}));

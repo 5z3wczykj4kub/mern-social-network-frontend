@@ -24,9 +24,9 @@ const Post = forwardRef((props, lastPostRef) => {
 
   return (
     <div className={className()} ref={lastPostRef}>
-      <PostHeader index={props.index} />
-      <PostBody index={props.index} />
-      <PostFooter index={props.index} />
+      <PostHeader id={props.id} />
+      <PostBody id={props.id} />
+      <PostFooter id={props.id} />
     </div>
   );
 });

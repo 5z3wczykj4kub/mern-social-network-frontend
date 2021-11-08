@@ -5,7 +5,7 @@ export const likeDrawerSlice = createSlice({
   initialState: {
     isOpen: false,
     isLoading: true,
-    postIndex: null,
+    postId: null,
     users: [],
     page: 0,
     hasMoreLikes: true,
@@ -13,7 +13,7 @@ export const likeDrawerSlice = createSlice({
   reducers: {
     openLikeDrawer: (state, action) => {
       state.isOpen = true;
-      state.postIndex = action.payload;
+      state.postId = action.payload;
     },
     closeLikeDrawer: (state) => {
       state.isOpen = false;
