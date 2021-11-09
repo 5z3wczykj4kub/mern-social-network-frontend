@@ -19,7 +19,7 @@ export const likeDrawerSlice = createSlice({
       state.isOpen = false;
     },
     setLikeDrawerUsers: (state, action) => {
-      state.users = [...state.users, ...action.payload];
+      state.users.push(...action.payload);
     },
     incrementLikeDrawerPage: (state) => {
       state.page++;
@@ -52,7 +52,6 @@ export const sendGetUsersWhoLikedThePostReq =
         },
         signal,
       });
-      if (!res.ok) throw new Error();
       const users = await res.json();
       dispatch(setIsLikeDrawerLoading(false));
       if (users.length === 0) {

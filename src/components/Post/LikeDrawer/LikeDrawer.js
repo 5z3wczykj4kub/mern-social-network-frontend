@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -14,6 +14,8 @@ import classes from './LikeDrawer.module.scss';
 function LikeDrawer() {
   const lastUserListItemRef = useRef();
 
+  const [abortController] = useState(new AbortController());
+
   const { users, isLoading, postId } = useSelector(
     ({ likeDrawer }) => likeDrawer
   );
@@ -26,14 +28,14 @@ function LikeDrawer() {
   const { likes } = !fetchedPost && detailedPost ? detailedPost : fetchedPost;
 
   useEffect(() => {
-    const abortController = new AbortController();
-    const { signal } = abortController;
-    dispatch(sendGetUsersWhoLikedThePostReq(likes.slice(0, 10), signal));
+    dispatch(
+      sendGetUsersWhoLikedThePostReq(likes.slice(0, 10), abortController.signal)
+    );
     return () => {
       dispatch(cleanupLikeDrawer());
       abortController.abort();
     };
-  }, [dispatch, likes]);
+  }, [dispatch, likes, abortController]);
 
   const skeletonUsersList = (
     <>
@@ -51,6 +53,7 @@ function LikeDrawer() {
       lastName={user.lastName}
       avatarImageUrl={user.avatarImageUrl}
       ref={index === users.length - 1 ? lastUserListItemRef : null}
+      signal={abortController.signal}
     />
   ));
 
