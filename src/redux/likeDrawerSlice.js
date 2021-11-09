@@ -38,26 +38,33 @@ export const likeDrawerSlice = createSlice({
   },
 });
 
-export const sendGetUsersWhoLikedThePostReq = (likes) => async (dispatch) => {
-  if (likes.length === 0) {
-    dispatch(setIsLikeDrawerLoading(false));
-    return;
-  }
-  dispatch(setIsLikeDrawerLoading(true));
-  const res = await fetch(`/api/users?ids=${likes.join(',')}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  const users = await res.json();
-  dispatch(setIsLikeDrawerLoading(false));
-  if (users.length === 0) {
-    dispatch(setHasMoreLikes(false));
-    return;
-  }
-  dispatch(setLikeDrawerUsers(users));
-  dispatch(incrementLikeDrawerPage());
-};
+export const sendGetUsersWhoLikedThePostReq =
+  (likes, signal) => async (dispatch) => {
+    if (likes.length === 0) {
+      dispatch(setIsLikeDrawerLoading(false));
+      return;
+    }
+    dispatch(setIsLikeDrawerLoading(true));
+    try {
+      const res = await fetch(`/api/users?ids=${likes.join(',')}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        signal,
+      });
+      if (!res.ok) throw new Error();
+      const users = await res.json();
+      dispatch(setIsLikeDrawerLoading(false));
+      if (users.length === 0) {
+        dispatch(setHasMoreLikes(false));
+        return;
+      }
+      dispatch(setLikeDrawerUsers(users));
+      dispatch(incrementLikeDrawerPage());
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
 export const {
   openLikeDrawer,

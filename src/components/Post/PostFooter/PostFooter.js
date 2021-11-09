@@ -26,7 +26,10 @@ function PostFooter(props) {
     postFooter = (
       <footer
         className={classes.postFooter}
-        onClick={() => dispatch(openLikeDrawer(fetchedPost.id))}
+        onClick={() => {
+          if (fetchedPost.isLikeLoading) return;
+          dispatch(openLikeDrawer(fetchedPost.id));
+        }}
       >
         <div>
           {fetchedPost.isLikeLoading && (
@@ -66,7 +69,10 @@ function PostFooter(props) {
     postFooter = (
       <footer
         className={classes.postFooter}
-        onClick={() => dispatch(openLikeDrawer(detailedPost.id))}
+        onClick={() => {
+          if (detailedPost.isLikeLoading) return;
+          dispatch(openLikeDrawer(detailedPost.id));
+        }}
       >
         <div>
           {detailedPost.isLikeLoading && (

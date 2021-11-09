@@ -49,7 +49,8 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isAuth) setIsPreloading(false);
+    if (isAuth) var timerId = setTimeout(() => setIsPreloading(false), 500);
+    return () => clearTimeout(timerId);
   }, [isAuth]);
 
   if (isPreloading) return <Preload />;

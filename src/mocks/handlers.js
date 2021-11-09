@@ -11,6 +11,7 @@ export const handlers = [
     if (!user || user.password !== password) return res(ctx.status(401));
 
     return res(
+      ctx.delay(1000),
       ctx.status(200),
       ctx.json({
         token: user.token,
@@ -24,6 +25,7 @@ export const handlers = [
     if (!user) return res(ctx.status(401));
 
     return res(
+      ctx.delay(1000),
       ctx.status(200),
       ctx.json({
         id: user.id,
@@ -42,6 +44,7 @@ export const handlers = [
     const page = +req.url.searchParams.get('page');
     const limit = +req.url.searchParams.get('limit');
     return res(
+      ctx.delay(1000),
       ctx.status(200),
       ctx.json(POSTS.slice(page * limit, (page + 1) * limit))
     );
@@ -52,7 +55,7 @@ export const handlers = [
     const post = POSTS.find((post) => post.id === postId);
     if (!post) return res(ctx.status(404));
 
-    return res(ctx.status(200), ctx.json(post));
+    return res(ctx.delay(1000), ctx.status(200), ctx.json(post));
   }),
   // get users that match the search query
   rest.get('/api/users', (req, res, ctx) => {
@@ -70,13 +73,13 @@ export const handlers = [
         const fullName = (user.firstName + user.lastName).toLowerCase();
         return fullName.includes(query);
       }).slice(0, limit);
-      return res(ctx.status(200), ctx.json(users));
+      return res(ctx.delay(1000), ctx.status(200), ctx.json(users));
     }
     // users who liked the post
     if (usersIds) {
       usersIds = usersIds.split(',');
       const users = USERS.filter(({ id }) => usersIds.includes(id));
-      return res(ctx.status(200), ctx.json(users));
+      return res(ctx.delay(1000), ctx.status(200), ctx.json(users));
     }
   }),
   // like post
@@ -96,6 +99,10 @@ export const handlers = [
       // eslint-disable-next-line
       var isLiked = false;
     }
-    return res(ctx.status(200), ctx.json({ likes: post.likes, isLiked }));
+    return res(
+      ctx.delay(1000),
+      ctx.status(200),
+      ctx.json({ likes: post.likes, isLiked })
+    );
   }),
 ];

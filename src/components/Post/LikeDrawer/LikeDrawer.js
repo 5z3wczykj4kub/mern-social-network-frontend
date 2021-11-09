@@ -26,8 +26,13 @@ function LikeDrawer() {
   const { likes } = !fetchedPost && detailedPost ? detailedPost : fetchedPost;
 
   useEffect(() => {
-    dispatch(sendGetUsersWhoLikedThePostReq(likes.slice(0, 10)));
-    return () => dispatch(cleanupLikeDrawer());
+    const abortController = new AbortController();
+    const { signal } = abortController;
+    dispatch(sendGetUsersWhoLikedThePostReq(likes.slice(0, 10), signal));
+    return () => {
+      dispatch(cleanupLikeDrawer());
+      abortController.abort();
+    };
   }, [dispatch, likes]);
 
   const skeletonUsersList = (

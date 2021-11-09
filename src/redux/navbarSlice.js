@@ -81,7 +81,7 @@ export const searchUsers = (event) => (dispatch, getState) => {
     const users = await res.json();
     dispatch(setSearchedUsers(users));
     dispatch(setIsLoading(false));
-  }, 1000);
+  }, 500);
   dispatch(setDebounceSearchTimerId(timerId));
 };
 
