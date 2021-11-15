@@ -6,7 +6,7 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState: {
     isAuth: false,
-    authState: 'idle' || 'pending' || 'fulfilled' || 'rejected',
+    authStatus: 'idle' || 'pending' || 'fulfilled' || 'rejected',
     id: null,
     firstName: null,
     lastName: null,
@@ -20,8 +20,8 @@ export const profileSlice = createSlice({
       state.lastName = action.payload.lastName;
       state.avatarImageUrl = action.payload.avatarImageUrl;
     },
-    setAuthState: (state, action) => {
-      state.authState = action.payload;
+    setAuthStatus: (state, action) => {
+      state.authStatus = action.payload;
     },
     cleanupProfile: (state) => {
       localStorage.removeItem('token');
@@ -41,7 +41,7 @@ export const getAuthUser = (token) => async (dispatch) => {
     },
   });
   if (!res.ok) {
-    dispatch(setAuthState('rejected'));
+    dispatch(setAuthStatus('rejected'));
     localStorage.removeItem('token');
     window.location.reload();
   }
@@ -49,17 +49,17 @@ export const getAuthUser = (token) => async (dispatch) => {
   dispatch(
     setProfile({ isAuth: true, id, firstName, lastName, avatarImageUrl })
   );
-  dispatch(setAuthState('fulfilled'));
+  dispatch(setAuthStatus('fulfilled'));
 };
 
 export const signIn = (email, password) => async (dispatch) => {
-  dispatch(setAuthState('pending'));
+  dispatch(setAuthStatus('pending'));
   const res = await fetch('/api/auth/signin', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
   if (!res.ok) {
-    dispatch(setAuthState('rejected'));
+    dispatch(setAuthStatus('rejected'));
     return;
   }
   const { token } = await res.json();
@@ -72,7 +72,7 @@ export const signOut = () => (dispatch) => {
   dispatch(cleanupPosts());
 };
 
-export const { setProfile, setAuthState, cleanupProfile } =
+export const { setProfile, setAuthStatus, cleanupProfile } =
   profileSlice.actions;
 
 export default profileSlice.reducer;

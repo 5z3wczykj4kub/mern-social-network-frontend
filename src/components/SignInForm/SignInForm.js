@@ -12,7 +12,7 @@ function SignInForm() {
   const [password, setPassword] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
-  const authState = useSelector(({ profile }) => profile.authState);
+  const authStatus = useSelector(({ profile }) => profile.authStatus);
   const dispatch = useDispatch();
 
   function submitHanlder(event) {
@@ -28,19 +28,19 @@ function SignInForm() {
       validateEmail(email) &&
       email.length > 0 &&
       password.length >= passwordMinLength &&
-      authState !== 'pending'
+      authStatus !== 'pending'
     );
   }
 
   useEffect(() => {
-    if (authState === 'rejected') setShowErrorMessage(true);
-  }, [authState]);
+    if (authStatus === 'rejected') setShowErrorMessage(true);
+  }, [authStatus]);
 
   return (
     <form className={classes.signInForm} onSubmit={submitHanlder}>
       {showErrorMessage ? (
         <p className={classes.errorMessage}>Incorrect email or password</p>
-      ) : authState === 'pending' ? (
+      ) : authStatus === 'pending' ? (
         <p>Signing in, please wait...</p>
       ) : (
         <p>Connect with people from all around the world!</p>
@@ -59,7 +59,7 @@ function SignInForm() {
         onChange={(event) => setPassword(event.target.value)}
       />
       <button disabled={isButtonDisabled()}>
-        {authState === 'pending' ? (
+        {authStatus === 'pending' ? (
           <>
             <span>Signing in</span>
             <Spinner className={classes.spinner} />

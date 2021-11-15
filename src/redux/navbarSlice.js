@@ -57,11 +57,14 @@ export const navbarSclice = createSlice({
   },
 });
 
+let prevAbortController = null;
+
 export const searchUsers = (event) => (dispatch, getState) => {
   const { debounceSearchTimerId } = getState().navbar;
   clearTimeout(debounceSearchTimerId);
   const inputValue = event.target.value.trim();
   if (inputValue.length === 0) {
+    if (prevAbortController) prevAbortController.abort();
     dispatch(setIsSearchListEmpty(true));
     dispatch(setIsLoading(false));
     dispatch(setSearchedUsers([]));
@@ -70,12 +73,15 @@ export const searchUsers = (event) => (dispatch, getState) => {
   dispatch(setIsLoading(true));
   dispatch(setIsSearchListEmpty(false));
   const timerId = setTimeout(async () => {
+    if (prevAbortController) prevAbortController.abort();
+    prevAbortController = new AbortController();
     const res = await fetch(
       `/api/users?query=${encodeURI(inputValue)}&limit=5`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
+        signal: prevAbortController.signal,
       }
     );
     const users = await res.json();
