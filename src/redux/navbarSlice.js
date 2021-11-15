@@ -62,9 +62,9 @@ let prevAbortController = null;
 export const searchUsers = (event) => (dispatch, getState) => {
   const { debounceSearchTimerId } = getState().navbar;
   clearTimeout(debounceSearchTimerId);
+  if (prevAbortController) prevAbortController.abort();
   const inputValue = event.target.value.trim();
   if (inputValue.length === 0) {
-    if (prevAbortController) prevAbortController.abort();
     dispatch(setIsSearchListEmpty(true));
     dispatch(setIsLoading(false));
     dispatch(setSearchedUsers([]));
@@ -73,7 +73,6 @@ export const searchUsers = (event) => (dispatch, getState) => {
   dispatch(setIsLoading(true));
   dispatch(setIsSearchListEmpty(false));
   const timerId = setTimeout(async () => {
-    if (prevAbortController) prevAbortController.abort();
     prevAbortController = new AbortController();
     const res = await fetch(
       `/api/users?query=${encodeURI(inputValue)}&limit=5`,
