@@ -8,7 +8,8 @@ export const handlers = [
   rest.post('/api/auth/signin', (req, res, ctx) => {
     const { email, password } = JSON.parse(req.body);
     const user = USERS.find((user) => user.email === email);
-    if (!user || user.password !== password) return res(ctx.status(401));
+    if (!user || user.password !== password)
+      return res(ctx.delay(1000), ctx.status(401));
 
     return res(
       ctx.delay(1000),

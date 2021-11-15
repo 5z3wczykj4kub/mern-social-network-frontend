@@ -1,38 +1,85 @@
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { signIn } from '../../redux/profileSlice';
+
+import Spinner from '../Spinner/Spinner';
 
 import classes from './SignInForm.module.scss';
 
 function SignInForm() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
+  const authState = useSelector(({ profile }) => profile.authState);
   const dispatch = useDispatch();
 
   function submitHanlder(event) {
     event.preventDefault();
-    dispatch(signIn(emailRef.current.value, passwordRef.current.value));
+    setShowErrorMessage(false);
+    dispatch(signIn(email, password));
   }
+
+  // Current input validation. Use Formik in the future.
+  function isButtonDisabled() {
+    const passwordMinLength = 6;
+    return !(
+      validateEmail(email) &&
+      email.length > 0 &&
+      password.length >= passwordMinLength &&
+      authState !== 'pending'
+    );
+  }
+
+  useEffect(() => {
+    if (authState === 'rejected') setShowErrorMessage(true);
+  }, [authState]);
 
   return (
     <form className={classes.signInForm} onSubmit={submitHanlder}>
-      <p>Connect with people from all around the world!</p>
+      {showErrorMessage ? (
+        <p className={classes.errorMessage}>Incorrect email or password</p>
+      ) : authState === 'pending' ? (
+        <p>Signing in, please wait...</p>
+      ) : (
+        <p>Connect with people from all around the world!</p>
+      )}
       <input
-        ref={emailRef}
         type="email"
         placeholder="Email"
         autoComplete="off"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
       />
-      <input ref={passwordRef} type="password" placeholder="Password" />
-      <button>Sign In</button>
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+      />
+      <button disabled={isButtonDisabled()}>
+        {authState === 'pending' ? (
+          <>
+            <span>Signing in</span>
+            <Spinner className={classes.spinner} />
+          </>
+        ) : (
+          <span>Sign in</span>
+        )}
+      </button>
       <p>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         Don't have an account? <a href="#">Sign up</a>
       </p>
     </form>
   );
+}
+
+function validateEmail(email) {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
 }
 
 export default SignInForm;

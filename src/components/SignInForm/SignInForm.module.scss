@@ -30,7 +30,11 @@
   }
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
+    height: 2.25rem;
     margin-top: 0.25rem;
     padding: 0.5rem;
     outline: none;
@@ -46,7 +50,7 @@
     }
 
     &:disabled {
-      opacity: 0.3;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
@@ -54,6 +58,13 @@
       &:hover:not(:disabled) {
         filter: brightness(1.05);
       }
+    }
+
+    .spinner {
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid #fff;
+      border-right-color: transparent;
     }
   }
 
@@ -67,5 +78,9 @@
     &:last-of-type {
       margin-top: 1rem;
     }
+  }
+
+  .errorMessage {
+    color: red;
   }
 }

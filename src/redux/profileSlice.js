@@ -6,6 +6,7 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState: {
     isAuth: false,
+    authState: 'idle' || 'pending' || 'fulfilled' || 'rejected',
     id: null,
     firstName: null,
     lastName: null,
@@ -18,6 +19,9 @@ export const profileSlice = createSlice({
       state.firstName = action.payload.firstName;
       state.lastName = action.payload.lastName;
       state.avatarImageUrl = action.payload.avatarImageUrl;
+    },
+    setAuthState: (state, action) => {
+      state.authState = action.payload;
     },
     cleanupProfile: (state) => {
       localStorage.removeItem('token');
@@ -37,6 +41,7 @@ export const getAuthUser = (token) => async (dispatch) => {
     },
   });
   if (!res.ok) {
+    dispatch(setAuthState('rejected'));
     localStorage.removeItem('token');
     window.location.reload();
   }
@@ -44,15 +49,17 @@ export const getAuthUser = (token) => async (dispatch) => {
   dispatch(
     setProfile({ isAuth: true, id, firstName, lastName, avatarImageUrl })
   );
+  dispatch(setAuthState('fulfilled'));
 };
 
 export const signIn = (email, password) => async (dispatch) => {
+  dispatch(setAuthState('pending'));
   const res = await fetch('/api/auth/signin', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
   if (!res.ok) {
-    alert('Signing in failed.'); // show custom error dialog
+    dispatch(setAuthState('rejected'));
     return;
   }
   const { token } = await res.json();
@@ -65,6 +72,7 @@ export const signOut = () => (dispatch) => {
   dispatch(cleanupPosts());
 };
 
-export const { setProfile, cleanupProfile } = profileSlice.actions;
+export const { setProfile, setAuthState, cleanupProfile } =
+  profileSlice.actions;
 
 export default profileSlice.reducer;
