@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,7 +23,9 @@ function Navbar() {
   return (
     <>
       <nav className={classes.navbar}>
-        <Logo />
+        <Link to="/posts">
+          <Logo />
+        </Link>
         <Toggler />
       </nav>
       <CSSTransition

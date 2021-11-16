@@ -10,4 +10,10 @@
   height: 3rem;
   background-color: #fff;
   border-bottom: 1px solid #e5e5e5;
+
+  & > a {
+    height: 100%;
+    color: #000;
+    text-decoration: none;
+  }
 }

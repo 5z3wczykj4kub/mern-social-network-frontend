@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { cleanupNavbar } from '../../redux/navbarSlice';
@@ -20,7 +21,9 @@ function NavbarDesktop() {
 
   return (
     <nav className={classes.navbarDesktop}>
-      <Logo />
+      <Link to="/posts">
+        <Logo />
+      </Link>
       <Search />
       {isSearchListVisible && !isSearchListEmpty && <SearchList />}
       <NavbarDesktopControls />

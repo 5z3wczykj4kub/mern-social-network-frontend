@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -55,7 +50,7 @@ function App() {
   if (isPreloading) return <Preload />;
 
   return (
-    <Router>
+    <>
       {!isAuth ? (
         <NavbarDefault />
       ) : isNavbarDesktopUsed ? (
@@ -100,7 +95,7 @@ function App() {
           <LikeDrawer />
         </CSSTransition>
       </>
-    </Router>
+    </>
   );
 }
 
