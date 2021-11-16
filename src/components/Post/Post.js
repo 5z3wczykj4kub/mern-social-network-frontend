@@ -8,6 +8,7 @@ import useInfiniteScrolling from '../../hooks/useInfiniteScrolling';
 import PostHeader from './PostHeader/PostHeader';
 import PostBody from './PostBody/PostBody';
 import PostFooter from './PostFooter/PostFooter';
+import Comments from './Comments/Comments';
 
 import classes from './Post.module.scss';
 
@@ -27,6 +28,7 @@ const Post = forwardRef((props, lastPostRef) => {
       <PostHeader id={props.id} />
       <PostBody id={props.id} />
       <PostFooter id={props.id} />
+      {props.showComments && <Comments />}
     </div>
   );
 });

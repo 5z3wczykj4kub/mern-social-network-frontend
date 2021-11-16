@@ -1,0 +1,45 @@
+.commentsForm {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+
+  &.disabled {
+    .avatar,
+    .commentsFormSend {
+      opacity: 0.5;
+    }
+  }
+
+  .avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid #f5f5f5;
+    border-radius: 2rem;
+    background-color: #f5f5f5;
+    color: #000;
+
+    &:disabled {
+      border: 1px solid #eee;
+      background-color: #fff;
+
+      &::placeholder {
+        color: #ccc;
+      }
+    }
+  }
+
+  .commentsFormSend {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.3rem;
+  }
+}

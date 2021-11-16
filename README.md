@@ -1,4 +1,15 @@
 # MERN Social Network
 
-1. Hide LikeDrawer when using browser navigation.
-2. Improve LikeDrawer and SearchList styles (overflow and skeleton loading hover effect)
+## GIT commands:
+
+### Cache credentials (PAT):
+
+```
+git config --global credential.helper cache
+```
+
+### Unset cached credentials (PAT):
+
+```
+git config --global --unset credential.helper
+```

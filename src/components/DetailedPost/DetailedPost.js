@@ -26,7 +26,7 @@ function DetailedPost() {
   }, [dispatch, fetchedPosts, postId]);
 
   return !isLoading ? (
-    <Post className={classes.detailedPost} id={postId} />
+    <Post className={classes.detailedPost} id={postId} showComments />
   ) : (
     <SkeletonPost className={classes.skeletonPost} />
   );
