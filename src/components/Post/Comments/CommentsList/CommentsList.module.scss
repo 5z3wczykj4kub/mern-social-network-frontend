@@ -1,0 +1,15 @@
+.commentsList {
+  list-style: none;
+}
+
+.skeletonCommentsListItem:first-of-type {
+  span:last-of-type {
+    max-width: 18.75rem;
+  }
+}
+
+.skeletonCommentsListItem:last-of-type {
+  span:last-of-type {
+    height: 4rem;
+  }
+}

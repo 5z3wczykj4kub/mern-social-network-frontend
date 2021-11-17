@@ -17,6 +17,8 @@ const authUser = USERS.find(
 );
 
 POSTS[1].likes = USERS.map((user) => user.id);
+POSTS[1].comments.push('c1');
+POSTS[1].comments.push('c2');
 
 export default POSTS.map((post) => ({
   ...post,
