@@ -16,9 +16,12 @@ const authUser = USERS.find(
   ({ token }) => token === localStorage.getItem('token')
 );
 
+POSTS[0].comments.push('c3');
+
 POSTS[1].likes = USERS.map((user) => user.id);
 POSTS[1].comments.push('c1');
 POSTS[1].comments.push('c2');
+POSTS[1].comments.push('c3');
 
 export default POSTS.map((post) => ({
   ...post,

@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 
 import POSTS from './posts';
+import COMMENTS from './comments';
 import USERS from './users';
 
 export const handlers = [
@@ -57,6 +58,21 @@ export const handlers = [
     if (!post) return res(ctx.status(404));
 
     return res(ctx.delay(1000), ctx.status(200), ctx.json(post));
+  }),
+  // Get comments.
+  rest.get('/api/posts/:postId/comments', (req, res, ctx) => {
+    const token = req.headers.get('Authorization').split(' ')[1];
+    const user = USERS.find((user) => user.token === token);
+    if (!user) return res(ctx.status(401));
+
+    const { postId } = req.params;
+    const post = POSTS.find((post) => post.id === postId);
+    if (!post) return res(ctx.status(404));
+
+    let { comments } = post;
+    if (comments.length === 0) return res(ctx.status(404));
+    comments = COMMENTS.filter(({ id }) => comments.includes(id));
+    return res(ctx.delay(1000), ctx.status(200), ctx.json(comments));
   }),
   // get users that match the search query
   rest.get('/api/users', (req, res, ctx) => {

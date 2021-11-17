@@ -1,11 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+export const fetchComments = createAsyncThunk(
+  'detailedPost/fetchComments',
+  async (postId, { signal }) => {
+    try {
+      const res = await fetch(`/api/posts/${postId}/comments`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        signal,
+      });
+      return await res.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+);
 
 export const detailedPostSlice = createSlice({
   name: 'detailedPost',
   initialState: {
     isLoading: true,
     detailedPost: null,
-    fetchedComments: [],
+    comments: [],
+    areCommentsLoading: true,
   },
   reducers: {
     setIsLoading: (state, action) => {
@@ -21,6 +39,23 @@ export const detailedPostSlice = createSlice({
     setIsLikeLoading: (state, action) => {
       state.detailedPost.isLikeLoading = action.payload;
     },
+    cleanupComments: (state) => {
+      state.comments = [];
+      state.areCommentsLoading = true;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchComments.pending, (state) => {
+        state.areCommentsLoading = true;
+      })
+      .addCase(fetchComments.fulfilled, (state, action) => {
+        state.areCommentsLoading = false;
+        state.comments = action.payload;
+      })
+      .addCase(fetchComments.rejected, (state, action) => {
+        state.areCommentsLoading = false;
+      });
   },
 });
 
@@ -54,6 +89,7 @@ export const {
   setDetailedPost,
   likeDetailedPost,
   setIsLikeLoading,
+  cleanupComments,
 } = detailedPostSlice.actions;
 
 export default detailedPostSlice.reducer;

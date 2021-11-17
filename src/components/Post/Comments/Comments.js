@@ -3,12 +3,12 @@ import CommentsList from './CommentsList/CommentsList';
 
 import classes from './Comments.module.scss';
 
-function Comments() {
+function Comments(props) {
   return (
     <div className={classes.comments}>
       <hr />
       <CommentsForm />
-      <CommentsList />
+      {props.post.comments.length > 0 && <CommentsList post={props.post} />}
     </div>
   );
 }

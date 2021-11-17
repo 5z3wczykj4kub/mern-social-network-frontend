@@ -39,13 +39,13 @@ function Home() {
       <SkeletonPost className={classes.skeletonPost} />
     </>
   );
-  const postsList = fetchedPosts.map(({ id }, index) => (
+  const postsList = fetchedPosts.map((post, index) => (
     <Post
       className={
         index === 0 ? `${classes.post} ${classes.first}` : classes.post
       }
-      key={id}
-      id={id}
+      key={post.id}
+      post={post}
       ref={index === fetchedPosts.length - 1 ? lastPostRef : null}
     />
   ));

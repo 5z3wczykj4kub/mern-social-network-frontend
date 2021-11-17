@@ -1,5 +1,9 @@
 .commentsList {
   list-style: none;
+
+  & > p {
+    margin-top: 1rem;
+  }
 }
 
 .skeletonCommentsListItem:first-of-type {

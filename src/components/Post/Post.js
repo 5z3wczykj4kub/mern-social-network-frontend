@@ -25,10 +25,10 @@ const Post = forwardRef((props, lastPostRef) => {
 
   return (
     <div className={className()} ref={lastPostRef}>
-      <PostHeader id={props.id} />
-      <PostBody id={props.id} />
-      <PostFooter id={props.id} />
-      {props.showComments && <Comments />}
+      <PostHeader post={props.post} />
+      <PostBody post={props.post} />
+      <PostFooter post={props.post} />
+      {props.showComments && <Comments post={props.post} />}
     </div>
   );
 });
