@@ -1,10 +1,10 @@
-import classNames from 'classnames';
-
 import Avatar from '../../../Avatar/Avatar';
 
-import send from '../../../../assets/send.png';
+import classNames from 'classnames';
 
 import classes from './CommentsForm.module.scss';
+
+import send from '../../../../assets/send.png';
 
 function CommentsForm(props) {
   const className = classNames(classes.commentsForm, {
@@ -19,7 +19,9 @@ function CommentsForm(props) {
         placeholder="Write a comment..."
         disabled={props.disabled}
       />
-      <img className={classes.commentsFormSend} src={send} alt="send" />
+      <button>
+        <img className={classes.addCommentIcon} src={send} alt="send" />
+      </button>
     </form>
   );
 }

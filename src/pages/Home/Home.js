@@ -6,6 +6,8 @@ import { sendFetchPostsReq } from '../../redux/postSlice';
 import SkeletonPost from '../../components/Post/SkeletonPost/SkeletonPost';
 import Post from '../../components/Post/Post';
 
+import useCloseLikeDrawerOnPageLeave from '../../hooks/useCloseLikeDrawerOnPageLeave';
+
 import classes from './Home.module.scss';
 
 function Home() {
@@ -18,8 +20,12 @@ function Home() {
 
   useEffect(() => {
     if (page !== 0) return;
-    dispatch(sendFetchPostsReq(page, 10));
+    const abortController = new AbortController();
+    dispatch(sendFetchPostsReq(page, 10, abortController.signal));
+    return () => abortController.abort();
   }, [dispatch, page]);
+
+  useCloseLikeDrawerOnPageLeave();
 
   const skeletonPostsList = (
     <>

@@ -13,7 +13,7 @@ import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/Navbar';
 import NavbarDesktop from './components/NavbarDesktop/NavbarDesktop';
 import NavbarDefault from './components/NavbarDefault/NavbarDefault';
-import DetailedPost from './components/DetailedPost/DetailedPost';
+import DetailedPost from './pages/DetailedPost/DetailedPost';
 import Backdrop, { backdropClassNames } from './components/Backdrop/Backdrop';
 import LikeDrawer, {
   likeDrawerClassNames,

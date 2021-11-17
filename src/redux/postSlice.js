@@ -43,21 +43,26 @@ export const postSlice = createSlice({
 });
 
 // fetch many posts
-export const sendFetchPostsReq = (page, limit) => async (dispatch) => {
+export const sendFetchPostsReq = (page, limit, signal) => async (dispatch) => {
   dispatch(setArePostsLoading(true));
-  const res = await fetch(`/api/posts?page=${page}&limit=${limit}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  const posts = await res.json();
-  dispatch(setArePostsLoading(false));
-  if (posts.length === 0) {
-    dispatch(setHasMorePosts(false));
-    return;
+  try {
+    const res = await fetch(`/api/posts?page=${page}&limit=${limit}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      signal,
+    });
+    const posts = await res.json();
+    dispatch(setArePostsLoading(false));
+    if (posts.length === 0) {
+      dispatch(setHasMorePosts(false));
+      return;
+    }
+    dispatch(setFetchedPosts(posts));
+    dispatch(incrementPage());
+  } catch (error) {
+    console.log(error.message);
   }
-  dispatch(setFetchedPosts(posts));
-  dispatch(incrementPage());
 };
 
 export const sendLikePostReq = (postId, userId) => async (dispatch) => {

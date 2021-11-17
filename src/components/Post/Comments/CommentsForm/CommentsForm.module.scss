@@ -7,7 +7,7 @@
 
   &.disabled {
     .avatar,
-    .commentsFormSend {
+    .addCommentIcon {
       opacity: 0.5;
     }
   }
@@ -15,6 +15,7 @@
   .avatar {
     width: 2.25rem;
     height: 2.25rem;
+    flex-shrink: 0;
   }
 
   input {
@@ -28,18 +29,31 @@
     color: #000;
 
     &:disabled {
-      border: 1px solid #eee;
-      background-color: #fff;
-
       &::placeholder {
         color: #ccc;
       }
     }
   }
 
-  .commentsFormSend {
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+  }
+
+  .addCommentIcon {
     width: 1.5rem;
     height: 1.5rem;
     margin-right: 0.3rem;
+    cursor: pointer;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
   }
 }

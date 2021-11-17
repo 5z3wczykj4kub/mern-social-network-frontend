@@ -51,7 +51,7 @@ function PostFooter(props) {
           <span>{fetchedPost.likes.length}</span>
         </div>
         <div>
-          <span>{fetchedPost.comments}</span>
+          <span>{fetchedPost.comments.length}</span>
           <button
             onClick={(event) => {
               event.stopPropagation();
@@ -94,7 +94,7 @@ function PostFooter(props) {
           <span>{detailedPost.likes.length}</span>
         </div>
         <div>
-          <span>{detailedPost.comments}</span>
+          <span>{detailedPost.comments.length}</span>
           <button
             onClick={(event) => {
               event.stopPropagation();

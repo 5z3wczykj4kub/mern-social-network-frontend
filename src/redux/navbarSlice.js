@@ -74,18 +74,22 @@ export const searchUsers = (event) => (dispatch, getState) => {
   dispatch(setIsSearchListEmpty(false));
   const timerId = setTimeout(async () => {
     prevAbortController = new AbortController();
-    const res = await fetch(
-      `/api/users?query=${encodeURI(inputValue)}&limit=5`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        signal: prevAbortController.signal,
-      }
-    );
-    const users = await res.json();
-    dispatch(setSearchedUsers(users));
-    dispatch(setIsLoading(false));
+    try {
+      const res = await fetch(
+        `/api/users?query=${encodeURI(inputValue)}&limit=5`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          signal: prevAbortController.signal,
+        }
+      );
+      const users = await res.json();
+      dispatch(setSearchedUsers(users));
+      dispatch(setIsLoading(false));
+    } catch (error) {
+      console.log(error.message);
+    }
   }, 500);
   dispatch(setDebounceSearchTimerId(timerId));
 };

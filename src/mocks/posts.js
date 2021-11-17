@@ -9,7 +9,7 @@ const POSTS = USERS.map((user, index) => ({
   textContent: 'Lorem ipsum dolor sit amet.',
   likes: [],
   isLiked: false,
-  comments: 0,
+  comments: [],
 }));
 
 const authUser = USERS.find(

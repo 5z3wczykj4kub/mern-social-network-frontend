@@ -5,6 +5,7 @@ export const detailedPostSlice = createSlice({
   initialState: {
     isLoading: true,
     detailedPost: null,
+    fetchedComments: [],
   },
   reducers: {
     setIsLoading: (state, action) => {
