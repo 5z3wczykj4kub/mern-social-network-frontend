@@ -10,6 +10,7 @@ function useInfiniteScrolling(ref, action, hasMoreElements, page) {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && hasMoreElements) {
         dispatch(action);
+        observer.unobserve(ref.current);
       }
     });
     observer.observe(ref.current);

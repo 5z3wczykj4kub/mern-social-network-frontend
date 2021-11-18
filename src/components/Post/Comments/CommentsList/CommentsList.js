@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchComments,
@@ -10,21 +11,26 @@ import CommentsListItem from './CommentsListItem/CommentsListItem';
 
 import classes from './CommentsList.module.scss';
 
-function CommentsList({ post: { id } }) {
+function CommentsList({ post }) {
+  const lastCommentRef = useRef();
   const areCommentsLoading = useSelector(
     ({ detailedPost }) => detailedPost.areCommentsLoading
   );
   const comments = useSelector(({ detailedPost }) => detailedPost.comments);
+  const page = useSelector(({ detailedPost }) => detailedPost.page);
   const dispatch = useDispatch();
 
   // Fetch comments.
+  const { id } = post;
   useEffect(() => {
-    const promise = dispatch(fetchComments(id));
-    return () => {
-      promise.abort();
-      dispatch(cleanupComments());
-    };
-  }, [dispatch, id]);
+    const promise = dispatch(fetchComments({ id, limit: 10, page }));
+    return () => promise.abort();
+  }, [dispatch, id, page]);
+
+  // Clear comments on component unmount.
+  useEffect(() => () => dispatch(cleanupComments()), [dispatch]);
+
+  const hasMoreComments = post.comments.length !== comments.length;
 
   const skeletonCommentsListItems = (
     <>
@@ -32,15 +38,20 @@ function CommentsList({ post: { id } }) {
       <SkeletonCommentsListItem className={classes.skeletonCommentsListItem} />
     </>
   );
+  const commentsList = comments.map((comment, index) => (
+    <CommentsListItem
+      key={comment.id}
+      comment={comment}
+      hasMoreComments={hasMoreComments}
+      ref={index === comments.length - 1 ? lastCommentRef : null}
+    />
+  ));
 
   return (
     <ul className={classes.commentsList}>
       <p>Comments</p>
+      {commentsList}
       {areCommentsLoading && skeletonCommentsListItems}
-      {!areCommentsLoading &&
-        comments.map((comment) => (
-          <CommentsListItem key={comment.id} comment={comment} />
-        ))}
     </ul>
   );
 }

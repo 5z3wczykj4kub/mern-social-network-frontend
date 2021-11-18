@@ -1,4 +1,6 @@
-const COMMENTS = [
+import USERS from './users';
+
+let COMMENTS = [
   {
     id: 'c1',
     firstName: 'Jan',
@@ -28,5 +30,15 @@ const COMMENTS = [
     date: new Date().toLocaleString(),
   },
 ];
+
+COMMENTS = USERS.map((USER, index) => ({
+  id: `c${index + 1}`,
+  firstName: USER.firstName,
+  lastName: USER.lastName,
+  avatarImageUrl: USER.avatarImageUrl,
+  textContent:
+    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore adipisci tempore facere tenetur quo eligendi vitae sit voluptatem esse culpa.',
+  date: new Date().toLocaleString(),
+}));
 
 export default COMMENTS;

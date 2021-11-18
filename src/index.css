@@ -12,6 +12,19 @@ body {
   font-family: sans-serif;
 }
 
+/* Prevent annoying URL bar behavior on mobile borwsers */
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  overflow: auto;
+}
+/* StackOverflow question: https://tinyurl.com/aerx5xn2 */
+/* Prevent annoying URL bar behavior on mobile borwsers */
+
 body.whiteBackgroundColor {
   background-color: #fff;
 }

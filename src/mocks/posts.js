@@ -1,4 +1,5 @@
 import USERS from './users';
+import COMMENTS from './comments';
 
 const POSTS = USERS.map((user, index) => ({
   id: `p${index + 1}`,
@@ -19,9 +20,7 @@ const authUser = USERS.find(
 POSTS[0].comments.push('c3');
 
 POSTS[1].likes = USERS.map((user) => user.id);
-POSTS[1].comments.push('c1');
-POSTS[1].comments.push('c2');
-POSTS[1].comments.push('c3');
+POSTS[1].comments = COMMENTS.map(({ id }) => id);
 
 export default POSTS.map((post) => ({
   ...post,

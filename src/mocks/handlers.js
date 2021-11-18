@@ -71,7 +71,12 @@ export const handlers = [
 
     let { comments } = post;
     if (comments.length === 0) return res(ctx.status(404));
-    comments = COMMENTS.filter(({ id }) => comments.includes(id));
+    const page = +req.url.searchParams.get('page');
+    const limit = +req.url.searchParams.get('limit');
+    comments = COMMENTS.filter(({ id }) => comments.includes(id)).slice(
+      page * limit,
+      (page + 1) * limit
+    );
     return res(ctx.delay(1000), ctx.status(200), ctx.json(comments));
   }),
   // get users that match the search query
