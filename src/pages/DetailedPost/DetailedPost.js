@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { Prompt, useParams } from 'react-router';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDetailedPost, setIsLoading } from '../../redux/detailedPostSlice';
@@ -50,6 +50,7 @@ function DetailedPost() {
   return !isLoading ? (
     <PostContext.Provider value={{ wasAlreadyFetched }}>
       <Post className={classes.detailedPost} post={post} showComments />
+      <Prompt when={!!post.isLikeLoading} message={() => false} />
     </PostContext.Provider>
   ) : (
     <SkeletonPost className={classes.skeletonPost} />

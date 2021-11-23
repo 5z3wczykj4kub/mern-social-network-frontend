@@ -7,7 +7,7 @@ function Comments(props) {
   return (
     <div className={classes.comments}>
       <hr />
-      <CommentsForm />
+      <CommentsForm postId={props.post.id} />
       {props.post.comments.length > 0 && <CommentsList post={props.post} />}
     </div>
   );

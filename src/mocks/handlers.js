@@ -1,4 +1,5 @@
 import { rest } from 'msw';
+import { nanoid } from '@reduxjs/toolkit';
 
 import POSTS from './posts';
 import COMMENTS from './comments';
@@ -79,6 +80,28 @@ export const handlers = [
     );
     return res(ctx.delay(1000), ctx.status(200), ctx.json(comments));
   }),
+  // Add comment.
+  rest.put('/api/posts/:postId/comments', (req, res, ctx) => {
+    const token = req.headers.get('Authorization').split(' ')[1];
+    const user = USERS.find((user) => user.token === token);
+    if (!user) return res(ctx.status(401));
+
+    const { postId } = req.params;
+    const post = POSTS.find((post) => post.id === postId);
+    if (!post) return res(ctx.status(404));
+
+    let { comment } = req.body;
+    comment = {
+      id: nanoid(),
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatarImageUrl: user.avatarImageUrl,
+      textContent: comment.textContent,
+      date: new Date().toLocaleString(),
+    };
+    post.comments.push(comment.id);
+    COMMENTS.push();
+  }),
   // get users that match the search query
   rest.get('/api/users', (req, res, ctx) => {
     const token = req.headers.get('Authorization').split(' ')[1];
@@ -105,7 +128,7 @@ export const handlers = [
     }
   }),
   // like post
-  rest.put('/api/posts/like/:postId/:userId', (req, res, ctx) => {
+  rest.put('/api/posts/:postId/likes/:userId', (req, res, ctx) => {
     const token = req.headers.get('Authorization').split(' ')[1];
     const user = USERS.find((user) => user.token === token);
     if (!user) return res(ctx.status(401));

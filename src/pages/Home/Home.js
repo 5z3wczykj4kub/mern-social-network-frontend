@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Prompt } from 'react-router';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { sendFetchPostsReq } from '../../redux/postSlice';
@@ -49,6 +50,7 @@ function Home() {
       ref={index === fetchedPosts.length - 1 ? lastPostRef : null}
     />
   ));
+  const isSomePostBeingLiked = fetchedPosts.some((post) => post.isLikeLoading);
 
   return (
     <main className={classes.home}>
@@ -57,6 +59,7 @@ function Home() {
       {!arePostsLoading && fetchedPosts.length === 0 && (
         <p style={{ marginTop: '4rem', textAlign: 'center' }}>No posts found</p>
       )}
+      <Prompt when={isSomePostBeingLiked} message={() => false} />
     </main>
   );
 }

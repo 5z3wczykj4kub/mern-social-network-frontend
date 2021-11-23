@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { sendLikePostReq } from '../../../redux/postSlice';
-import { sendLikeDetailedPostReq } from '../../../redux/detailedPostSlice';
+import { useDispatch } from 'react-redux';
+import { sendLikePutReq } from '../../../redux/postSlice';
+import { sendLikeDetailedPutReq } from '../../../redux/detailedPostSlice';
 import { openLikeDrawer } from '../../../redux/likeDrawerSlice';
 
 import Spinner from '../../Spinner/Spinner';
@@ -19,7 +19,6 @@ import classes from './PostFooter.module.scss';
 function PostFooter(props) {
   const { wasAlreadyFetched } = useContext(PostContext);
 
-  const { id: profileId } = useSelector(({ profile }) => profile);
   const dispatch = useDispatch();
 
   return (
@@ -42,8 +41,8 @@ function PostFooter(props) {
               event.stopPropagation();
               dispatch(
                 wasAlreadyFetched
-                  ? sendLikePostReq(props.post.id, profileId)
-                  : sendLikeDetailedPostReq(props.post.id, profileId)
+                  ? sendLikePutReq(props.post.id)
+                  : sendLikeDetailedPutReq(props.post.id)
               );
             }}
           >

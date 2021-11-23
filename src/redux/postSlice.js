@@ -65,17 +65,25 @@ export const sendFetchPostsReq = (page, limit, signal) => async (dispatch) => {
   }
 };
 
-export const sendLikePostReq = (postId, userId) => async (dispatch) => {
-  dispatch(setIsLikeLoading({ postId, isLikeLoading: true }));
-  const res = await fetch(`/api/posts/like/${postId}/${userId}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  const { likes, isLiked } = await res.json();
-  dispatch(setIsLikeLoading({ postId, isLikeLoading: false }));
-  dispatch(likePost({ postId, likes, isLiked }));
+export const sendLikePutReq = (postId) => async (dispatch, getState) => {
+  try {
+    dispatch(setIsLikeLoading({ postId, isLikeLoading: true }));
+    const res = await fetch(
+      `/api/posts/${postId}/likes/${getState().profile.id}`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
+    const { likes, isLiked } = await res.json();
+    dispatch(setIsLikeLoading({ postId, isLikeLoading: false }));
+    dispatch(likePost({ postId, likes, isLiked }));
+  } catch (error) {
+    console.log(error.message);
+    dispatch(setIsLikeLoading({ postId, isLikeLoading: false }));
+  }
 };
 
 export const {

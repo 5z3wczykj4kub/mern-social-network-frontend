@@ -20,6 +20,25 @@ export const fetchComments = createAsyncThunk(
   }
 );
 
+export const addComment = createAsyncThunk(
+  'detailedPost/addComment',
+  async ({ postId, comment: textContent }) => {
+    try {
+      const res = await fetch(`/api/posts/${postId}/comments`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ comment: { textContent } }),
+      });
+      return await res.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+);
+
 export const detailedPostSlice = createSlice({
   name: 'detailedPost',
   initialState: {
@@ -80,18 +99,27 @@ export const fetchDetailedPost = (postId) => async (dispatch) => {
   dispatch(setIsLoading(false));
 };
 
-export const sendLikeDetailedPostReq = (postId, userId) => async (dispatch) => {
-  dispatch(setIsLikeLoading(true));
-  const res = await fetch(`/api/posts/like/${postId}/${userId}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  const { likes, isLiked } = await res.json();
-  dispatch(setIsLikeLoading(false));
-  dispatch(likeDetailedPost({ likes, isLiked }));
-};
+export const sendLikeDetailedPutReq =
+  (postId) => async (dispatch, getState) => {
+    try {
+      dispatch(setIsLikeLoading(true));
+      const res = await fetch(
+        `/api/posts/${postId}/likes/${getState().profile.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+      const { likes, isLiked } = await res.json();
+      dispatch(setIsLikeLoading(false));
+      dispatch(likeDetailedPost({ likes, isLiked }));
+    } catch (error) {
+      console.log(error.message);
+      dispatch(setIsLikeLoading(false));
+    }
+  };
 
 export const {
   setIsLoading,
