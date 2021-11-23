@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addComment } from '../../../../redux/detailedPostSlice';
+import { addComment } from '../../../../redux/commentsSlice';
 
 import Avatar from '../../../Avatar/Avatar';
 

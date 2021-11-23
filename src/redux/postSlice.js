@@ -1,12 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+export const fetchDetailedPost = createAsyncThunk(
+  'post/fetchDetailedPost',
+  async (postId, { signal }) => {
+    try {
+      const res = await fetch(`/api/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        signal,
+      });
+      return await res.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+);
 
 export const postSlice = createSlice({
   name: 'post',
   initialState: {
     fetchedPosts: [],
+    comments: null,
     page: 0,
     hasMorePosts: true,
     arePostsLoading: true,
+    isPostLoading: true,
   },
   reducers: {
     setFetchedPosts: (state, action) => {
@@ -38,11 +57,28 @@ export const postSlice = createSlice({
       state.page = 0;
       state.hasMorePosts = true;
       state.arePostsLoading = true;
+      state.isPostLoading = true;
+      state.comments = null;
     },
+  },
+  extraReducers: (builder) => {
+    // Fetch detailed post.
+    builder
+      .addCase(fetchDetailedPost.pending, (state) => {
+        state.isPostLoading = true;
+      })
+      .addCase(fetchDetailedPost.fulfilled, (state, action) => {
+        state.isPostLoading = false;
+        state.fetchedPosts = [{ ...action.payload }];
+        state.comments = action.payload.id;
+      })
+      .addCase(fetchDetailedPost.rejected, (state, action) => {
+        state.isPostLoading = false;
+      });
   },
 });
 
-// fetch many posts
+// Fetch many posts.
 export const sendFetchPostsReq = (page, limit, signal) => async (dispatch) => {
   dispatch(setArePostsLoading(true));
   try {
@@ -65,6 +101,7 @@ export const sendFetchPostsReq = (page, limit, signal) => async (dispatch) => {
   }
 };
 
+// Like post.
 export const sendLikePutReq = (postId) => async (dispatch, getState) => {
   try {
     dispatch(setIsLikeLoading({ postId, isLikeLoading: true }));
@@ -94,6 +131,7 @@ export const {
   setArePostsLoading,
   setIsLikeLoading,
   cleanupPosts,
+  cleanupDetailedPost,
 } = postSlice.actions;
 
 export default postSlice.reducer;

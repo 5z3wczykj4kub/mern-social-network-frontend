@@ -19,13 +19,13 @@ function LikeDrawer() {
   const { users, isLoading, postId } = useSelector(
     ({ likeDrawer }) => likeDrawer
   );
-  const fetchedPost = useSelector(({ post }) =>
+  const cachedPost = useSelector(({ post }) =>
     post.fetchedPosts.find(({ id }) => id === postId)
   );
-  const { detailedPost } = useSelector(({ detailedPost }) => detailedPost);
+  const comments = useSelector((state) => state.post.comments);
   const dispatch = useDispatch();
 
-  const { likes } = !fetchedPost && detailedPost ? detailedPost : fetchedPost;
+  const { likes } = !cachedPost && comments ? comments : cachedPost;
 
   useEffect(() => {
     dispatch(

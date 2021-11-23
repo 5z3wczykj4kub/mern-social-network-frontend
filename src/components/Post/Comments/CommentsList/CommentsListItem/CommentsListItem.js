@@ -1,7 +1,7 @@
 import { forwardRef, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { incrementPage } from '../../../../../redux/detailedPostSlice';
+import { incrementPage } from '../../../../../redux/commentsSlice';
 
 import { Link } from 'react-router-dom';
 

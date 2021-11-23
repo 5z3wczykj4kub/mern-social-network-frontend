@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchComments,
   cleanupComments,
-} from '../../../../redux/detailedPostSlice';
+} from '../../../../redux/commentsSlice';
 
 import SkeletonCommentsListItem from './SkeletonCommentsListItem/SkeletonCommentsListItem';
 import CommentsListItem from './CommentsListItem/CommentsListItem';
@@ -14,10 +14,10 @@ import classes from './CommentsList.module.scss';
 function CommentsList({ post }) {
   const lastCommentRef = useRef();
   const areCommentsLoading = useSelector(
-    ({ detailedPost }) => detailedPost.areCommentsLoading
+    ({ comments }) => comments.areCommentsLoading
   );
-  const comments = useSelector(({ detailedPost }) => detailedPost.comments);
-  const page = useSelector(({ detailedPost }) => detailedPost.page);
+  const comments = useSelector(({ comments }) => comments.comments);
+  const page = useSelector(({ comments }) => comments.page);
   const dispatch = useDispatch();
 
   // Fetch comments.

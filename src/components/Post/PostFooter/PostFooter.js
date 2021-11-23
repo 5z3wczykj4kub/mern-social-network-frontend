@@ -1,14 +1,10 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { sendLikePutReq } from '../../../redux/postSlice';
-import { sendLikeDetailedPutReq } from '../../../redux/detailedPostSlice';
 import { openLikeDrawer } from '../../../redux/likeDrawerSlice';
 
 import Spinner from '../../Spinner/Spinner';
-
-import PostContext from '../../../context/PostContext';
 
 import like from '../../../assets/like.png';
 import liked from '../../../assets/liked.png';
@@ -17,8 +13,6 @@ import commentsIcon from '../../../assets/comments.png';
 import classes from './PostFooter.module.scss';
 
 function PostFooter(props) {
-  const { wasAlreadyFetched } = useContext(PostContext);
-
   const dispatch = useDispatch();
 
   return (
@@ -39,11 +33,7 @@ function PostFooter(props) {
           <button
             onClick={(event) => {
               event.stopPropagation();
-              dispatch(
-                wasAlreadyFetched
-                  ? sendLikePutReq(props.post.id)
-                  : sendLikeDetailedPutReq(props.post.id)
-              );
+              dispatch(sendLikePutReq(props.post.id));
             }}
           >
             {!props.post.isLiked && <img src={like} alt="like" />}
