@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { addComment } from './commentsSlice';
 
 export const fetchDetailedPost = createAsyncThunk(
   'post/fetchDetailedPost',
@@ -21,7 +22,6 @@ export const postSlice = createSlice({
   name: 'post',
   initialState: {
     fetchedPosts: [],
-    comments: null,
     page: 0,
     hasMorePosts: true,
     arePostsLoading: true,
@@ -58,22 +58,28 @@ export const postSlice = createSlice({
       state.hasMorePosts = true;
       state.arePostsLoading = true;
       state.isPostLoading = true;
-      state.comments = null;
     },
   },
   extraReducers: (builder) => {
-    // Fetch detailed post.
     builder
+      // Fetch detailed post.
       .addCase(fetchDetailedPost.pending, (state) => {
         state.isPostLoading = true;
       })
       .addCase(fetchDetailedPost.fulfilled, (state, action) => {
         state.isPostLoading = false;
         state.fetchedPosts = [{ ...action.payload }];
-        state.comments = action.payload.id;
       })
       .addCase(fetchDetailedPost.rejected, (state, action) => {
         state.isPostLoading = false;
+      })
+      // Add comment.
+      .addCase(addComment.fulfilled, (state, action) => {
+        const commentId = action.payload.comment.id;
+        const commentedPostId = state.fetchedPosts.find(
+          ({ id }) => id === action.payload.commentedPostId
+        );
+        commentedPostId.comments.unshift(commentId);
       });
   },
 });

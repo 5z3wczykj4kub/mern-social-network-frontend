@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
-  async ({ id: postId, page, limit }, { signal }) => {
+  async ({ id: postId, comments }, { signal }) => {
     try {
       const res = await fetch(
-        `/api/posts/${postId}/comments?page=${page}&limit=${limit}`,
+        `/api/posts/${postId}/comments?ids=${comments.join(',')}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -44,8 +44,10 @@ export const commentsSlice = createSlice({
   initialState: {
     comments: [],
     page: 0,
+    addedCommentsCounter: 0,
     hasMoreComments: true,
-    areCommentsLoading: true,
+    areCommentsLoading: false,
+    isCommentBeingAdded: false,
   },
   reducers: {
     incrementPage: (state) => {
@@ -55,20 +57,34 @@ export const commentsSlice = createSlice({
       state.comments = [];
       state.page = 0;
       state.hasMoreComments = true;
-      state.areCommentsLoading = true;
+      state.areCommentsLoading = false;
+      state.addedCommentsCounter = 0;
     },
   },
   extraReducers: (builder) => {
     builder
+      // Fetch comments.
       .addCase(fetchComments.pending, (state) => {
         state.areCommentsLoading = true;
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
         state.areCommentsLoading = false;
-        state.comments.push(...action.payload);
+        state.comments.push(...action.payload.comments);
       })
       .addCase(fetchComments.rejected, (state, action) => {
         state.areCommentsLoading = false;
+      })
+      // Add comment.
+      .addCase(addComment.pending, (state) => {
+        state.isCommentBeingAdded = true;
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.isCommentBeingAdded = false;
+        state.comments.unshift(action.payload.comment);
+        state.addedCommentsCounter++;
+      })
+      .addCase(addComment.rejected, (state, action) => {
+        state.isCommentBeingAdded = false;
       });
   },
 });

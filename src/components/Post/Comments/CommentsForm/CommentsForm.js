@@ -39,7 +39,7 @@ function CommentsForm(props) {
         value={commentInputValue}
         onChange={(event) => setCommentInputValue(event.target.value)}
       />
-      <button>
+      <button disabled={props.disabled}>
         <img className={classes.addCommentIcon} src={send} alt="send" />
       </button>
     </form>

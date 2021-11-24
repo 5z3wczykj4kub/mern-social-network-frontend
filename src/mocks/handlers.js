@@ -70,15 +70,17 @@ export const handlers = [
     const post = POSTS.find((post) => post.id === postId);
     if (!post) return res(ctx.status(404));
 
-    let { comments } = post;
+    const commentsIds = req.url.searchParams.get('ids').split(',');
+    const comments = COMMENTS.filter(({ id }) => commentsIds.includes(id));
+
     if (comments.length === 0) return res(ctx.status(404));
-    const page = +req.url.searchParams.get('page');
-    const limit = +req.url.searchParams.get('limit');
-    comments = COMMENTS.filter(({ id }) => comments.includes(id)).slice(
-      page * limit,
-      (page + 1) * limit
+    return res(
+      ctx.delay(1000),
+      ctx.status(200),
+      ctx.json({
+        comments,
+      })
     );
-    return res(ctx.delay(1000), ctx.status(200), ctx.json(comments));
   }),
   // Add comment.
   rest.put('/api/posts/:postId/comments', (req, res, ctx) => {
@@ -99,8 +101,13 @@ export const handlers = [
       textContent: comment.textContent,
       date: new Date().toLocaleString(),
     };
-    post.comments.push(comment.id);
-    COMMENTS.push();
+    post.comments.unshift(comment.id);
+    COMMENTS.unshift(comment);
+    return res(
+      ctx.delay(1000),
+      ctx.status(200),
+      ctx.json({ comment, commentedPostId: post.id })
+    );
   }),
   // get users that match the search query
   rest.get('/api/users', (req, res, ctx) => {

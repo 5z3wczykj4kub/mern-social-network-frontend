@@ -19,6 +19,9 @@ const DetailedPost = () => {
   );
   const postsLength = useSelector((state) => state.post.fetchedPosts.length);
   const isPostLoading = useSelector((state) => state.post.isPostLoading);
+  const isCommentBeingAdded = useSelector(
+    (state) => state.comments.isCommentBeingAdded
+  );
   const dispatch = useDispatch();
 
   // Fetch post if it's not already cached.
@@ -42,7 +45,10 @@ const DetailedPost = () => {
   ) : (
     <>
       <Post className={classes.comments} post={post} showComments />
-      <Prompt when={!!post.isLikeLoading} message={() => false} />
+      <Prompt
+        when={!!post.isLikeLoading || !!isCommentBeingAdded}
+        message={() => false}
+      />
     </>
   );
 };

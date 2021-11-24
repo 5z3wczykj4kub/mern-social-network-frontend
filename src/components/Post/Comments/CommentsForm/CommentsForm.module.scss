@@ -29,6 +29,7 @@
     color: #000;
 
     &:disabled {
+      color: #999;
       &::placeholder {
         color: #ccc;
       }
