@@ -9,7 +9,9 @@ import { closeLikeDrawer } from './redux/likeDrawerSlice';
 import Preload from './pages/Preload/Preload';
 import SignIn from './pages/SignIn/SignIn';
 import Home from './pages/Home/Home';
+import User from './pages/User/User';
 
+import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/Navbar/Navbar';
 import NavbarDesktop from './components/NavbarDesktop/NavbarDesktop';
 import NavbarDefault from './components/NavbarDefault/NavbarDefault';
@@ -65,12 +67,15 @@ function App() {
         <Route path="/signin" exact>
           {!isAuth ? <SignIn /> : <Redirect to="/" />}
         </Route>
-        <Route path="/posts" exact>
-          {isAuth ? <Home /> : <Redirect to="/signin" />}
-        </Route>
-        <Route path="/posts/:postId" exact>
-          {isAuth ? <DetailedPost /> : <Redirect to="/signin" />}
-        </Route>
+        <PrivateRoute path="/posts" exact>
+          <Home />
+        </PrivateRoute>
+        <PrivateRoute path="/posts/:postId" exact>
+          <DetailedPost />
+        </PrivateRoute>
+        <PrivateRoute path="/profiles/:profileId" exact>
+          <User />
+        </PrivateRoute>
       </Switch>
       <>
         <CSSTransition

@@ -17,12 +17,13 @@ function CommentsForm(props) {
   const dispatch = useDispatch();
 
   // Add comment on form submit.
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
     if (!commentInputValue) return;
 
     const comment = commentInputValue.trim();
-    dispatch(addComment({ postId: props.postId, comment }));
+    await dispatch(addComment({ postId: props.postId, comment }));
+    setCommentInputValue('');
   };
 
   const className = classNames(classes.commentsForm, {
