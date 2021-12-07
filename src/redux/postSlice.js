@@ -112,7 +112,7 @@ export const sendLikePutReq = (postId) => async (dispatch, getState) => {
   try {
     dispatch(setIsLikeLoading({ postId, isLikeLoading: true }));
     const res = await fetch(
-      `/api/posts/${postId}/likes/${getState().profile.id}`,
+      `/api/posts/${postId}/likes/${getState().authProfile.id}`,
       {
         method: 'PUT',
         headers: {

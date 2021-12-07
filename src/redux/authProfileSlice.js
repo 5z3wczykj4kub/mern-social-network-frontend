@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { cleanupPosts } from './postSlice';
 
-export const profileSlice = createSlice({
-  name: 'profile',
+export const authProfileSlice = createSlice({
+  name: 'authProfile',
   initialState: {
     isAuth: false,
     authStatus: 'idle' || 'pending' || 'fulfilled' || 'rejected',
@@ -13,7 +13,7 @@ export const profileSlice = createSlice({
     avatarImageUrl: null,
   },
   reducers: {
-    setProfile: (state, action) => {
+    setAuthProfile: (state, action) => {
       state.isAuth = action.payload.isAuth;
       state.id = action.payload.id;
       state.firstName = action.payload.firstName;
@@ -23,7 +23,7 @@ export const profileSlice = createSlice({
     setAuthStatus: (state, action) => {
       state.authStatus = action.payload;
     },
-    cleanupProfile: (state) => {
+    cleanupAuthProfile: (state) => {
       localStorage.removeItem('token');
       state.isAuth = false;
       state.id = null;
@@ -35,7 +35,7 @@ export const profileSlice = createSlice({
 });
 
 export const getAuthUser = (token) => async (dispatch) => {
-  const res = await fetch('/api/auth/profile', {
+  const res = await fetch('/api/auth/authProfile', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -47,7 +47,7 @@ export const getAuthUser = (token) => async (dispatch) => {
   }
   const { id, firstName, lastName, avatarImageUrl } = await res.json();
   dispatch(
-    setProfile({ isAuth: true, id, firstName, lastName, avatarImageUrl })
+    setAuthProfile({ isAuth: true, id, firstName, lastName, avatarImageUrl })
   );
   dispatch(setAuthStatus('fulfilled'));
 };
@@ -68,11 +68,11 @@ export const signIn = (email, password) => async (dispatch) => {
 };
 
 export const signOut = () => (dispatch) => {
-  dispatch(cleanupProfile());
+  dispatch(cleanupAuthProfile());
   dispatch(cleanupPosts());
 };
 
-export const { setProfile, setAuthStatus, cleanupProfile } =
-  profileSlice.actions;
+export const { setAuthProfile, setAuthStatus, cleanupAuthProfile } =
+  authProfileSlice.actions;
 
-export default profileSlice.reducer;
+export default authProfileSlice.reducer;

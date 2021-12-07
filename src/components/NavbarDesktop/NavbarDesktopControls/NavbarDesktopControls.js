@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { signOut } from '../../../redux/profileSlice';
+import { signOut } from '../../../redux/authProfileSlice';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -15,7 +15,7 @@ import classes from './NavbarDesktopControls.module.scss';
 
 function NavbarDesktopControls() {
   const { firstName, lastName, avatarImageUrl } = useSelector(
-    ({ profile }) => profile
+    ({ authProfile }) => authProfile
   );
   const dispatch = useDispatch();
 
@@ -33,8 +33,8 @@ function NavbarDesktopControls() {
         <FontAwesomeIcon icon={faChevronDown} />
         <div className={classes.profileMenu}>
           <p>
-            <img src={profileIcon} alt="profile" />
-            See profile
+            <img src={profileIcon} alt="authProfile" />
+            See authProfile
           </p>
           <p>
             <img src={settingsIcon} alt="settings" />

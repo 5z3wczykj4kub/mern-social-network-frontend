@@ -7,7 +7,7 @@ import bell from '../../../assets/bell.png';
 import classes from './NavbarControls.module.scss';
 
 function NavbarControls() {
-  const { avatarImageUrl } = useSelector(({ profile }) => profile);
+  const { avatarImageUrl } = useSelector(({ authProfile }) => authProfile);
 
   return (
     <div className={classes.navbarControls}>

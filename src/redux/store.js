@@ -4,7 +4,8 @@ import navbarReducer from './navbarSlice';
 import postReducer from './postSlice';
 import commentsReducer from './commentsSlice';
 import likeDrawerReducer from './likeDrawerSlice';
-import profileReducer from './profileSlice';
+import authProfileReducer from './authProfileSlice';
+import profileReducer from './profileSclice';
 
 export default configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export default configureStore({
     post: postReducer,
     comments: commentsReducer,
     likeDrawer: likeDrawerReducer,
+    authProfile: authProfileReducer,
     profile: profileReducer,
   },
 });

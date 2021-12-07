@@ -3,15 +3,15 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getAuthUser } from './redux/profileSlice';
+import { getAuthUser } from './redux/authProfileSlice';
 import { closeLikeDrawer } from './redux/likeDrawerSlice';
 
 import Preload from './pages/Preload/Preload';
 import SignIn from './pages/SignIn/SignIn';
 import Home from './pages/Home/Home';
-import User from './pages/User/User';
+import Profile from './pages/Profile/Profile';
 
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Navbar from './components/Navbar/Navbar';
 import NavbarDesktop from './components/NavbarDesktop/NavbarDesktop';
 import NavbarDefault from './components/NavbarDefault/NavbarDefault';
@@ -28,7 +28,7 @@ import classes from './App.module.scss';
 function App() {
   const [isPreloading, setIsPreloading] = useState(true);
 
-  const { isAuth } = useSelector(({ profile }) => profile);
+  const { isAuth } = useSelector(({ authProfile }) => authProfile);
   const { isOpen } = useSelector(({ likeDrawer }) => likeDrawer);
   const { isNavbarDesktopUsed } = useSelector(({ navbar }) => navbar);
 
@@ -74,7 +74,7 @@ function App() {
           <DetailedPost />
         </PrivateRoute>
         <PrivateRoute path="/profiles/:profileId" exact>
-          <User />
+          <Profile />
         </PrivateRoute>
       </Switch>
       <>

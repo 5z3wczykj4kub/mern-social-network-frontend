@@ -1,0 +1,121 @@
+.skeletonProfileHeader {
+  max-width: 60rem;
+  margin-top: 3rem;
+  margin: 3rem auto 0 auto;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    margin: 3.5rem auto 0 auto;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.3rem 0.3rem 0 0;
+    box-shadow: 2px 2px 8px #e5e5e5;
+  }
+}
+
+.skeletonBackgroundImage {
+  position: relative;
+  height: 8rem;
+  background-color: #e5e5e5;
+
+  @media (min-width: 768px) {
+    height: 16rem;
+  }
+}
+
+.skeletonAvatar {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto;
+  border: 0.15rem solid #fff;
+  border-radius: 50%;
+  background-color: #e5e5e5;
+
+  @media (min-width: 768px) {
+    width: 10rem;
+    height: 10rem;
+    left: 1rem;
+    transform: translate(0, -50%);
+  }
+}
+
+.skeletonInfo {
+  position: relative;
+  background-color: #fff;
+  padding: 1rem;
+  padding-bottom: 1.25rem;
+
+  h1,
+  p {
+    text-align: center;
+
+    @media (min-width: 768px) {
+      text-align: left;
+      margin-left: 11rem;
+    }
+  }
+
+  h1 {
+    width: 7rem;
+    height: 1.5rem;
+    margin: 2.75rem auto 0 auto;
+    background-color: #e5e5e5;
+    font-size: 1.25rem;
+    font-weight: normal;
+    border-radius: 0.25rem;
+
+    @media (min-width: 768px) {
+      width: 9rem;
+      margin-top: 0.25rem;
+      margin-left: 11rem;
+      font-size: 1.5rem;
+    }
+  }
+
+  p {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+
+    @media (min-width: 768px) {
+      justify-content: flex-start;
+    }
+
+    img {
+      height: 1.25rem;
+      opacity: 0.5;
+
+      @media (min-width: 768px) {
+        height: 1.5rem;
+      }
+    }
+
+    span {
+      width: 2.25rem;
+      height: 1.25rem;
+      background-color: #e5e5e5;
+      border-radius: 0.25rem;
+    }
+  }
+
+  .skeletonButton {
+    width: 7rem;
+    height: 2.25rem;
+    margin: 0.5rem auto 0 auto;
+    border-radius: 0.2rem;
+    background-color: #e5e5e5;
+
+    @media (min-width: 768px) {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      margin: 0;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { signIn } from '../../redux/profileSlice';
+import { signIn } from '../../redux/authProfileSlice';
 
 import Spinner from '../Spinner/Spinner';
 
@@ -12,7 +12,7 @@ function SignInForm() {
   const [password, setPassword] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
-  const authStatus = useSelector(({ profile }) => profile.authStatus);
+  const authStatus = useSelector(({ authProfile }) => authProfile.authStatus);
   const dispatch = useDispatch();
 
   function submitHanlder(event) {

@@ -13,7 +13,9 @@ import send from '../../../../assets/send.png';
 function CommentsForm(props) {
   const [commentInputValue, setCommentInputValue] = useState('');
 
-  const avatarImageUrl = useSelector(({ profile }) => profile.avatarImageUrl);
+  const avatarImageUrl = useSelector(
+    ({ authProfile }) => authProfile.avatarImageUrl
+  );
   const dispatch = useDispatch();
 
   // Add comment on form submit.

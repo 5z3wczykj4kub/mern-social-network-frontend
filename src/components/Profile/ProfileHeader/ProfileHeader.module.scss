@@ -1,0 +1,137 @@
+.profileHeader {
+  max-width: 60rem;
+  margin-top: 3rem;
+  margin: 3rem auto 0 auto;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    margin: 3.5rem auto 0 auto;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.3rem;
+    box-shadow: 2px 2px 8px #e5e5e5;
+  }
+}
+
+.backgroundImage {
+  position: relative;
+  height: 8rem;
+  background: -webkit-linear-gradient(to right, #04a1fc, #00d8dd);
+  background: linear-gradient(to right, #04a1fc, #00d8dd);
+
+  @media (min-width: 768px) {
+    height: 16rem;
+  }
+}
+
+.avatar {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto;
+  border: 0.15rem solid #fff;
+  border-radius: 50%;
+
+  @media (min-width: 768px) {
+    width: 10rem;
+    height: 10rem;
+    left: 1rem;
+    transform: translate(0, -50%);
+  }
+}
+
+.info {
+  position: relative;
+  background-color: #fff;
+  padding-bottom: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-bottom: 2rem;
+  }
+
+  h1,
+  p {
+    text-align: center;
+
+    @media (min-width: 768px) {
+      text-align: left;
+      margin-left: 12rem;
+    }
+  }
+
+  h1 {
+    box-sizing: content-box;
+    height: 1.5rem;
+    padding-top: 3.5rem;
+    font-size: 1.25rem;
+    font-weight: normal;
+
+    @media (min-width: 768px) {
+      padding-top: 1rem;
+    }
+  }
+
+  p {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+
+    @media (min-width: 768px) {
+      justify-content: flex-start;
+      margin-top: 0.25rem;
+    }
+
+    img {
+      height: 1.25rem;
+    }
+  }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    height: 2.25rem;
+    margin: 0.75rem auto 0 auto;
+    padding: 0 0.75rem;
+    outline: none;
+    border: none;
+    border-radius: 0.2rem;
+    font-size: 0.95rem;
+    background-color: #04a1fc;
+    color: #fff;
+    cursor: pointer;
+
+    &:focus-visible {
+      filter: brightness(1.05);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    @media (min-width: 768px) {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      margin: 0;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(:disabled) {
+        filter: brightness(1.05);
+      }
+    }
+
+    img {
+      height: 1rem;
+      filter: invert(100);
+    }
+  }
+}

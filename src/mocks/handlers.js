@@ -22,7 +22,7 @@ export const handlers = [
     );
   }),
   // get auth user
-  rest.get('/api/auth/profile', (req, res, ctx) => {
+  rest.get('/api/auth/authProfile', (req, res, ctx) => {
     const token = req.headers.get('Authorization').split(' ')[1];
     const user = USERS.find((user) => user.token === token);
     if (!user) return res(ctx.status(401));
@@ -133,6 +133,18 @@ export const handlers = [
       const users = USERS.filter(({ id }) => usersIds.includes(id));
       return res(ctx.delay(1000), ctx.status(200), ctx.json(users));
     }
+  }),
+  // Get profile by id.
+  rest.get('/api/profiles/:profileId', (req, res, ctx) => {
+    const token = req.headers.get('Authorization').split(' ')[1];
+    const user = USERS.find((user) => user.token === token);
+    if (!user) return res(ctx.status(401));
+
+    const { profileId } = req.params;
+    const profile = USERS.find(({ id }) => id === profileId);
+    if (!profile) return res(ctx.status(404));
+
+    return res(ctx.delay(1000), ctx.status(200), ctx.json(profile));
   }),
   // like post
   rest.put('/api/posts/:postId/likes/:userId', (req, res, ctx) => {
