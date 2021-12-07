@@ -34,7 +34,7 @@ function NavbarDesktopControls() {
         <div className={classes.profileMenu}>
           <p>
             <img src={profileIcon} alt="authProfile" />
-            See authProfile
+            See profile
           </p>
           <p>
             <img src={settingsIcon} alt="settings" />

@@ -47,7 +47,7 @@ export const profileSlice = createSlice({
         state.avatarImageUrl = payload.avatarImageUrl;
       })
       .addCase(fetchProfile.rejected, (state) => {
-        state.isLoading = false;
+        state.isLoading = true;
       });
   },
 });

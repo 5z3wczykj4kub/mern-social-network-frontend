@@ -1,27 +1,17 @@
-import { useState, useCallback } from 'react';
-
 import Tabs from '../../Tabs/Tabs';
-import Tab from '../../Tabs/Tab/Tab';
 
 import classes from './ProfileBody.module.scss';
 
 const ProfileBody = () => {
-  const [tabWidths, setTabWidths] = useState([]);
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-
-  const getTabWidth = useCallback(
-    (tabWidth) => setTabWidths((prevTabWidths) => [...prevTabWidths, tabWidth]),
-    []
-  );
-  const selectTab = () => setSelectedTabIndex;
-
   return (
     <div className={classes.profileBody}>
-      <Tabs tabWidths={tabWidths}>
-        <Tab label="Posts" getTabWidth={getTabWidth} />
-        <Tab label="Friends" getTabWidth={getTabWidth} />
-        <Tab label="Images" getTabWidth={getTabWidth} />
-      </Tabs>
+      <Tabs labels={['Posts', 'Friends', 'Images']} />
+      <p style={{ padding: '16px 0' }}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate, iure
+        architecto doloremque alias recusandae et harum voluptatem tempora?
+        Porro ex accusamus reprehenderit veniam aperiam consectetur. Voluptates
+        eos quasi nemo laudantium?
+      </p>
     </div>
   );
 };

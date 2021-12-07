@@ -1,17 +1,18 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 import classes from './Tab.module.scss';
 
-const Tab = ({ getTabWidth, label }) => {
+const Tab = ({ getTabWidth, onTabSelect, label, index }) => {
   const tabRef = useRef(null);
 
-  useEffect(() => {
-    const tabWidth = tabRef.current.offsetWidth;
-    getTabWidth(tabWidth);
-  }, [getTabWidth]);
+  useEffect(() => getTabWidth(tabRef.current.offsetWidth), [getTabWidth]);
 
   return (
-    <div ref={tabRef} className={classes.tab}>
+    <div
+      ref={tabRef}
+      className={classes.tab}
+      onClick={() => onTabSelect(index)}
+    >
       {label}
     </div>
   );
