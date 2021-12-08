@@ -45,7 +45,6 @@ export const commentsSlice = createSlice({
     comments: [],
     page: 0,
     addedCommentsCounter: 0,
-    hasMoreComments: true,
     areCommentsLoading: false,
     isCommentBeingAdded: false,
   },
@@ -56,7 +55,6 @@ export const commentsSlice = createSlice({
     cleanupComments: (state) => {
       state.comments = [];
       state.page = 0;
-      state.hasMoreComments = true;
       state.areCommentsLoading = false;
       state.addedCommentsCounter = 0;
     },

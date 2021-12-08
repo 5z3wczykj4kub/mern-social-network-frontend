@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { cleanupProfile, fetchProfile } from '../../redux/profileSclice';
+import { cleanupProfile, fetchProfile } from '../../redux/profileSlice';
 
 import ProfileComponent from '../../components/Profile/Profile';
 

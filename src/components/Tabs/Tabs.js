@@ -44,6 +44,7 @@ const Tabs = (props) => {
           }}
         ></div>
       </div>
+      {props.components[selectedTabIndex]}
     </>
   );
 };

@@ -146,6 +146,29 @@ export const handlers = [
 
     return res(ctx.delay(1000), ctx.status(200), ctx.json(profile));
   }),
+  // Get profile posts.
+  rest.get('/api/profiles/:profileId/posts', (req, res, ctx) => {
+    const token = req.headers.get('Authorization').split(' ')[1];
+    const user = USERS.find((user) => user.token === token);
+    if (!user) return res(ctx.status(401));
+
+    const { profileId } = req.params;
+    const profile = USERS.find(({ id }) => id === profileId);
+    if (!profile) return res(ctx.status(404));
+
+    const profilePosts = POSTS.filter((POST) => POST.author === profileId);
+
+    const page = +req.url.searchParams.get('page');
+    const limit = +req.url.searchParams.get('limit');
+
+    console.log(`page`, page);
+
+    return res(
+      ctx.delay(1000),
+      ctx.status(200),
+      ctx.json(profilePosts.slice(page * limit, (page + 1) * limit))
+    );
+  }),
   // like post
   rest.put('/api/posts/:postId/likes/:userId', (req, res, ctx) => {
     const token = req.headers.get('Authorization').split(' ')[1];

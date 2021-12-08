@@ -5,7 +5,7 @@ import postReducer from './postSlice';
 import commentsReducer from './commentsSlice';
 import likeDrawerReducer from './likeDrawerSlice';
 import authProfileReducer from './authProfileSlice';
-import profileReducer from './profileSclice';
+import profileReducer from './profileSlice';
 
 export default configureStore({
   reducer: {

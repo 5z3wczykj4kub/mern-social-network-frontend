@@ -1,0 +1,69 @@
+.profilePostsList {
+  display: flex;
+  justify-content: flex-end;
+
+  @media (min-width: 768px) {
+    gap: 0.5rem;
+  }
+
+  & > aside {
+    display: none;
+
+    @media (min-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+    }
+
+    & > section {
+      width: 100%;
+      margin-top: 0.5rem;
+      background-color: #fff;
+      border-radius: 0.3rem;
+      border: 1px solid #e5e5e5;
+      box-shadow: 2px 2px 8px #e5e5e5;
+
+      &:first-of-type {
+        height: 20rem;
+      }
+
+      &:last-of-type {
+        height: 30rem;
+      }
+    }
+  }
+
+  & > main {
+    width: 100%;
+
+    @media (min-width: 768px) {
+      width: 60%;
+    }
+
+    .post {
+      width: 98%;
+      max-width: none;
+
+      @media (min-width: 768px) {
+        width: 100%;
+      }
+
+      &.first {
+        margin-top: 0.5rem;
+      }
+    }
+
+    .skeletonPost {
+      width: 98%;
+      max-width: none;
+      margin: 0.5rem auto 0 auto;
+
+      @media (min-width: 768px) {
+        width: 100%;
+      }
+    }
+
+    button {
+    }
+  }
+}
