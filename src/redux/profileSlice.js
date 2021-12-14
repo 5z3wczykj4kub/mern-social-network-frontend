@@ -50,7 +50,7 @@ export const profileSlice = createSlice({
     profilePosts: [],
     arePorfilePostsLoading: true,
     profilePostsPage: 0,
-    profilePostsTotalCount: 0,
+    profilePostsTotalCount: null,
   },
   reducers: {
     incrementProfilePostsPage: (state) => {
@@ -67,7 +67,7 @@ export const profileSlice = createSlice({
       state.profilePosts = [];
       state.arePorfilePostsLoading = true;
       state.profilePostsPage = 0;
-      state.profilePostsTotalCount = 0;
+      state.profilePostsTotalCount = null;
     },
   },
   extraReducers: (builder) => {

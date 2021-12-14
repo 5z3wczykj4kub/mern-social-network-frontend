@@ -37,12 +37,16 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
   // Flags
   const isComponentMounting = useRef(true);
   const profilePostsLength = useRef(profilePosts.length);
+  const totalPostsCount = useRef(profilePostsTotalCount);
 
   // Fetch profile posts when:
   // 1. Component mounts and there are 0 posts cached.
   // 2. Pagination is used.
   useEffect(() => {
-    if (profilePostsLength.current > 0 && isComponentMounting.current) {
+    if (
+      (profilePostsLength.current > 0 || totalPostsCount.current === 0) &&
+      isComponentMounting.current
+    ) {
       isComponentMounting.current = false;
       return;
     }
