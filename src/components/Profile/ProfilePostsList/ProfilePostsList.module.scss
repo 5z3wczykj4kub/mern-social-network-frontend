@@ -63,7 +63,44 @@
       }
     }
 
-    button {
+    & > button {
+      display: block;
+      width: 98%;
+      margin: 0 auto 0.5rem auto;
+      padding: 0.6rem 0;
+      outline: none;
+      border: none;
+      border-radius: 0.3rem;
+      font-size: 1rem;
+      background-color: #04a1fc;
+      color: #fff;
+      cursor: pointer;
+
+      &:focus-visible {
+        filter: brightness(1.05);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover:not(:disabled) {
+          filter: brightness(1.05);
+        }
+      }
+
+      @media (min-width: 768px) {
+        width: 100%;
+
+        background-color: transparent;
+        color: #000;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
   }
+}
+
+.postsNotFoundMessage {
+  margin-top: 0.75rem;
+  text-align: center;
 }

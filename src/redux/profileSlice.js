@@ -50,6 +50,7 @@ export const profileSlice = createSlice({
     profilePosts: [],
     arePorfilePostsLoading: true,
     profilePostsPage: 0,
+    profilePostsTotalCount: 0,
   },
   reducers: {
     incrementProfilePostsPage: (state) => {
@@ -66,11 +67,12 @@ export const profileSlice = createSlice({
       state.profilePosts = [];
       state.arePorfilePostsLoading = true;
       state.profilePostsPage = 0;
+      state.profilePostsTotalCount = 0;
     },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch profile
+      // Profile
       .addCase(fetchProfile.pending, (state) => {
         state.isLoading = true;
       })
@@ -84,12 +86,13 @@ export const profileSlice = createSlice({
       .addCase(fetchProfile.rejected, (state) => {
         state.isLoading = true;
       })
-      // Fetch profile posts
+      // Posts
       .addCase(fetchProfilePosts.pending, (state) => {
         state.arePorfilePostsLoading = true;
       })
       .addCase(fetchProfilePosts.fulfilled, (state, { payload }) => {
-        state.profilePosts.push(...payload);
+        state.profilePosts.push(...payload.posts);
+        state.profilePostsTotalCount = payload.postsTotalCount;
         state.arePorfilePostsLoading = false;
       })
       .addCase(fetchProfilePosts.rejected, (state) => {

@@ -15,8 +15,10 @@
 .backgroundImage {
   position: relative;
   height: 8rem;
-  background: -webkit-linear-gradient(to right, #04a1fc, #00d8dd);
-  background: linear-gradient(to right, #04a1fc, #00d8dd);
+  // background: -webkit-linear-gradient(to right, #04a1fc, #00d8dd);
+  // background: linear-gradient(to right, #04a1fc, #00d8dd);
+  background: url('../../../assets/profile-background-image-default.png');
+  background-size: contain;
 
   @media (min-width: 768px) {
     height: 16rem;
@@ -102,7 +104,7 @@
     outline: none;
     border: none;
     border-radius: 0.2rem;
-    font-size: 0.95rem;
+    font-size: 0.96rem;
     background-color: #04a1fc;
     color: #fff;
     cursor: pointer;

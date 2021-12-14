@@ -90,9 +90,21 @@ const USERS = [
   },
 ];
 
-export default USERS.map((user, index) => ({
+const users = USERS.map((user, index) => ({
   ...user,
   id: `u${index + 1}`,
   password: user.firstName.toLowerCase() + user.lastName.toLowerCase(),
   token: user.firstName.toLowerCase() + user.lastName.toLowerCase() + 'token',
 }));
+
+users.push({
+  id: `u${USERS.length + 1}`,
+  email: 'elonmusk@gmail.com',
+  password: 'elonmusk',
+  firstName: 'Elon',
+  lastName: 'Musk',
+  avatarImageUrl: 'https://i.iplsc.com/elon-musk/000BVYRJWK656FO7-C116-F4.jpg',
+  token: 'elonmusktoken',
+});
+
+export default users;

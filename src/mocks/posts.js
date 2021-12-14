@@ -39,7 +39,9 @@ for (let i = 0; i < 20; i++) {
   });
 }
 
-export default POSTS.map((post) => ({
+const posts = POSTS.map((post) => ({
   ...post,
   isLiked: !authUser ? false : post.likes.includes(authUser.id),
 }));
+
+export default posts.filter((post) => post.firstName !== 'Elon');

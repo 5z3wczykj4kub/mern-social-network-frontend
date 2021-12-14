@@ -22,7 +22,7 @@ export const handlers = [
     );
   }),
   // get auth user
-  rest.get('/api/auth/authProfile', (req, res, ctx) => {
+  rest.get('/api/auth/profile', (req, res, ctx) => {
     const token = req.headers.get('Authorization').split(' ')[1];
     const user = USERS.find((user) => user.token === token);
     if (!user) return res(ctx.status(401));
@@ -161,12 +161,13 @@ export const handlers = [
     const page = +req.url.searchParams.get('page');
     const limit = +req.url.searchParams.get('limit');
 
-    console.log(`page`, page);
-
     return res(
       ctx.delay(1000),
       ctx.status(200),
-      ctx.json(profilePosts.slice(page * limit, (page + 1) * limit))
+      ctx.json({
+        posts: profilePosts.slice(page * limit, (page + 1) * limit),
+        postsTotalCount: profilePosts.length,
+      })
     );
   }),
   // like post

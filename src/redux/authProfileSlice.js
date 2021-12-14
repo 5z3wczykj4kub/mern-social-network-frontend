@@ -35,7 +35,7 @@ export const authProfileSlice = createSlice({
 });
 
 export const getAuthUser = (token) => async (dispatch) => {
-  const res = await fetch('/api/auth/authProfile', {
+  const res = await fetch('/api/auth/profile', {
     headers: {
       Authorization: `Bearer ${token}`,
     },

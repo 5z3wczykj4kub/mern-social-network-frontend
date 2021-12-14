@@ -19,6 +19,9 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
   const arePorfilePostsLoading = useSelector(
     (state) => state.profile.arePorfilePostsLoading
   );
+  const profilePostsTotalCount = useSelector(
+    (state) => state.profile.profilePostsTotalCount
+  );
   const dispatch = useDispatch();
 
   const postsList = profilePosts.map((post, index) => (
@@ -61,10 +64,17 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
           {arePorfilePostsLoading && (
             <SkeletonPost className={classes.skeletonPost} />
           )}
-          {!arePorfilePostsLoading && profilePosts.length > 0 && (
-            <button onClick={() => dispatch(incrementProfilePostsPage())}>
-              Posts List
-            </button>
+          {!arePorfilePostsLoading &&
+            profilePosts.length > 0 &&
+            profilePosts.length !== profilePostsTotalCount && (
+              <button onClick={() => dispatch(incrementProfilePostsPage())}>
+                Load more posts
+              </button>
+            )}
+          {!arePorfilePostsLoading && profilePosts.length === 0 && (
+            <p className={classes.postsNotFoundMessage}>
+              This user has no posts.
+            </p>
           )}
         </main>
       </div>
