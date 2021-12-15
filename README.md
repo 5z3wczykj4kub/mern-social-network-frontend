@@ -10,8 +10,6 @@ I use `<Prompt />` in two different places: `<PostFooter />` component and `<Det
 
 I need to change tabs component to use React Router instead of rendering them based on state, so I can use the `<Prompt />` component to prevent user from navigating to a different page while there are any ongoing non GET requests.
 
-### Remake skeleton loading for the `<LikeDrawer />` component.
-
 ## GIT commands:
 
 ### Cache credentials (PAT):

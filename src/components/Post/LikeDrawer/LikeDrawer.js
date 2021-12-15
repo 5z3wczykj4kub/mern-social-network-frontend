@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   cleanupLikeDrawer,
@@ -11,12 +11,13 @@ import LikesListItem from './LikesListItem/LikesListItem';
 function LikeDrawer({ likes, closeLikeDrawer }) {
   const lastUserListItemRef = useRef();
 
-  const [abortController] = useState(new AbortController());
+  const abortControllerRef = useRef(new AbortController());
 
   const { users, isLoading } = useSelector(({ likeDrawer }) => likeDrawer);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const abortController = abortControllerRef.current;
     dispatch(
       sendGetUsersWhoLikedThePostReq(likes.slice(0, 10), abortController.signal)
     );
@@ -24,17 +25,16 @@ function LikeDrawer({ likes, closeLikeDrawer }) {
       dispatch(cleanupLikeDrawer());
       abortController.abort();
     };
-  }, [dispatch, likes, abortController]);
+  }, [dispatch, likes]);
 
   const skeletonUsersList = (
-    // <>
-    //   <LikesListItem isLoading={true} />
-    //   <LikesListItem isLoading={true} />
-    //   <LikesListItem isLoading={true} />
-    //   <LikesListItem isLoading={true} />
-    //   <LikesListItem isLoading={true} />
-    // </>
-    <p>loading...</p>
+    <>
+      <LikesListItem isLoading={true} likes={[]} />
+      <LikesListItem isLoading={true} likes={[]} />
+      <LikesListItem isLoading={true} likes={[]} />
+      <LikesListItem isLoading={true} likes={[]} />
+      <LikesListItem isLoading={true} likes={[]} />
+    </>
   );
   const usersList = users.map((user, index) => (
     <LikesListItem
@@ -44,7 +44,7 @@ function LikeDrawer({ likes, closeLikeDrawer }) {
       avatarImageUrl={user.avatarImageUrl}
       likes={likes}
       ref={index === users.length - 1 ? lastUserListItemRef : null}
-      signal={abortController.signal}
+      signal={abortControllerRef.current.signal}
     />
   ));
 

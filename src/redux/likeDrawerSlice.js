@@ -4,7 +4,6 @@ export const likeDrawerSlice = createSlice({
   name: 'likeDrawer',
   initialState: {
     isLoading: true,
-    postId: null,
     users: [],
     page: 0,
     hasMoreLikes: true,
