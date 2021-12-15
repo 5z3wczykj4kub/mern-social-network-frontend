@@ -39,51 +39,53 @@
   justify-content: space-between;
   align-items: flex-end;
   cursor: pointer;
+}
 
-  div {
-    &:first-of-type {
-      display: flex;
-      align-items: center;
+.likes {
+  display: flex;
+  align-items: center;
 
-      button {
-        @include button;
-        padding-right: 0;
+  & > button {
+    @include button;
+    padding-right: 0;
 
-        img {
-          @include img;
-        }
-      }
-
-      span {
-        @include span();
-        margin-left: 0.25rem;
-      }
+    & > img {
+      @include img;
     }
+  }
 
-    &:last-of-type {
+  & > span {
+    @include span();
+    margin-left: 0.25rem;
+  }
+}
+
+.comments {
+  display: flex;
+  align-items: center;
+
+  & > button {
+    @include button;
+    padding: 0;
+
+    & > a {
       display: flex;
-      align-items: center;
+      padding: 0.75rem 1rem;
+      padding-left: 0;
 
-      button {
-        @include button;
-        padding: 0;
-
-        a {
-          display: flex;
-          padding: 0.75rem 1rem;
-          padding-left: 0;
-        }
-
-        img {
-          @include img;
-        }
-      }
-
-      span {
-        @include span();
-        justify-content: flex-end;
-        margin-right: 0.25rem;
+      & > img {
+        @include img;
       }
     }
   }
+
+  & > span {
+    @include span();
+    justify-content: flex-end;
+    margin-right: 0.25rem;
+  }
+}
+
+.likeDrawerBackdrop {
+  z-index: 2;
 }

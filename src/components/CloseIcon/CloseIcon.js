@@ -1,17 +1,7 @@
-import { useDispatch } from 'react-redux';
-import { closeLikeDrawer } from '../../redux/likeDrawerSlice';
-
 import classes from './CloseIcon.module.scss';
 
-function CloseIcon() {
-  const dispatch = useDispatch();
-
-  return (
-    <div
-      className={classes.closeIcon}
-      onClick={() => dispatch(closeLikeDrawer())}
-    ></div>
-  );
-}
+const CloseIcon = ({ onClick }) => (
+  <div className={classes.closeIcon} onClick={onClick}></div>
+);
 
 export default CloseIcon;

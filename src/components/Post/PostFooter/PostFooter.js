@@ -1,59 +1,107 @@
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Prompt } from 'react-router';
 import { Link } from 'react-router-dom';
-
-import { useDispatch } from 'react-redux';
-import { sendLikePutReq } from '../../../redux/postSlice';
-import { openLikeDrawer } from '../../../redux/likeDrawerSlice';
-
-import Spinner from '../../Spinner/Spinner';
-
+import { CSSTransition } from 'react-transition-group';
+import commentsIcon from '../../../assets/comments.png';
 import like from '../../../assets/like.png';
 import liked from '../../../assets/liked.png';
-import commentsIcon from '../../../assets/comments.png';
-
+import { toggleLike } from '../../../redux/postSlice';
+import Backdrop, { backdropClassNames } from '../../Backdrop/Backdrop';
+import Spinner from '../../Spinner/Spinner';
+import LikeDrawer, { likeDrawerClassNames } from '../LikeDrawer/LikeDrawer';
 import classes from './PostFooter.module.scss';
 
-function PostFooter(props) {
+function PostFooter({ post }) {
+  const [isLikeDrawerOpen, setIsLikeDrawerOpen] = useState(false);
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
+
+  const authProfileId = useSelector((state) => state.authProfile.id);
   const dispatch = useDispatch();
 
+  const openLikeDrawerHandler = () => {
+    if (isLikeLoading) return;
+    setIsLikeDrawerOpen(true);
+  };
+
+  const closeLikeDrawerHandler = (event) => {
+    event.stopPropagation();
+    setIsLikeDrawerOpen(false);
+  };
+
+  const likeButtonClickHandler = async (event) => {
+    event.stopPropagation();
+    setIsLikeLoading(true);
+    await dispatch(toggleLike(post.id));
+    setIsLikeLoading(false);
+  };
+
+  const likeDrawer = createPortal(
+    <>
+      <CSSTransition
+        in={isLikeDrawerOpen}
+        timeout={200}
+        classNames={backdropClassNames()}
+        mountOnEnter
+        unmountOnExit
+      >
+        <Backdrop
+          className={classes.likeDrawerBackdrop}
+          onClick={closeLikeDrawerHandler}
+        />
+      </CSSTransition>
+      <CSSTransition
+        in={isLikeDrawerOpen}
+        timeout={200}
+        classNames={likeDrawerClassNames()}
+        mountOnEnter
+        unmountOnExit
+      >
+        <LikeDrawer
+          likes={post.likes}
+          closeLikeDrawer={closeLikeDrawerHandler}
+        />
+      </CSSTransition>
+    </>,
+    document.getElementById('likedrawer')
+  );
+
+  const isPostLiked = post.likes.includes(authProfileId);
+
   return (
-    <footer
-      className={classes.postFooter}
-      onClick={() => {
-        if (props.post.isLikeLoading) return;
-        dispatch(openLikeDrawer(props.post.id));
-      }}
-    >
-      <div>
-        {props.post.isLikeLoading && (
+    <footer className={classes.postFooter} onClick={openLikeDrawerHandler}>
+      <div className={classes.likes}>
+        {isLikeLoading && (
           <button className={classes.noHover}>
             <Spinner />
           </button>
         )}
-        {!props.post.isLikeLoading && (
-          <button
-            onClick={(event) => {
-              event.stopPropagation();
-              dispatch(sendLikePutReq(props.post.id));
-            }}
-          >
-            {!props.post.isLiked && <img src={like} alt="like" />}
-            {props.post.isLiked && <img src={liked} alt="liked" />}
+        {!isLikeLoading && (
+          <button onClick={likeButtonClickHandler}>
+            {isPostLiked ? (
+              <img src={liked} alt='liked' />
+            ) : (
+              <img src={like} alt='like' />
+            )}
           </button>
         )}
-        <span>{props.post.likes.length}</span>
+        <span>{post.likes.length}</span>
       </div>
-      <div>
-        <span>{props.post.comments.length}</span>
+      <div className={classes.comments}>
+        <span>{post.comments.length}</span>
         <button
           onClick={(event) => {
             event.stopPropagation();
           }}
         >
-          <Link to={`/posts/${props.post.id}`}>
-            <img src={commentsIcon} alt="comments" />
+          <Link to={`/posts/${post.id}`}>
+            <img src={commentsIcon} alt='comments' />
           </Link>
         </button>
       </div>
+      {likeDrawer}
+      <Prompt when={isLikeLoading} message={() => false} />
     </footer>
   );
 }

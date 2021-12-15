@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { CSSTransition } from 'react-transition-group';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getAuthUser } from './redux/authProfileSlice';
-import { closeLikeDrawer } from './redux/likeDrawerSlice';
 
 import Preload from './pages/Preload/Preload';
 import SignIn from './pages/SignIn/SignIn';
@@ -16,20 +14,13 @@ import Navbar from './components/Navbar/Navbar';
 import NavbarDesktop from './components/NavbarDesktop/NavbarDesktop';
 import NavbarDefault from './components/NavbarDefault/NavbarDefault';
 import DetailedPost from './pages/DetailedPost/DetailedPost';
-import Backdrop, { backdropClassNames } from './components/Backdrop/Backdrop';
-import LikeDrawer, {
-  likeDrawerClassNames,
-} from './components/Post/LikeDrawer/LikeDrawer';
 
 import useNavbar from './hooks/useNavbar';
-
-import classes from './App.module.scss';
 
 function App() {
   const [isPreloading, setIsPreloading] = useState(true);
 
   const { isAuth } = useSelector(({ authProfile }) => authProfile);
-  const { isOpen } = useSelector(({ likeDrawer }) => likeDrawer);
   const { isNavbarDesktopUsed } = useSelector(({ navbar }) => navbar);
 
   const dispatch = useDispatch();
@@ -77,29 +68,6 @@ function App() {
           <Profile />
         </PrivateRoute>
       </Switch>
-      <>
-        <CSSTransition
-          in={isOpen}
-          timeout={200}
-          classNames={backdropClassNames()}
-          mountOnEnter
-          unmountOnExit
-        >
-          <Backdrop
-            className={classes.likeDrawerBackdrop}
-            onClick={() => dispatch(closeLikeDrawer())}
-          />
-        </CSSTransition>
-        <CSSTransition
-          in={isOpen}
-          timeout={200}
-          classNames={likeDrawerClassNames()}
-          mountOnEnter
-          unmountOnExit
-        >
-          <LikeDrawer />
-        </CSSTransition>
-      </>
     </>
   );
 }

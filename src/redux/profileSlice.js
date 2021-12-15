@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toggleLike, toggleLikeHandler } from './postSlice';
 
 export const fetchProfile = createAsyncThunk(
   'profile/fetchProfile',
@@ -72,7 +73,7 @@ export const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Profile
+      // fetchProfile
       .addCase(fetchProfile.pending, (state) => {
         state.isLoading = true;
       })
@@ -86,7 +87,7 @@ export const profileSlice = createSlice({
       .addCase(fetchProfile.rejected, (state) => {
         state.isLoading = true;
       })
-      // Posts
+      // fetchProfilePosts
       .addCase(fetchProfilePosts.pending, (state) => {
         state.arePorfilePostsLoading = true;
       })
@@ -99,6 +100,10 @@ export const profileSlice = createSlice({
         state.arePorfilePostsLoading = false;
         if (state.profilePostsPage === 0) return;
         state.profilePostsPage--;
+      })
+      // toggleLike
+      .addCase(toggleLike.fulfilled, (state, action) => {
+        toggleLikeHandler(state.profilePosts, action);
       });
   },
 });

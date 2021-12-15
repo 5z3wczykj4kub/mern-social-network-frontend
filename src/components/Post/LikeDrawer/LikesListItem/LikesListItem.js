@@ -11,18 +11,10 @@ import classes from './LikesListItem.module.scss';
 
 const LikesListItem = forwardRef(
   (
-    { signal, avatarImageUrl, firstName, lastName, isLoading },
+    { signal, avatarImageUrl, firstName, lastName, isLoading, likes },
     lastUserListItemRef
   ) => {
-    const { page, hasMoreLikes, postId } = useSelector(
-      ({ likeDrawer }) => likeDrawer
-    );
-    const cachedPost = useSelector(({ post }) =>
-      post.fetchedPosts.find(({ id }) => id === postId)
-    );
-    const comments = useSelector((state) => state.post.comments);
-
-    const { likes } = !cachedPost && comments ? comments : cachedPost;
+    const { page, hasMoreLikes } = useSelector(({ likeDrawer }) => likeDrawer);
 
     const action = useMemo(
       () =>

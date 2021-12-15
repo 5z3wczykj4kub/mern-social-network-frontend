@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 export const likeDrawerSlice = createSlice({
   name: 'likeDrawer',
   initialState: {
-    isOpen: false,
     isLoading: true,
     postId: null,
     users: [],
@@ -11,13 +10,6 @@ export const likeDrawerSlice = createSlice({
     hasMoreLikes: true,
   },
   reducers: {
-    openLikeDrawer: (state, action) => {
-      state.isOpen = true;
-      state.postId = action.payload;
-    },
-    closeLikeDrawer: (state) => {
-      state.isOpen = false;
-    },
     setLikeDrawerUsers: (state, action) => {
       state.users.push(...action.payload);
     },
@@ -66,8 +58,6 @@ export const sendGetUsersWhoLikedThePostReq =
   };
 
 export const {
-  openLikeDrawer,
-  closeLikeDrawer,
   setIsLikeDrawerLoading,
   setLikeDrawerUsers,
   cleanupLikeDrawer,

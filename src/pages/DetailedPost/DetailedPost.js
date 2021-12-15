@@ -1,14 +1,10 @@
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Prompt, useParams } from 'react-router';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchDetailedPost, cleanupPosts } from '../../redux/postSlice';
-
-import SkeletonPost from '../../components/Post/SkeletonPost/SkeletonPost';
 import Post from '../../components/Post/Post';
-
+import SkeletonPost from '../../components/Post/SkeletonPost/SkeletonPost';
 import useCloseLikeDrawerOnPageLeave from '../../hooks/useCloseLikeDrawerOnPageLeave';
-
+import { cleanupPosts, fetchDetailedPost } from '../../redux/postSlice';
 import classes from './DetailedPost.module.scss';
 
 const DetailedPost = () => {
@@ -45,10 +41,7 @@ const DetailedPost = () => {
   ) : (
     <>
       <Post className={classes.comments} post={post} showComments />
-      <Prompt
-        when={!!post.isLikeLoading || !!isCommentBeingAdded}
-        message={() => false}
-      />
+      <Prompt when={isCommentBeingAdded} message={() => false} />
     </>
   );
 };

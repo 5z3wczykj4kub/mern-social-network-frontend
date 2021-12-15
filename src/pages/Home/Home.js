@@ -1,14 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { Prompt } from 'react-router';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { sendFetchPostsReq } from '../../redux/postSlice';
-
-import SkeletonPost from '../../components/Post/SkeletonPost/SkeletonPost';
+import { useDispatch, useSelector } from 'react-redux';
 import Post from '../../components/Post/Post';
-
+import SkeletonPost from '../../components/Post/SkeletonPost/SkeletonPost';
 import useCloseLikeDrawerOnPageLeave from '../../hooks/useCloseLikeDrawerOnPageLeave';
-
+import { sendFetchPostsReq } from '../../redux/postSlice';
 import classes from './Home.module.scss';
 
 function Home() {
@@ -50,7 +45,6 @@ function Home() {
       ref={index === fetchedPosts.length - 1 ? lastPostRef : null}
     />
   ));
-  const isSomePostBeingLiked = fetchedPosts.some((post) => post.isLikeLoading);
 
   return (
     <main className={classes.home}>
@@ -59,7 +53,6 @@ function Home() {
       {!arePostsLoading && fetchedPosts.length === 0 && (
         <p style={{ marginTop: '4rem', textAlign: 'center' }}>No posts found</p>
       )}
-      <Prompt when={isSomePostBeingLiked} message={() => false} />
     </main>
   );
 }

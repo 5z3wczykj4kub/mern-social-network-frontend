@@ -1,31 +1,20 @@
-import { useRef, useState, useEffect } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  sendGetUsersWhoLikedThePostReq,
   cleanupLikeDrawer,
+  sendGetUsersWhoLikedThePostReq,
 } from '../../../redux/likeDrawerSlice';
-
-import LikesListItem from './LikesListItem/LikesListItem';
 import CloseIcon from '../../CloseIcon/CloseIcon';
-
 import classes from './LikeDrawer.module.scss';
+import LikesListItem from './LikesListItem/LikesListItem';
 
-function LikeDrawer() {
+function LikeDrawer({ likes, closeLikeDrawer }) {
   const lastUserListItemRef = useRef();
 
   const [abortController] = useState(new AbortController());
 
-  const { users, isLoading, postId } = useSelector(
-    ({ likeDrawer }) => likeDrawer
-  );
-  const cachedPost = useSelector(({ post }) =>
-    post.fetchedPosts.find(({ id }) => id === postId)
-  );
-  const comments = useSelector((state) => state.post.comments);
+  const { users, isLoading } = useSelector(({ likeDrawer }) => likeDrawer);
   const dispatch = useDispatch();
-
-  const { likes } = !cachedPost && comments ? comments : cachedPost;
 
   useEffect(() => {
     dispatch(
@@ -38,13 +27,14 @@ function LikeDrawer() {
   }, [dispatch, likes, abortController]);
 
   const skeletonUsersList = (
-    <>
-      <LikesListItem isLoading={true} />
-      <LikesListItem isLoading={true} />
-      <LikesListItem isLoading={true} />
-      <LikesListItem isLoading={true} />
-      <LikesListItem isLoading={true} />
-    </>
+    // <>
+    //   <LikesListItem isLoading={true} />
+    //   <LikesListItem isLoading={true} />
+    //   <LikesListItem isLoading={true} />
+    //   <LikesListItem isLoading={true} />
+    //   <LikesListItem isLoading={true} />
+    // </>
+    <p>loading...</p>
   );
   const usersList = users.map((user, index) => (
     <LikesListItem
@@ -52,6 +42,7 @@ function LikeDrawer() {
       firstName={user.firstName}
       lastName={user.lastName}
       avatarImageUrl={user.avatarImageUrl}
+      likes={likes}
       ref={index === users.length - 1 ? lastUserListItemRef : null}
       signal={abortController.signal}
     />
@@ -62,7 +53,7 @@ function LikeDrawer() {
       <div>
         <div>{likes.length} likes</div>
         <div>
-          <CloseIcon />
+          <CloseIcon onClick={closeLikeDrawer} />
         </div>
       </div>
       <ul>

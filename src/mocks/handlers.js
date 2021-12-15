@@ -1,8 +1,7 @@
-import { rest } from 'msw';
 import { nanoid } from '@reduxjs/toolkit';
-
-import POSTS from './posts';
+import { rest } from 'msw';
 import COMMENTS from './comments';
+import POSTS from './posts';
 import USERS from './users';
 
 export const handlers = [
@@ -170,27 +169,20 @@ export const handlers = [
       })
     );
   }),
-  // like post
-  rest.put('/api/posts/:postId/likes/:userId', (req, res, ctx) => {
+  // Toggle like
+  rest.post('/api/posts/:postId/likes', (req, res, ctx) => {
     const token = req.headers.get('Authorization').split(' ')[1];
     const user = USERS.find((user) => user.token === token);
     if (!user) return res(ctx.status(401));
 
-    const { postId, userId } = req.params;
+    const { postId } = req.params;
     const post = POSTS.find((post) => post.id === postId);
-    const likeIndex = post.likes.indexOf(userId);
-    if (likeIndex === -1 /* if it's not liked yet */) {
-      post.likes.push(userId);
-      var isLiked = true;
+    const likeIndex = post.likes.indexOf(user.id);
+    if (likeIndex === -1 /* If it's not liked yet */) {
+      post.likes.push(user.id);
     } else {
       post.likes.splice(likeIndex, 1);
-      // eslint-disable-next-line
-      var isLiked = false;
     }
-    return res(
-      ctx.delay(1000),
-      ctx.status(200),
-      ctx.json({ likes: post.likes, isLiked })
-    );
+    return res(ctx.delay(1000), ctx.status(200), ctx.json(post.likes));
   }),
 ];

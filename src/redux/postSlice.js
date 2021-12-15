@@ -18,6 +18,32 @@ export const fetchDetailedPost = createAsyncThunk(
   }
 );
 
+export const toggleLike = createAsyncThunk(
+  'post/toggleLike',
+  async (postId, { signal }) => {
+    try {
+      const res = await fetch(`/api/posts/${postId}/likes`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        method: 'POST',
+        signal,
+      });
+      return await res.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+);
+
+export const toggleLikeHandler = (entities, action) => {
+  const likeIds = action.payload;
+  const postId = action.meta.arg;
+  const post = entities.find(({ id }) => id === postId);
+  if (!post) return;
+  post.likes = likeIds;
+};
+
 export const postSlice = createSlice({
   name: 'post',
   initialState: {
@@ -62,7 +88,7 @@ export const postSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch detailed post.
+      // fetchDetailedPost
       .addCase(fetchDetailedPost.pending, (state) => {
         state.isPostLoading = true;
       })
@@ -73,7 +99,11 @@ export const postSlice = createSlice({
       .addCase(fetchDetailedPost.rejected, (state, action) => {
         state.isPostLoading = false;
       })
-      // Add comment.
+      // toggleLike
+      .addCase(toggleLike.fulfilled, (state, action) => {
+        toggleLikeHandler(state.fetchedPosts, action);
+      })
+      // addComment
       .addCase(addComment.fulfilled, (state, action) => {
         const commentId = action.payload.comment.id;
         const commentedPostId = state.fetchedPosts.find(
@@ -104,28 +134,6 @@ export const sendFetchPostsReq = (page, limit, signal) => async (dispatch) => {
     dispatch(incrementPage());
   } catch (error) {
     console.log(error.message);
-  }
-};
-
-// Like post.
-export const sendLikePutReq = (postId) => async (dispatch, getState) => {
-  try {
-    dispatch(setIsLikeLoading({ postId, isLikeLoading: true }));
-    const res = await fetch(
-      `/api/posts/${postId}/likes/${getState().authProfile.id}`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    );
-    const { likes, isLiked } = await res.json();
-    dispatch(setIsLikeLoading({ postId, isLikeLoading: false }));
-    dispatch(likePost({ postId, likes, isLiked }));
-  } catch (error) {
-    console.log(error.message);
-    dispatch(setIsLikeLoading({ postId, isLikeLoading: false }));
   }
 };
 
