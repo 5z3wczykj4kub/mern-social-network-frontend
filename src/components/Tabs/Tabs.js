@@ -1,14 +1,16 @@
-import { useRef, useState, useCallback } from 'react';
-
+import { useCallback, useRef, useState } from 'react';
 import Tab from './Tab/Tab';
-
 import classes from './Tabs.module.scss';
 
-const Tabs = (props) => {
+const Tabs = ({ labels, children }) => {
   const tabsRef = useRef();
 
+  const activeTabIndex = labels.findIndex(
+    (label) => label.to === document.location.pathname
+  );
+
   const [tabWidths, setTabWidths] = useState([]);
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(activeTabIndex);
 
   const getTabWidth = useCallback(
     (tabWidth) => setTabWidths((prevTabWidths) => [...prevTabWidths, tabWidth]),
@@ -25,10 +27,11 @@ const Tabs = (props) => {
   return (
     <>
       <div ref={tabsRef} className={classes.tabs}>
-        {props.labels.map((label, index) => (
+        {labels.map(({ label, to }, index) => (
           <Tab
             key={label + index}
             label={label}
+            to={to}
             index={index}
             getTabWidth={getTabWidth}
             onTabSelect={onTabSelectHandler}
@@ -44,7 +47,7 @@ const Tabs = (props) => {
           }}
         ></div>
       </div>
-      {props.components[selectedTabIndex]}
+      {children}
     </>
   );
 };

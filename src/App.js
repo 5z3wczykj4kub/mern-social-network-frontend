@@ -52,19 +52,19 @@ function App() {
         <Navbar />
       )}
       <Switch>
-        <Route path="/" exact>
-          <Redirect to="/posts" />
+        <Route path='/' exact>
+          <Redirect to='/posts' />
         </Route>
-        <Route path="/signin" exact>
-          {!isAuth ? <SignIn /> : <Redirect to="/" />}
+        <Route path='/signin' exact>
+          {!isAuth ? <SignIn /> : <Redirect to='/' />}
         </Route>
-        <PrivateRoute path="/posts" exact>
+        <PrivateRoute path='/posts' exact>
           <Home />
         </PrivateRoute>
-        <PrivateRoute path="/posts/:postId" exact>
+        <PrivateRoute path='/posts/:postId' exact>
           <DetailedPost />
         </PrivateRoute>
-        <PrivateRoute path="/profiles/:profileId" exact>
+        <PrivateRoute path='/profiles/:profileId'>
           <Profile />
         </PrivateRoute>
       </Switch>

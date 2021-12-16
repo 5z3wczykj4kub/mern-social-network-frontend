@@ -1,20 +1,22 @@
-import { useRef, useEffect } from 'react';
-
+import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import classes from './Tab.module.scss';
 
-const Tab = ({ getTabWidth, onTabSelect, label, index }) => {
+const Tab = ({ getTabWidth, onTabSelect, label, to, index }) => {
   const tabRef = useRef(null);
 
   useEffect(() => getTabWidth(tabRef.current.offsetWidth), [getTabWidth]);
 
   return (
-    <div
-      ref={tabRef}
-      className={classes.tab}
-      onClick={() => onTabSelect(index)}
-    >
-      {label}
-    </div>
+    <Link to={to}>
+      <div
+        ref={tabRef}
+        className={classes.tab}
+        onClick={() => onTabSelect(index)}
+      >
+        {label}
+      </div>
+    </Link>
   );
 };
 

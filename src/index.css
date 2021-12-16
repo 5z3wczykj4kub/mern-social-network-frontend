@@ -12,6 +12,11 @@ body {
   font-family: sans-serif;
 }
 
+a {
+  color: #000;
+  text-decoration: none;
+}
+
 /* Prevent annoying URL bar behavior on mobile borwsers */
 html {
   overflow: hidden;
