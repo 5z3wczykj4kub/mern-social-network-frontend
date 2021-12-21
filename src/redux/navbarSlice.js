@@ -18,6 +18,10 @@ export const navbarSclice = createSlice({
       state.isDropdownMenuOpen = !state.isDropdownMenuOpen;
       if (state.isSearchListVisible) state.isSearchListVisible = false;
     },
+    closeNavbar: (state) => {
+      state.isDropdownMenuOpen = false;
+      state.isSearchListVisible = false;
+    },
     closeDropdownMenu: (state) => {
       state.isDropdownMenuOpen = false;
     },
@@ -96,6 +100,7 @@ export const searchUsers = (event) => (dispatch, getState) => {
 
 export const {
   toggleDropdownMenu,
+  closeNavbar,
   closeDropdownMenu,
   setIsSearchListVisible,
   setIsSearchListEmpty,

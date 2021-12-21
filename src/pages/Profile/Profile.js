@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { cleanupProfile, fetchProfile } from '../../redux/profileSlice';
-
 import ProfileComponent from '../../components/Profile/Profile';
+import useTitle from '../../hooks/useTitle';
+import { cleanupProfile, fetchProfile } from '../../redux/profileSlice';
 
 const Profile = () => {
   const profile = useSelector(({ profile }) => profile);
   const dispatch = useDispatch();
 
   const { profileId } = useParams();
+
+  useTitle('MERN Social Network - profile');
 
   useEffect(() => {
     const promise = dispatch(fetchProfile(profileId));

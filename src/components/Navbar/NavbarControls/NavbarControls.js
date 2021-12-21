@@ -1,31 +1,33 @@
 import { useSelector } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 import avatar from '../../../assets/avatar64x64.png';
-import newPost from '../../../assets/new-post.png';
 import bell from '../../../assets/bell.png';
-
+import newPost from '../../../assets/new-post.png';
 import classes from './NavbarControls.module.scss';
 
-function NavbarControls() {
-  const { avatarImageUrl } = useSelector(({ authProfile }) => authProfile);
+const NavbarControls = () => {
+  const avatarImageUrl = useSelector(
+    (state) => state.authProfile.avatarImageUrl
+  );
+  const id = useSelector((state) => state.authProfile.id);
 
   return (
     <div className={classes.navbarControls}>
-      <button className={classes.avatar}>
+      <Link className={classes.avatar} to={`/profiles/${id}`}>
         {avatarImageUrl ? (
-          <img src={avatarImageUrl} alt="avatar" />
+          <img src={avatarImageUrl} alt='avatar' />
         ) : (
-          <img src={avatar} alt="avatar" />
+          <img src={avatar} alt='avatar' />
         )}
-      </button>
-      <button>
-        <img src={newPost} alt="new post icon" />
-      </button>
-      <button>
-        <img src={bell} alt="bell icon" />
-      </button>
+      </Link>
+      <Link to='#'>
+        <img src={newPost} alt='new post icon' />
+      </Link>
+      <Link to='#'>
+        <img src={bell} alt='bell icon' />
+      </Link>
     </div>
   );
-}
+};
 
 export default NavbarControls;
