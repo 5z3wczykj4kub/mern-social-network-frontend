@@ -1,12 +1,8 @@
 import { forwardRef, useEffect } from 'react';
-
 import { useDispatch } from 'react-redux';
-import { incrementPage } from '../../../../../redux/commentsSlice';
-
 import { Link } from 'react-router-dom';
-
+import { incrementPage } from '../../../../../redux/commentsSlice';
 import Avatar from '../../../../Avatar/Avatar';
-
 import classes from './CommentsListItem.module.scss';
 
 const CommentsListItem = forwardRef((props, lastCommentRef) => {
@@ -28,9 +24,11 @@ const CommentsListItem = forwardRef((props, lastCommentRef) => {
 
   return (
     <li className={classes.commentsListItem} ref={lastCommentRef}>
-      <Avatar className={classes.avatar} src={props.comment.avatarImageUrl} />
+      <Link to={`/profiles/${props.comment.author}`}>
+        <Avatar className={classes.avatar} src={props.comment.avatarImageUrl} />
+      </Link>{' '}
       <p>
-        <Link to="#" className={classes.link}>
+        <Link to={`/profiles/${props.comment.author}`} className={classes.link}>
           {props.comment.firstName} {props.comment.lastName}
         </Link>{' '}
         {props.comment.textContent}

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import NavbarDefault from './components/NavbarDefault/NavbarDefault';
 import NavbarDesktop from './components/NavbarDesktop/NavbarDesktop';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import useLocationChange from './hooks/useLocationChange';
 import useNavbar from './hooks/useNavbar';
 import DetailedPost from './pages/DetailedPost/DetailedPost';
 import Home from './pages/Home/Home';
@@ -38,8 +39,11 @@ function App() {
   }, [isAuth]);
 
   // Close navbar on page change.
-  const { pathname } = useLocation();
-  useEffect(() => dispatch(closeNavbar()), [dispatch, pathname]);
+  const locationChangeHandler = useCallback(
+    () => dispatch(closeNavbar()),
+    [dispatch]
+  );
+  useLocationChange(locationChangeHandler);
 
   if (isPreloading) return <Preload />;
 

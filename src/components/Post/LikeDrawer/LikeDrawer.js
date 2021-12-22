@@ -39,6 +39,7 @@ function LikeDrawer({ likes, closeLikeDrawer }) {
   const usersList = users.map((user, index) => (
     <LikesListItem
       key={user.id}
+      id={user.id}
       firstName={user.firstName}
       lastName={user.lastName}
       avatarImageUrl={user.avatarImageUrl}

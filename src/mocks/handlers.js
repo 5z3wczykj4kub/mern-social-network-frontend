@@ -94,6 +94,7 @@ export const handlers = [
     let { comment } = req.body;
     comment = {
       id: nanoid(),
+      author: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       avatarImageUrl: user.avatarImageUrl,

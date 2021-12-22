@@ -1,17 +1,14 @@
 import { forwardRef, useMemo } from 'react';
-
 import { useSelector } from 'react-redux';
-import { sendGetUsersWhoLikedThePostReq } from '../../../../redux/likeDrawerSlice';
-
-import useInfiniteScrolling from '../../../../hooks/useInfiniteScrolling';
-
+import { Link } from 'react-router-dom';
 import avatar from '../../../../assets/avatar64x64.png';
-
+import useInfiniteScrolling from '../../../../hooks/useInfiniteScrolling';
+import { sendGetUsersWhoLikedThePostReq } from '../../../../redux/likeDrawerSlice';
 import classes from './LikesListItem.module.scss';
 
 const LikesListItem = forwardRef(
   (
-    { signal, avatarImageUrl, firstName, lastName, isLoading, likes },
+    { signal, id, avatarImageUrl, firstName, lastName, isLoading, likes },
     lastUserListItemRef
   ) => {
     const { page, hasMoreLikes } = useSelector(({ likeDrawer }) => likeDrawer);
@@ -33,15 +30,29 @@ const LikesListItem = forwardRef(
         : classes.likesListItem;
     }
 
+    if (isLoading)
+      return (
+        <li className={className()} ref={lastUserListItemRef}>
+          {avatarImageUrl ? (
+            <img src={avatarImageUrl} alt='avatar' />
+          ) : (
+            <img src={avatar} alt='avatar' />
+          )}
+          <span>{`${firstName} ${lastName}`}</span>
+        </li>
+      );
+
     return (
-      <li className={className()} ref={lastUserListItemRef}>
-        {avatarImageUrl ? (
-          <img src={avatarImageUrl} alt="avatar" />
-        ) : (
-          <img src={avatar} alt="avatar" />
-        )}
-        <span>{`${firstName} ${lastName}`}</span>
-      </li>
+      <Link to={`/profiles/${id}`}>
+        <li className={className()} ref={lastUserListItemRef}>
+          {avatarImageUrl ? (
+            <img src={avatarImageUrl} alt='avatar' />
+          ) : (
+            <img src={avatar} alt='avatar' />
+          )}
+          <span>{`${firstName} ${lastName}`}</span>
+        </li>
+      </Link>
     );
   }
 );

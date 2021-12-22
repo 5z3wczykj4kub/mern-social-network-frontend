@@ -1,8 +1,6 @@
 import { useSelector } from 'react-redux';
-
-import SearchListItem from './SearchListItem/SearchListItem';
-
 import classes from './SearchList.module.scss';
+import SearchListItem from './SearchListItem/SearchListItem';
 
 function SearchList() {
   const { isSearchListEmpty, isLoading, searchedUsers } = useSelector(
@@ -21,6 +19,7 @@ function SearchList() {
   const usersList = searchedUsers.map((user) => (
     <SearchListItem
       key={user.id}
+      id={user.id}
       firstName={user.firstName}
       lastName={user.lastName}
       avatarImageUrl={user.avatarImageUrl}

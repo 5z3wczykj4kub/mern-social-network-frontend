@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cleanupSearch } from '../../../redux/navbarSlice';
-
+import NavbarControls from '../NavbarControls/NavbarControls';
 import Search from '../Search/Search';
 import SearchList from '../SearchList/SearchList';
-import NavbarControls from '../NavbarControls/NavbarControls';
-
 import classes from './DropdownMenu.module.scss';
 
 function DropdownMenu() {

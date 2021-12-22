@@ -33,6 +33,7 @@ let COMMENTS = [
 
 COMMENTS = USERS.map((USER, index) => ({
   id: `c${index + 1}`,
+  author: USER.id,
   firstName: USER.firstName,
   lastName: USER.lastName,
   avatarImageUrl: USER.avatarImageUrl,

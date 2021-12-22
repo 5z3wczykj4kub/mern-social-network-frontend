@@ -13,6 +13,8 @@
   }
 
   &.loading {
+    pointer-events: none;
+
     span {
       background-color: #eee;
       color: #eee;
