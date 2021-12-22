@@ -1,15 +1,12 @@
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import { useSelector, useDispatch } from 'react-redux';
 import { cleanupNavbar } from '../../redux/navbarSlice';
-
+import Logo from '../Navbar/Logo/Logo';
 import Search from '../Navbar/Search/Search';
 import SearchList from '../Navbar/SearchList/SearchList';
-import NavbarDesktopControls from './NavbarDesktopControls/NavbarDesktopControls';
-import Logo from '../Navbar/Logo/Logo';
-
 import classes from './NavbarDesktop.module.scss';
+import NavbarDesktopControls from './NavbarDesktopControls/NavbarDesktopControls';
 
 function NavbarDesktop() {
   const { isSearchListVisible, isSearchListEmpty } = useSelector(
@@ -21,7 +18,7 @@ function NavbarDesktop() {
 
   return (
     <nav className={classes.navbarDesktop}>
-      <Link to="/posts">
+      <Link to='/posts'>
         <Logo />
       </Link>
       <Search />
