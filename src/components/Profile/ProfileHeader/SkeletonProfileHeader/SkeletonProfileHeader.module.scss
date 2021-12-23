@@ -49,6 +49,10 @@
   padding: 1rem;
   padding-bottom: 1.25rem;
 
+  @media (min-width: 768px) {
+    padding-bottom: 1.5rem;
+  }
+
   h1,
   p {
     text-align: center;
@@ -90,10 +94,6 @@
     img {
       height: 1.25rem;
       opacity: 0.5;
-
-      @media (min-width: 768px) {
-        height: 1.5rem;
-      }
     }
 
     span {

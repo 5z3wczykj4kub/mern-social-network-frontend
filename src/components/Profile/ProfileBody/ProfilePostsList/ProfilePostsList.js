@@ -1,14 +1,12 @@
 import { useEffect, useRef } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchProfilePosts,
   incrementProfilePostsPage,
-} from '../../../redux/profileSlice';
-
-import Post from '../../Post/Post';
-import SkeletonPost from '../../Post/SkeletonPost/SkeletonPost';
-
+} from '../../../../redux/profileSlice';
+import Post from '../../../Post/Post';
+import SkeletonPost from '../../../Post/SkeletonPost/SkeletonPost';
+import PersonalInfo from './PersonalInfo/PersonalInfo';
 import classes from './ProfilePostsList.module.scss';
 
 const ProfilePostsList = ({ profile: { id: profileId } }) => {
@@ -60,8 +58,11 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
     <>
       <div className={classes.profilePostsList}>
         <aside>
-          <section></section>
-          <section></section>
+          <PersonalInfo />
+          <section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae,
+            ex!
+          </section>
         </aside>
         <main>
           {postsList}

@@ -1,0 +1,46 @@
+.PersonalInfo {
+  width: 100%;
+  margin-top: 0.5rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  border: 1px solid #e5e5e5;
+  box-shadow: 2px 2px 8px #e5e5e5;
+  padding: 1rem;
+
+  & > h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eee;
+    font-size: 1rem;
+    font-weight: normal;
+
+    & > img {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+  }
+
+  & > ul {
+    & > li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+
+      &:first-of-type {
+        margin-top: 0.25rem;
+      }
+
+      &:last-of-type {
+        padding-bottom: 0;
+      }
+
+      & > img {
+        width: 1.4rem;
+        height: 1.4rem;
+      }
+    }
+  }
+}

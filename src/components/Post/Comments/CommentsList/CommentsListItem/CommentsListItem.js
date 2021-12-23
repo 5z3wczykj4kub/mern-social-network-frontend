@@ -26,7 +26,7 @@ const CommentsListItem = forwardRef((props, lastCommentRef) => {
     <li className={classes.commentsListItem} ref={lastCommentRef}>
       <Link to={`/profiles/${props.comment.author}`}>
         <Avatar className={classes.avatar} src={props.comment.avatarImageUrl} />
-      </Link>{' '}
+      </Link>
       <p>
         <Link to={`/profiles/${props.comment.author}`} className={classes.link}>
           {props.comment.firstName} {props.comment.lastName}

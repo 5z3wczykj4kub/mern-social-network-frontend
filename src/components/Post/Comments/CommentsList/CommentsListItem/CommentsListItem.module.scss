@@ -3,10 +3,14 @@
   gap: 0.5rem;
   margin-top: 1rem;
 
-  .avatar {
-    width: 2.25rem;
-    height: 2.25rem;
-    flex-shrink: 0;
+  & > a:first-of-type {
+    height: 36px;
+
+    .avatar {
+      width: 2.25rem;
+      height: 2.25rem;
+      flex-shrink: 0;
+    }
   }
 
   p {

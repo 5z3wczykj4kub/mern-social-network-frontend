@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Route, useRouteMatch } from 'react-router-dom';
 import Tabs from '../../Tabs/Tabs';
-import ProfilePostsList from '../ProfilePostsList/ProfilePostsList';
+import ProfilePostsList from './ProfilePostsList/ProfilePostsList';
 import classes from './ProfileBody.module.scss';
 
 const ProfileBody = (props) => {

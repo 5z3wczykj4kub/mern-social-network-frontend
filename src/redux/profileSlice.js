@@ -38,38 +38,30 @@ export const fetchProfilePosts = createAsyncThunk(
   }
 );
 
+const initialState = {
+  id: null,
+  isLoading: true,
+  firstName: null,
+  lastName: null,
+  email: null,
+  avatarImageUrl: null,
+  location: null,
+  gender: null,
+  dateOfBirth: null,
+  profilePosts: [],
+  arePorfilePostsLoading: true,
+  profilePostsPage: 0,
+  profilePostsTotalCount: null,
+};
+
 export const profileSlice = createSlice({
   name: 'profile',
-  initialState: {
-    // Profile
-    id: null,
-    isLoading: true,
-    firstName: null,
-    lastName: null,
-    avatarImageUrl: null,
-    // Posts
-    profilePosts: [],
-    arePorfilePostsLoading: true,
-    profilePostsPage: 0,
-    profilePostsTotalCount: null,
-  },
+  initialState,
   reducers: {
     incrementProfilePostsPage: (state) => {
       state.profilePostsPage++;
     },
-    cleanupProfile: (state) => {
-      // Profile
-      state.id = null;
-      state.isLoading = true;
-      state.firstName = null;
-      state.lastName = null;
-      state.avatarImageUrl = null;
-      // Posts
-      state.profilePosts = [];
-      state.arePorfilePostsLoading = true;
-      state.profilePostsPage = 0;
-      state.profilePostsTotalCount = null;
-    },
+    cleanupProfile: () => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -82,7 +74,11 @@ export const profileSlice = createSlice({
         state.id = payload.id;
         state.firstName = payload.firstName;
         state.lastName = payload.lastName;
+        state.email = payload.email;
         state.avatarImageUrl = payload.avatarImageUrl;
+        state.gender = payload.gender;
+        state.location = payload.location;
+        state.dateOfBirth = payload.dateOfBirth;
       })
       .addCase(fetchProfile.rejected, (state) => {
         state.isLoading = true;

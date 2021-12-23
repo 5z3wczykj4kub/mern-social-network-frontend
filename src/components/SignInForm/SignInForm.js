@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../../redux/authProfileSlice';
-
+import validateEmail from '../../utils/validateEmail';
 import Spinner from '../Spinner/Spinner';
-
 import classes from './SignInForm.module.scss';
 
 function SignInForm() {
@@ -46,15 +44,15 @@ function SignInForm() {
         <p>Connect with people from all around the world!</p>
       )}
       <input
-        type="email"
-        placeholder="Email"
-        autoComplete="off"
+        type='email'
+        placeholder='Email'
+        autoComplete='off'
         value={email}
         onChange={(event) => setEmail(event.target.value)}
       />
       <input
-        type="password"
-        placeholder="Password"
+        type='password'
+        placeholder='Password'
         value={password}
         onChange={(event) => setPassword(event.target.value)}
       />
@@ -70,16 +68,10 @@ function SignInForm() {
       </button>
       <p>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        Don't have an account? <a href="#">Sign up</a>
+        Don't have an account? <a href='#'>Sign up</a>
       </p>
     </form>
   );
-}
-
-function validateEmail(email) {
-  const re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
 }
 
 export default SignInForm;

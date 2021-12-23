@@ -1,6 +1,7 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { rest } from 'msw';
 import COMMENTS from './comments';
+import getRandomDelay from './helpers/getRandomDelay';
 import POSTS from './posts';
 import USERS from './users';
 
@@ -10,10 +11,10 @@ export const handlers = [
     const { email, password } = JSON.parse(req.body);
     const user = USERS.find((user) => user.email === email);
     if (!user || user.password !== password)
-      return res(ctx.delay(1000), ctx.status(401));
+      return res(ctx.delay(getRandomDelay(100, 2000)), ctx.status(401));
 
     return res(
-      ctx.delay(1000),
+      ctx.delay(getRandomDelay(100, 2000)),
       ctx.status(200),
       ctx.json({
         token: user.token,
@@ -27,7 +28,7 @@ export const handlers = [
     if (!user) return res(ctx.status(401));
 
     return res(
-      ctx.delay(1000),
+      ctx.delay(getRandomDelay(100, 2000)),
       ctx.status(200),
       ctx.json({
         id: user.id,
@@ -46,7 +47,7 @@ export const handlers = [
     const page = +req.url.searchParams.get('page');
     const limit = +req.url.searchParams.get('limit');
     return res(
-      ctx.delay(1000),
+      ctx.delay(getRandomDelay(100, 2000)),
       ctx.status(200),
       ctx.json(POSTS.slice(page * limit, (page + 1) * limit))
     );
@@ -57,7 +58,11 @@ export const handlers = [
     const post = POSTS.find((post) => post.id === postId);
     if (!post) return res(ctx.status(404));
 
-    return res(ctx.delay(1000), ctx.status(200), ctx.json(post));
+    return res(
+      ctx.delay(getRandomDelay(100, 2000)),
+      ctx.status(200),
+      ctx.json(post)
+    );
   }),
   // Get comments.
   rest.get('/api/posts/:postId/comments', (req, res, ctx) => {
@@ -74,7 +79,7 @@ export const handlers = [
 
     if (comments.length === 0) return res(ctx.status(404));
     return res(
-      ctx.delay(1000),
+      ctx.delay(getRandomDelay(100, 2000)),
       ctx.status(200),
       ctx.json({
         comments,
@@ -104,7 +109,7 @@ export const handlers = [
     post.comments.unshift(comment.id);
     COMMENTS.unshift(comment);
     return res(
-      ctx.delay(1000),
+      ctx.delay(getRandomDelay(100, 2000)),
       ctx.status(200),
       ctx.json({ comment, commentedPostId: post.id })
     );
@@ -125,13 +130,21 @@ export const handlers = [
         const fullName = (user.firstName + user.lastName).toLowerCase();
         return fullName.includes(query);
       }).slice(0, limit);
-      return res(ctx.delay(1000), ctx.status(200), ctx.json(users));
+      return res(
+        ctx.delay(getRandomDelay(100, 2000)),
+        ctx.status(200),
+        ctx.json(users)
+      );
     }
     // users who liked the post
     if (usersIds) {
       usersIds = usersIds.split(',');
       const users = USERS.filter(({ id }) => usersIds.includes(id));
-      return res(ctx.delay(1000), ctx.status(200), ctx.json(users));
+      return res(
+        ctx.delay(getRandomDelay(100, 2000)),
+        ctx.status(200),
+        ctx.json(users)
+      );
     }
   }),
   // Get profile by id.
@@ -144,7 +157,11 @@ export const handlers = [
     const profile = USERS.find(({ id }) => id === profileId);
     if (!profile) return res(ctx.status(404));
 
-    return res(ctx.delay(1000), ctx.status(200), ctx.json(profile));
+    return res(
+      ctx.delay(getRandomDelay(100, 2000)),
+      ctx.status(200),
+      ctx.json(profile)
+    );
   }),
   // Get profile posts.
   rest.get('/api/profiles/:profileId/posts', (req, res, ctx) => {
@@ -162,7 +179,7 @@ export const handlers = [
     const limit = +req.url.searchParams.get('limit');
 
     return res(
-      ctx.delay(1000),
+      ctx.delay(getRandomDelay(100, 2000)),
       ctx.status(200),
       ctx.json({
         posts: profilePosts.slice(page * limit, (page + 1) * limit),
@@ -184,6 +201,10 @@ export const handlers = [
     } else {
       post.likes.splice(likeIndex, 1);
     }
-    return res(ctx.delay(1000), ctx.status(200), ctx.json(post.likes));
+    return res(
+      ctx.delay(getRandomDelay(100, 2000)),
+      ctx.status(200),
+      ctx.json(post.likes)
+    );
   }),
 ];
