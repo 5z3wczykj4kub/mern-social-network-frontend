@@ -1,0 +1,23 @@
+.SkeletonRecentlyAddedFriendsListItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  div {
+    &:first-of-type {
+      width: 4rem;
+      height: 4rem;
+      background-color: #eee;
+      border-radius: 0.5rem;
+    }
+
+    &:last-of-type {
+      width: 80%;
+      height: 0.75rem;
+      background-color: #eee;
+      border-radius: 0.3rem;
+    }
+  }
+}

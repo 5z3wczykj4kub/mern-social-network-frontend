@@ -8,6 +8,7 @@ import Post from '../../../Post/Post';
 import SkeletonPost from '../../../Post/SkeletonPost/SkeletonPost';
 import PersonalInfo from './PersonalInfo/PersonalInfo';
 import classes from './ProfilePostsList.module.scss';
+import RecentlyAddedFriendsList from './RecentlyAddedFriendsList/RecentlyAddedFriendsList';
 
 const ProfilePostsList = ({ profile: { id: profileId } }) => {
   const profilePosts = useSelector((state) => state.profile.profilePosts);
@@ -59,10 +60,7 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
       <div className={classes.profilePostsList}>
         <aside>
           <PersonalInfo />
-          <section>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae,
-            ex!
-          </section>
+          <RecentlyAddedFriendsList />
         </aside>
         <main>
           {postsList}

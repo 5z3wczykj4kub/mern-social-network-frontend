@@ -6,6 +6,7 @@ import navbar from './navbarSlice';
 import post from './postSlice';
 import profile from './profileSlice';
 import friends from './friendsSlice';
+import recentFriends from './recentFriendsSlice';
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     authProfile,
     profile,
     friends,
+    recentFriends,
   },
 });

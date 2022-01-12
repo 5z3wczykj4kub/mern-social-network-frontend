@@ -1,0 +1,24 @@
+.RecentlyAddedFriendsListItem {
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    & > p {
+      max-width: 100%;
+      text-align: center;
+      width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.Avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+}

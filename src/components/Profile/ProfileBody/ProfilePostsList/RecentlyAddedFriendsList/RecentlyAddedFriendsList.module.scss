@@ -1,0 +1,33 @@
+.RecentlyAddedFriendsList {
+  padding: 1rem;
+
+  & > p {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  & > div {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+    row-gap: 1rem;
+    margin-top: 1rem;
+
+    &.empty {
+      grid-template-columns: 100%;
+    }
+  }
+}
+
+.Link {
+  position: absolute;
+  right: 1rem;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
