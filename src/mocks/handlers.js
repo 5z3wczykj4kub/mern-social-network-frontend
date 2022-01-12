@@ -203,15 +203,10 @@ export const handlers = [
     return res(
       ctx.delay(getRandomDelay(100, 2000)),
       ctx.status(200),
-      ctx.json(
-        /*{
+      ctx.json({
         entities: USERS.slice(page * limit, (page + 1) * limit),
         entitiesCount: USERS.length,
-      }*/ {
-          entities: [],
-          entitiesCount: 0,
-        }
-      )
+      })
     );
   }),
   // Toggle like
