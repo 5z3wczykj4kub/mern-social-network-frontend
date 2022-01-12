@@ -78,7 +78,7 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
             )}
           {!arePorfilePostsLoading && profilePosts.length === 0 && (
             <p className={classes.postsNotFoundMessage}>
-              This user has no posts.
+              This user has no posts
             </p>
           )}
         </main>

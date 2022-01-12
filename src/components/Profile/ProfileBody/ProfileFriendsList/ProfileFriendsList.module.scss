@@ -1,0 +1,22 @@
+.ProfileFriendsList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  background-color: #fff;
+  box-shadow: 2px 2px 8px #e5e5e5;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.3rem;
+  padding: 1rem;
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
+.noFriendsMessage {
+  margin-top: 0.75rem;
+  text-align: center;
+}

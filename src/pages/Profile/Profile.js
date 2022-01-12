@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import ProfileComponent from '../../components/Profile/Profile';
 import useTitle from '../../hooks/useTitle';
+import { purge } from '../../redux/friendsSlice';
 import { cleanupProfile, fetchProfile } from '../../redux/profileSlice';
 
 const Profile = () => {
@@ -18,6 +19,7 @@ const Profile = () => {
     return () => {
       promise.abort();
       dispatch(cleanupProfile());
+      dispatch(purge());
     };
   }, [dispatch, profileId]);
 

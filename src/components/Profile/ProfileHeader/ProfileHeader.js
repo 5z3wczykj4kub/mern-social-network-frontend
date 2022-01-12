@@ -1,8 +1,6 @@
-import Avatar from '../../Avatar/Avatar';
-
-import friends from '../../../assets/friends.png';
 import addFriend from '../../../assets/add-friend.png';
-
+import friends from '../../../assets/friends.png';
+import Avatar from '../../Avatar/Avatar';
 import classes from './ProfileHeader.module.scss';
 
 const ProfileHeader = (props) => {
@@ -13,7 +11,7 @@ const ProfileHeader = (props) => {
         <Avatar
           className={classes.avatar}
           src={props.profile.avatarImageUrl}
-          large
+          // large
         />
         <h1>
           {props.profile.firstName} {props.profile.lastName}

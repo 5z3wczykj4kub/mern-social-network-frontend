@@ -1,9 +1,7 @@
 import classNames from 'classnames';
-
-import classes from './Avatar.module.scss';
-
 import defaultAvatarLarge from '../../assets/avatar.png';
 import defaultAvatarSmall from '../../assets/avatar64x64.png';
+import classes from './Avatar.module.scss';
 
 function Avatar(props) {
   const className = classNames(classes.avatar, {
@@ -20,7 +18,7 @@ function Avatar(props) {
           ? defaultAvatarLarge
           : defaultAvatarSmall
       }
-      alt="avatar"
+      alt='avatar'
     />
   );
 }

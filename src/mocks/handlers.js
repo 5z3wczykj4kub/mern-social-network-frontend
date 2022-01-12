@@ -187,6 +187,33 @@ export const handlers = [
       })
     );
   }),
+  // Get profile friends
+  rest.get('/api/profiles/:profileId/friends', (req, res, ctx) => {
+    const token = req.headers.get('Authorization').split(' ')[1];
+    const user = USERS.find((user) => user.token === token);
+    if (!user) return res(ctx.status(401));
+
+    const { profileId } = req.params;
+    const profile = USERS.find(({ id }) => id === profileId);
+    if (!profile) return res(ctx.status(404));
+
+    const page = +req.url.searchParams.get('page');
+    const limit = +req.url.searchParams.get('limit');
+
+    return res(
+      ctx.delay(getRandomDelay(100, 2000)),
+      ctx.status(200),
+      ctx.json(
+        /*{
+        entities: USERS.slice(page * limit, (page + 1) * limit),
+        entitiesCount: USERS.length,
+      }*/ {
+          entities: [],
+          entitiesCount: 0,
+        }
+      )
+    );
+  }),
   // Toggle like
   rest.post('/api/posts/:postId/likes', (req, res, ctx) => {
     const token = req.headers.get('Authorization').split(' ')[1];

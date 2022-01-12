@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { Route, useRouteMatch } from 'react-router-dom';
 import Tabs from '../../Tabs/Tabs';
-import ProfilePostsList from './ProfilePostsList/ProfilePostsList';
 import classes from './ProfileBody.module.scss';
+import ProfileFriendsList from './ProfileFriendsList/ProfileFriendsList';
+import ProfilePostsList from './ProfilePostsList/ProfilePostsList';
 
 const ProfileBody = (props) => {
   const { url } = useRouteMatch();
@@ -23,7 +24,7 @@ const ProfileBody = (props) => {
           <ProfilePostsList profile={props.profile} />
         </Route>
         <Route path={`${url}/friends`} exact>
-          <p style={{ padding: '16px 0' }}>Friends</p>
+          <ProfileFriendsList profileId={props.profile.id} />
         </Route>
         <Route path={`${url}/about`} exact>
           <p style={{ padding: '16px 0' }}>About</p>

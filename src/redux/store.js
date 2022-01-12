@@ -1,19 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-import navbarReducer from './navbarSlice';
-import postReducer from './postSlice';
-import commentsReducer from './commentsSlice';
-import likeDrawerReducer from './likeDrawerSlice';
-import authProfileReducer from './authProfileSlice';
-import profileReducer from './profileSlice';
+import authProfile from './authProfileSlice';
+import comments from './commentsSlice';
+import likeDrawer from './likeDrawerSlice';
+import navbar from './navbarSlice';
+import post from './postSlice';
+import profile from './profileSlice';
+import friends from './friendsSlice';
 
 export default configureStore({
   reducer: {
-    navbar: navbarReducer,
-    post: postReducer,
-    comments: commentsReducer,
-    likeDrawer: likeDrawerReducer,
-    authProfile: authProfileReducer,
-    profile: profileReducer,
+    navbar,
+    post,
+    comments,
+    likeDrawer,
+    authProfile,
+    profile,
+    friends,
   },
 });
