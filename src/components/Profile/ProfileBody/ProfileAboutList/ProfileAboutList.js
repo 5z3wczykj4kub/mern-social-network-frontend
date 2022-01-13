@@ -1,6 +1,14 @@
 import { useRef, useState } from 'react';
+import birthdayCakeIcon from '../../../../assets/birthday-cake.png';
 import copyIcon from '../../../../assets/copy.png';
+import emailIcon from '../../../../assets/email.png';
+import genderIcon from '../../../../assets/gender.png';
+import hourglassIcon from '../../../../assets/hourglass.png';
+import idCardIcon from '../../../../assets/id-card.png';
+import linkIcon from '../../../../assets/link.png';
+import pinIcon from '../../../../assets/pin.png';
 import profileIcon from '../../../../assets/profile.png';
+import capitalizeFirstLetter from '../../../../utils/capitalizeFirstLetter';
 import getAgeByDateOfBirth from '../../../../utils/getAgeByDateOfBirth';
 import styles from './ProfileAboutList.module.scss';
 
@@ -28,22 +36,34 @@ const ProfileAboutList = ({
   return (
     <div className={styles.ProfileAboutList}>
       <h2>
-        <img src={profileIcon} alt="Profile" /> Personal information
+        <img src={profileIcon} alt='Profile' /> Personal information
       </h2>
-      <p>First name: {firstName}</p>
-      <p>Last name: {lastName}</p>
-      <p>Email: {email}</p>
-      <p>Gender: {gender}</p>
-      <p>Age: {getAgeByDateOfBirth(dateOfBirth)}</p>
-      <p>Date of birth: {dateOfBirth}</p>
-      <p>Location: {location}</p>
+      <p>
+        <img src={idCardIcon} alt='id card' /> {firstName} {lastName}
+      </p>
+      <p>
+        <img src={emailIcon} alt='envelope' /> {email}
+      </p>
+      <p>
+        <img src={genderIcon} alt='gender' /> {capitalizeFirstLetter(gender)}
+      </p>
+      <p>
+        <img src={hourglassIcon} alt='hourglass' />{' '}
+        {getAgeByDateOfBirth(dateOfBirth)}
+      </p>
+      <p>
+        <img src={birthdayCakeIcon} alt='birthday cake' /> {dateOfBirth}
+      </p>
+      <p>
+        <img src={pinIcon} alt='pin' /> {location}
+      </p>
       <p className={styles.profileLink}>
-        Copy profile link:
+        <img src={linkIcon} alt='link' /> Copy profile link:
         <span>
           <img
             className={styles.copyIcon}
             src={copyIcon}
-            alt="copy"
+            alt='copy'
             onClick={copyProfileLinkToClipboard}
           />
           {isTooltipVisible && <span className={styles.tooltip}>Copied!</span>}
