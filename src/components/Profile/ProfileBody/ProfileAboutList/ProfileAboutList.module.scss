@@ -1,0 +1,30 @@
+.ProfileAboutList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  background-color: #fff;
+  box-shadow: 2px 2px 8px #e5e5e5;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.3rem;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.Link {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copyIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}

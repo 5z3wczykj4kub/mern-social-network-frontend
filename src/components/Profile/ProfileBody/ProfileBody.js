@@ -4,8 +4,9 @@ import Tabs from '../../Tabs/Tabs';
 import classes from './ProfileBody.module.scss';
 import ProfileFriendsList from './ProfileFriendsList/ProfileFriendsList';
 import ProfilePostsList from './ProfilePostsList/ProfilePostsList';
+import ProfileAboutList from './ProfileAboutList/ProfileAboutList';
 
-const ProfileBody = (props) => {
+const ProfileBody = ({ profile }) => {
   const { url } = useRouteMatch();
 
   const labels = useMemo(
@@ -21,13 +22,13 @@ const ProfileBody = (props) => {
     <div className={classes.profileBody}>
       <Tabs labels={labels}>
         <Route path={url} exact>
-          <ProfilePostsList profile={props.profile} />
+          <ProfilePostsList profile={profile} />
         </Route>
         <Route path={`${url}/friends`} exact>
-          <ProfileFriendsList profileId={props.profile.id} />
+          <ProfileFriendsList profileId={profile.id} />
         </Route>
         <Route path={`${url}/about`} exact>
-          <p style={{ padding: '16px 0' }}>About</p>
+          <ProfileAboutList {...profile} />
         </Route>
       </Tabs>
     </div>
