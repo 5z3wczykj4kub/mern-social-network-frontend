@@ -1,8 +1,13 @@
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import friends from '../../../../assets/friends.png';
-
 import classes from './SkeletonProfileHeader.module.scss';
 
 const SkeletonProfileHeader = () => {
+  const authProfileId = useSelector((state) => state.authProfile.id);
+
+  const { profileId } = useParams();
+
   return (
     <header className={classes.skeletonProfileHeader}>
       <div className={classes.skeletonBackgroundImage}></div>
@@ -11,9 +16,11 @@ const SkeletonProfileHeader = () => {
         {/* eslint-disable-next-line */}
         <h1></h1>
         <p>
-          <img src={friends} alt="friends" /> <span></span>
+          <img src={friends} alt='friends' /> <span></span>
         </p>
-        <div className={classes.skeletonButton}></div>
+        {authProfileId !== profileId && (
+          <div className={classes.skeletonButton}></div>
+        )}
       </div>
     </header>
   );

@@ -1,5 +1,5 @@
-import ProfileHeader from './ProfileHeader/ProfileHeader';
 import ProfileBody from './ProfileBody/ProfileBody';
+import ProfileHeader from './ProfileHeader/ProfileHeader';
 import SkeletonProfileHeader from './ProfileHeader/SkeletonProfileHeader/SkeletonProfileHeader';
 
 const Profile = (props) => {

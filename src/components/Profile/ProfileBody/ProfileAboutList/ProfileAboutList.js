@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import birthdayCakeIcon from '../../../../assets/birthday-cake.png';
 import copyIcon from '../../../../assets/copy.png';
 import emailIcon from '../../../../assets/email.png';
@@ -32,6 +32,8 @@ const ProfileAboutList = ({
     setIsTooltipVisible(true);
     timer.current = setTimeout(() => setIsTooltipVisible(false), 1000);
   };
+
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   return (
     <div className={styles.ProfileAboutList}>
