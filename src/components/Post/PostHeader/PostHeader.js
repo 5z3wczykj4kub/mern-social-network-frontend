@@ -9,11 +9,11 @@ function PostHeader(props) {
     <header className={classes.postHeader}>
       {props.post.avatarImageUrl ? (
         <Link className={classes.link} to={`/profiles/${props.post.author}`}>
-          <img src={props.post.avatarImageUrl} alt="avatar" />
+          <img src={props.post.avatarImageUrl} alt='avatar' />
         </Link>
       ) : (
         <Link className={classes.link} to={`/profiles/${props.post.author}`}>
-          <img src={avatar} alt="avatar" />
+          <img src={avatar} alt='avatar' />
         </Link>
       )}
       <h2>

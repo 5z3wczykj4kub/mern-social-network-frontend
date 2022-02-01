@@ -35,17 +35,20 @@ export const authProfileSlice = createSlice({
 });
 
 export const getAuthUser = (token) => async (dispatch) => {
-  const res = await fetch('/api/auth/profile', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(
+    `${'http://192.168.0.198:5000/api' || process.env.REACT_APP_BASE_URL}/auth`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   if (!res.ok) {
     dispatch(setAuthStatus('rejected'));
     localStorage.removeItem('token');
     window.location.reload();
   }
-  const { id, firstName, lastName, avatarImageUrl } = await res.json();
+  const { id, firstName, lastName, avatar: avatarImageUrl } = await res.json();
   dispatch(
     setAuthProfile({ isAuth: true, id, firstName, lastName, avatarImageUrl })
   );
@@ -54,16 +57,24 @@ export const getAuthUser = (token) => async (dispatch) => {
 
 export const signIn = (email, password) => async (dispatch) => {
   dispatch(setAuthStatus('pending'));
-  const res = await fetch('/api/auth/signin', {
-    method: 'POST',
-    body: JSON.stringify({ email, password }),
-  });
+  const res = await fetch(
+    `${
+      'http://192.168.0.198:5000/api' || process.env.REACT_APP_BASE_URL
+    }/auth/signin`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    }
+  );
   if (!res.ok) {
     dispatch(setAuthStatus('rejected'));
     return;
   }
-  const { token } = await res.json();
-  localStorage.setItem('token', token);
+  const { jwt } = await res.json();
+  localStorage.setItem('token', jwt);
   dispatch(getAuthUser(localStorage.getItem('token')));
 };
 

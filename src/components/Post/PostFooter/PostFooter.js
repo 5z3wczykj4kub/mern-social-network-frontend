@@ -89,7 +89,7 @@ function PostFooter({ post }) {
         <span>{post.likes.length}</span>
       </div>
       <div className={classes.comments}>
-        <span>{post.comments.length}</span>
+        <span>{post.comments}</span>
         <button
           onClick={(event) => {
             event.stopPropagation();

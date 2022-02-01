@@ -49,16 +49,38 @@ export const postSlice = createSlice({
   initialState: {
     fetchedPosts: [],
     page: 0,
+    cursor: null,
     hasMorePosts: true,
     arePostsLoading: true,
     isPostLoading: true,
   },
   reducers: {
-    setFetchedPosts: (state, action) => {
-      state.fetchedPosts = [...state.fetchedPosts, ...action.payload];
+    setFetchedPosts: {
+      reducer: (state, action) => {
+        state.fetchedPosts = [...state.fetchedPosts, ...action.payload];
+      },
+      prepare: (data) => {
+        let { rows: posts } = data;
+        posts = posts.map((post) => ({
+          id: post.id.toString(),
+          author: post.author.id.toString(),
+          firstName: post.author.firstName,
+          lastName: post.author.lastName,
+          avatarImageUrl: post.author.avatar,
+          postImageUrl: post.media,
+          textContent: post.content,
+          likes: [], // FIXME: Change likes to number
+          isLiked: false,
+          comments: post.comments,
+        }));
+        return { payload: posts };
+      },
     },
     incrementPage: (state) => {
       state.page++;
+    },
+    setCursor: (state, action) => {
+      state.cursor = action.payload;
     },
     setHasMorePosts: (state, action) => {
       state.hasMorePosts = action.payload;
@@ -84,6 +106,7 @@ export const postSlice = createSlice({
       state.hasMorePosts = true;
       state.arePostsLoading = true;
       state.isPostLoading = true;
+      state.cursor = null;
     },
   },
   extraReducers: (builder) => {
@@ -115,31 +138,40 @@ export const postSlice = createSlice({
 });
 
 // Fetch many posts.
-export const sendFetchPostsReq = (page, limit, signal) => async (dispatch) => {
-  dispatch(setArePostsLoading(true));
-  try {
-    const res = await fetch(`/api/posts?page=${page}&limit=${limit}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      signal,
-    });
-    const posts = await res.json();
-    dispatch(setArePostsLoading(false));
-    if (posts.length === 0) {
-      dispatch(setHasMorePosts(false));
-      return;
+export const sendFetchPostsReq =
+  (page, limit, signal) => async (dispatch, getState) => {
+    const cursor = getState().post.cursor;
+    dispatch(setArePostsLoading(true));
+    try {
+      const res = await fetch(
+        `${
+          'http://192.168.0.198:5000/api' || process.env.REACT_APP_BASE_URL
+        }/posts?limit=${limit}${cursor ? `&cursor=${cursor}` : ''}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          signal,
+        }
+      );
+      const posts = await res.json();
+      dispatch(setArePostsLoading(false));
+      if (posts.count === posts.rows.length) {
+        dispatch(setHasMorePosts(false));
+        return;
+      }
+      dispatch(setFetchedPosts(posts));
+      dispatch(setCursor(posts.rows[posts.rows.length - 1].id));
+      dispatch(incrementPage());
+    } catch (error) {
+      console.log(error.message);
     }
-    dispatch(setFetchedPosts(posts));
-    dispatch(incrementPage());
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+  };
 
 export const {
   setFetchedPosts,
   incrementPage,
+  setCursor,
   setHasMorePosts,
   likePost,
   setArePostsLoading,

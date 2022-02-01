@@ -29,14 +29,14 @@ function CommentsList({ post }) {
   // Fetch comments.
   const { id } = post;
   const limit = 10;
-  const commentsLength = post.comments.length;
-  const slicedComments = post.comments.slice(
-    page * limit + addedCommentsCounter,
-    (page + 1) * limit + addedCommentsCounter
-  );
+  const commentsLength = post.comments;
+  // const slicedComments = post.comments.slice(
+  //   page * limit + addedCommentsCounter,
+  //   (page + 1) * limit + addedCommentsCounter
+  // );
 
   commentsLengthRef.current = commentsLength;
-  slicedCommentsRef.current = slicedComments;
+  // slicedCommentsRef.current = slicedComments;
 
   useEffect(() => {
     if (commentsLengthRef.current === 0) return;
@@ -44,11 +44,11 @@ function CommentsList({ post }) {
     const promise = dispatch(
       fetchComments({
         id,
-        comments: slicedCommentsRef.current,
+        // comments: slicedCommentsRef.current,
       })
     );
     return () => promise.abort();
-  }, [dispatch, id, page, commentsLengthRef, slicedCommentsRef]);
+  }, [dispatch, id, page, commentsLengthRef /*slicedCommentsRef*/]);
 
   // Clear comments on component unmount.
   useEffect(() => () => dispatch(cleanupComments()), [dispatch]);
