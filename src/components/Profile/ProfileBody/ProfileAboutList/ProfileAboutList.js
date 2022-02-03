@@ -8,8 +8,8 @@ import idCardIcon from '../../../../assets/id-card.png';
 import linkIcon from '../../../../assets/link.png';
 import pinIcon from '../../../../assets/pin.png';
 import profileIcon from '../../../../assets/profile.png';
-import capitalizeFirstLetter from '../../../../utils/capitalizeFirstLetter';
-import getAgeByDateOfBirth from '../../../../utils/getAgeByDateOfBirth';
+import capitalizeFirstLetter from '../../../../utils/functions/capitalizeFirstLetter';
+import getAgeByDateOfBirth from '../../../../utils/functions/getAgeByDateOfBirth';
 import styles from './ProfileAboutList.module.scss';
 
 const ProfileAboutList = ({

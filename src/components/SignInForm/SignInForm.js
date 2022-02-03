@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../../redux/authProfileSlice';
-import validateEmail from '../../utils/validateEmail';
+import validateEmail from '../../utils/functions/validateEmail';
 import Spinner from '../Spinner/Spinner';
 import classes from './SignInForm.module.scss';
 

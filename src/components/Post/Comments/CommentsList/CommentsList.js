@@ -1,58 +1,40 @@
 import { useEffect, useRef } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  fetchComments,
   cleanupComments,
+  fetchComments,
 } from '../../../../redux/commentsSlice';
-
-import SkeletonCommentsListItem from './SkeletonCommentsListItem/SkeletonCommentsListItem';
-import CommentsListItem from './CommentsListItem/CommentsListItem';
-
 import classes from './CommentsList.module.scss';
+import CommentsListItem from './CommentsListItem/CommentsListItem';
+import SkeletonCommentsListItem from './SkeletonCommentsListItem/SkeletonCommentsListItem';
 
 function CommentsList({ post }) {
-  const lastCommentRef = useRef();
-  const commentsLengthRef = useRef();
-  const slicedCommentsRef = useRef();
-
   const areCommentsLoading = useSelector(
     ({ comments }) => comments.areCommentsLoading
   );
   const comments = useSelector(({ comments }) => comments.comments);
   const page = useSelector(({ comments }) => comments.page);
-  const addedCommentsCounter = useSelector(
-    ({ comments }) => comments.addedCommentsCounter
-  );
+
   const dispatch = useDispatch();
 
   // Fetch comments.
   const { id } = post;
-  const limit = 10;
-  const commentsLength = post.comments;
-  // const slicedComments = post.comments.slice(
-  //   page * limit + addedCommentsCounter,
-  //   (page + 1) * limit + addedCommentsCounter
-  // );
-
-  commentsLengthRef.current = commentsLength;
-  // slicedCommentsRef.current = slicedComments;
 
   useEffect(() => {
-    if (commentsLengthRef.current === 0) return;
-
     const promise = dispatch(
       fetchComments({
         id,
-        // comments: slicedCommentsRef.current,
+        limit: 10,
       })
     );
     return () => promise.abort();
-  }, [dispatch, id, page, commentsLengthRef /*slicedCommentsRef*/]);
+  }, [dispatch, id, page]);
 
   // Clear comments on component unmount.
   useEffect(() => () => dispatch(cleanupComments()), [dispatch]);
 
+  const lastCommentRef = useRef();
+  const commentsLength = post.comments;
   const hasMoreComments = commentsLength !== comments.length;
 
   const skeletonCommentsListItems = (

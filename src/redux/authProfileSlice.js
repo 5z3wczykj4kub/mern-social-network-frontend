@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import { baseURL } from '../utils/constants/api';
 import { cleanupPosts } from './postSlice';
 
 export const authProfileSlice = createSlice({
@@ -35,14 +35,11 @@ export const authProfileSlice = createSlice({
 });
 
 export const getAuthUser = (token) => async (dispatch) => {
-  const res = await fetch(
-    `${'http://192.168.0.198:5000/api' || process.env.REACT_APP_BASE_URL}/auth`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await fetch(`${baseURL}/auth`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   if (!res.ok) {
     dispatch(setAuthStatus('rejected'));
     localStorage.removeItem('token');
@@ -57,18 +54,13 @@ export const getAuthUser = (token) => async (dispatch) => {
 
 export const signIn = (email, password) => async (dispatch) => {
   dispatch(setAuthStatus('pending'));
-  const res = await fetch(
-    `${
-      'http://192.168.0.198:5000/api' || process.env.REACT_APP_BASE_URL
-    }/auth/signin`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    }
-  );
+  const res = await fetch(`${baseURL}/auth/signin`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
   if (!res.ok) {
     dispatch(setAuthStatus('rejected'));
     return;

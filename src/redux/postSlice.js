@@ -1,17 +1,38 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { addComment } from './commentsSlice';
+import { baseURL } from '../utils/constants/api';
 
 export const fetchDetailedPost = createAsyncThunk(
   'post/fetchDetailedPost',
   async (postId, { signal }) => {
     try {
-      const res = await fetch(`/api/posts/${postId}`, {
+      const res = await fetch(`${baseURL}/posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         signal,
       });
-      return await res.json();
+      const {
+        id,
+        content: textContent,
+        media: postImageUrl,
+        comments,
+        // createdAt,
+        author: { id: author, firstName, lastName, avatar: avatarImageUrl },
+      } = await res.json();
+      const post = {
+        id: id.toString(),
+        author: author.toString(),
+        firstName,
+        lastName,
+        avatarImageUrl,
+        postImageUrl,
+        textContent,
+        likes: [], // FIXME: Change likes to number
+        isLiked: false,
+        comments, // FIXME: Change to real number
+      };
+      return post;
     } catch (error) {
       console.log(error.message);
     }
@@ -76,6 +97,11 @@ export const postSlice = createSlice({
         return { payload: posts };
       },
     },
+    syncNumberOfCommentsAfterFirstFetch: (state, action) => {
+      const { postId, count } = action.payload;
+      const post = state.fetchedPosts.find(({ id }) => id === postId);
+      post.comments = count;
+    },
     incrementPage: (state) => {
       state.page++;
     },
@@ -128,11 +154,10 @@ export const postSlice = createSlice({
       })
       // addComment
       .addCase(addComment.fulfilled, (state, action) => {
-        const commentId = action.payload.comment.id;
         const commentedPostId = state.fetchedPosts.find(
           ({ id }) => id === action.payload.commentedPostId
         );
-        commentedPostId.comments.unshift(commentId);
+        commentedPostId.comments++;
       });
   },
 });
@@ -144,9 +169,7 @@ export const sendFetchPostsReq =
     dispatch(setArePostsLoading(true));
     try {
       const res = await fetch(
-        `${
-          'http://192.168.0.198:5000/api' || process.env.REACT_APP_BASE_URL
-        }/posts?limit=${limit}${cursor ? `&cursor=${cursor}` : ''}`,
+        `${baseURL}/posts?limit=${limit}${cursor ? `&cursor=${cursor}` : ''}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -178,6 +201,7 @@ export const {
   setIsLikeLoading,
   cleanupPosts,
   cleanupDetailedPost,
+  syncNumberOfCommentsAfterFirstFetch,
 } = postSlice.actions;
 
 export default postSlice.reducer;

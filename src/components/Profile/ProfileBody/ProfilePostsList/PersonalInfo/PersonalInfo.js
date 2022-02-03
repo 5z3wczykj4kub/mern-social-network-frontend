@@ -4,7 +4,7 @@ import emailIcon from '../../../../../assets/email.png';
 import genderIcon from '../../../../../assets/gender.png';
 import pinIcon from '../../../../../assets/pin.png';
 import profileIcon from '../../../../../assets/profile.png';
-import capitalizeFirstLetter from '../../../../../utils/capitalizeFirstLetter';
+import capitalizeFirstLetter from '../../../../../utils/functions/capitalizeFirstLetter';
 import classes from './PersonalInfo.module.scss';
 
 const PersonalInfo = () => {

@@ -1,15 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { baseURL } from '../utils/constants/api';
+import { syncNumberOfCommentsAfterFirstFetch } from './postSlice';
 
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
-  async ({ id: postId }, { signal, getState }) => {
-    const { cursor } = getState().comments;
+  async ({ id: postId, limit }, { signal, getState, dispatch }) => {
+    const { cursor, comments: alreadyFetchedComments } = getState().comments;
 
     try {
       const res = await fetch(
-        `${
-          'http://192.168.0.198:5000/api' || process.env.REACT_APP_BASE_URL
-        }/posts/${postId}/comments${cursor ? `?cursor=${cursor}` : ''}`,
+        `${baseURL}/posts/${postId}/comments?limit=${limit}${
+          cursor ? `&cursor=${cursor}` : ''
+        }`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -20,6 +22,9 @@ export const fetchComments = createAsyncThunk(
       const data = await res.json();
 
       let { count, rows: comments } = data;
+
+      if (alreadyFetchedComments.length === 0)
+        dispatch(syncNumberOfCommentsAfterFirstFetch({ postId, count }));
 
       comments = comments.map((comment) => ({
         id: comment.id.toString(),
@@ -34,31 +39,38 @@ export const fetchComments = createAsyncThunk(
     } catch (error) {
       console.log(error.message);
     }
-  },
-  {
-    /**
-     * FIXME:
-     * Instead of this, use a flag as this will cause trouble after adding a comment
-     * (incrementing the size of comments array).
-     */
-    condition: (_, { getState }) =>
-      getState().comments.count === getState().comments.length ? false : true,
   }
 );
 
 export const addComment = createAsyncThunk(
   'comments/addComment',
-  async ({ postId, comment: textContent }) => {
+  async ({ postId, comment }, { getState }) => {
     try {
-      const res = await fetch(`/api/posts/${postId}/comments`, {
-        method: 'PUT',
+      const res = await fetch(`${baseURL}/posts/${postId}/comments`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify({ comment: { textContent } }),
+        body: JSON.stringify({ content: comment }),
       });
-      return await res.json();
+      const data = await res.json();
+      const {
+        authProfile: { firstName, lastName, avatarImageUrl },
+      } = getState();
+      const commentObj = {
+        comment: {
+          id: data.id.toString(),
+          author: data.authorId.toString(),
+          firstName,
+          lastName,
+          avatarImageUrl,
+          textContent: data.content,
+          date: data.createdAt,
+        },
+        commentedPostId: data.postId.toString(),
+      };
+      return commentObj;
     } catch (error) {
       console.log(error.message);
     }
@@ -100,7 +112,8 @@ export const commentsSlice = createSlice({
 
         state.areCommentsLoading = false;
         state.count = count;
-        state.cursor = comments[comments.length - 1].id;
+        state.cursor =
+          comments.length > 1 ? comments[comments.length - 1].id : null;
         state.comments.push(...comments);
       })
       .addCase(fetchComments.rejected, (state, action) => {
