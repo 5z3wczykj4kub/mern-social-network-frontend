@@ -117,7 +117,7 @@ export const profileSlice = createSlice({
             textContent: post.content,
             likes: [], // REMOVE LATER
             isLiked: false,
-            comments: 0, // REMOVE LATER
+            comments: post.comments,
           }))
         );
         state.cursor = posts[posts.length - 1].id;

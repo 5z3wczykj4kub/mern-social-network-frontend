@@ -17,9 +17,8 @@ const RecentlyAddedFriendsList = () => {
 
   useEffect(() => {
     if (entities.length > 0 || entitiesTotalCount === 0) return;
-    const page = 0;
     const limit = 9;
-    const promise = dispatch(getRecentFriendsQuery({ profileId, page, limit }));
+    const promise = dispatch(getRecentFriendsQuery({ profileId, limit }));
     return () => promise.abort();
   }, [dispatch, profileId, entities.length, entitiesTotalCount]);
 

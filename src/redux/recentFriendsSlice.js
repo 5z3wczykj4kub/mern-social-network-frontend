@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { baseURL } from '../utils/constants/api';
 
 export const getRecentFriendsQuery = createAsyncThunk(
   'recentFriendsSlice/getRecentFriendsQuery',
-  async ({ profileId, page, limit }, { signal }) => {
+  async ({ profileId, limit }, { signal }) => {
     try {
       const res = await fetch(
-        `/api/profiles/${profileId}/friends?page=${page}&limit=${limit}`,
+        `${baseURL}/users/${profileId}/friends?limit=${limit}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -13,7 +14,17 @@ export const getRecentFriendsQuery = createAsyncThunk(
           signal,
         }
       );
-      return await res.json();
+      let { rows: friends, count } = await res.json();
+      friends = friends.map((friend) => ({
+        id: friend.userId.toString(),
+        firstName: friend.firstName,
+        lastName: friend.lastName,
+        avatarImageUrl: friend.avatar,
+      }));
+      return {
+        entities: friends,
+        entitiesCount: count,
+      };
     } catch (error) {
       console.log(error.message);
     }
