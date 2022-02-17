@@ -13,7 +13,7 @@ const Profile = () => {
 
   const { profileId } = useParams();
 
-  useTitle('MERN Social Network - profile');
+  useTitle(`Sociallize - ${profile.firstName} ${profile.lastName} profile`);
 
   useEffect(() => {
     const promise = dispatch(fetchProfile(profileId));
