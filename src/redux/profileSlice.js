@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { baseURL } from '../utils/constants/api';
 import { toggleLike, toggleLikeHandler } from './postSlice';
 
 export const fetchProfile = createAsyncThunk(
   'profile/fetchProfile',
   async (profileId, { signal }) => {
     try {
-      const res = await fetch(`/api/profiles/${profileId}`, {
+      const res = await fetch(`${baseURL}/users/${profileId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -20,10 +21,13 @@ export const fetchProfile = createAsyncThunk(
 
 export const fetchProfilePosts = createAsyncThunk(
   'profile/fetchProfilePosts',
-  async ({ profileId, page, limit }, { signal }) => {
+  async ({ profileId, limit }, { signal, getState }) => {
+    const cursor = getState().profile.cursor;
     try {
       const res = await fetch(
-        `/api/profiles/${profileId}/posts?page=${page}&limit=${limit}`,
+        `${baseURL}/users/${profileId}/posts?limit=${limit}${
+          cursor ? `&cursor=${cursor}` : ''
+        }`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -35,6 +39,12 @@ export const fetchProfilePosts = createAsyncThunk(
     } catch (error) {
       console.log(error.message);
     }
+  },
+  {
+    condition: ({ onMount = false }, { getState }) => {
+      const { cursor, hasMorePosts } = getState().profile;
+      if ((cursor !== null && onMount) || !hasMorePosts) return false;
+    },
   }
 );
 
@@ -49,9 +59,10 @@ const initialState = {
   gender: null,
   dateOfBirth: null,
   profilePosts: [],
+  cursor: null,
+  hasMorePosts: true,
   arePorfilePostsLoading: true,
   profilePostsPage: 0,
-  profilePostsTotalCount: null,
 };
 
 export const profileSlice = createSlice({
@@ -77,7 +88,7 @@ export const profileSlice = createSlice({
         state.email = payload.email;
         state.avatarImageUrl = payload.avatarImageUrl;
         state.gender = payload.gender;
-        state.location = payload.location;
+        state.location = payload.domicile;
         state.dateOfBirth = payload.dateOfBirth;
       })
       .addCase(fetchProfile.rejected, (state) => {
@@ -87,10 +98,29 @@ export const profileSlice = createSlice({
       .addCase(fetchProfilePosts.pending, (state) => {
         state.arePorfilePostsLoading = true;
       })
-      .addCase(fetchProfilePosts.fulfilled, (state, { payload }) => {
-        state.profilePosts.push(...payload.posts);
-        state.profilePostsTotalCount = payload.postsTotalCount;
+      .addCase(fetchProfilePosts.fulfilled, (state, action) => {
+        const { count, rows: posts } = action.payload;
+
         state.arePorfilePostsLoading = false;
+        state.hasMorePosts = count !== posts.length;
+
+        if (posts.length === 0) return;
+
+        state.profilePosts.push(
+          ...posts.map((post) => ({
+            id: post.id.toString(),
+            author: post.author.id.toString(),
+            firstName: post.author.firstName,
+            lastName: post.author.lastName,
+            avatarImageUrl: post.author.avatar,
+            postImageUrl: post.media,
+            textContent: post.content,
+            likes: [], // REMOVE LATER
+            isLiked: false,
+            comments: 0, // REMOVE LATER
+          }))
+        );
+        state.cursor = posts[posts.length - 1].id;
       })
       .addCase(fetchProfilePosts.rejected, (state) => {
         state.arePorfilePostsLoading = false;

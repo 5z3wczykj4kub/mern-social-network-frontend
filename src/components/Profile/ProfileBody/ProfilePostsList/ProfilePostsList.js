@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchProfilePosts,
-  incrementProfilePostsPage,
-} from '../../../../redux/profileSlice';
+import { fetchProfilePosts } from '../../../../redux/profileSlice';
 import Post from '../../../Post/Post';
 import SkeletonPost from '../../../Post/SkeletonPost/SkeletonPost';
 import PersonalInfo from './PersonalInfo/PersonalInfo';
@@ -12,16 +9,21 @@ import RecentlyAddedFriendsList from './RecentlyAddedFriendsList/RecentlyAddedFr
 
 const ProfilePostsList = ({ profile: { id: profileId } }) => {
   const profilePosts = useSelector((state) => state.profile.profilePosts);
-  const profilePostsPage = useSelector(
-    (state) => state.profile.profilePostsPage
-  );
   const arePorfilePostsLoading = useSelector(
     (state) => state.profile.arePorfilePostsLoading
   );
-  const profilePostsTotalCount = useSelector(
-    (state) => state.profile.profilePostsTotalCount
-  );
+  const hasMorePosts = useSelector((state) => state.profile.hasMorePosts);
   const dispatch = useDispatch();
+
+  const promiseRef = useRef();
+
+  useEffect(() => {
+    promiseRef.current = dispatch(
+      fetchProfilePosts({ profileId, limit: 10, onMount: true })
+    );
+  }, [dispatch, profileId]);
+
+  useEffect(() => () => promiseRef.current?.abort(), []);
 
   const postsList = profilePosts.map((post, index) => (
     <Post
@@ -32,28 +34,6 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
       post={post}
     />
   ));
-
-  // Flags
-  const isComponentMounting = useRef(true);
-  const profilePostsLength = useRef(profilePosts.length);
-  const totalPostsCount = useRef(profilePostsTotalCount);
-
-  // Fetch profile posts when:
-  // 1. Component mounts and there are 0 posts cached.
-  // 2. Pagination is used.
-  useEffect(() => {
-    if (
-      (profilePostsLength.current > 0 || totalPostsCount.current === 0) &&
-      isComponentMounting.current
-    ) {
-      isComponentMounting.current = false;
-      return;
-    }
-    const promise = dispatch(
-      fetchProfilePosts({ profileId, page: profilePostsPage, limit: 10 })
-    );
-    return () => promise.abort();
-  }, [dispatch, profileId, profilePostsPage]);
 
   return (
     <>
@@ -67,13 +47,17 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
           {arePorfilePostsLoading && (
             <SkeletonPost className={classes.skeletonPost} />
           )}
-          {!arePorfilePostsLoading &&
-            profilePosts.length > 0 &&
-            profilePosts.length !== profilePostsTotalCount && (
-              <button onClick={() => dispatch(incrementProfilePostsPage())}>
-                Load more posts
-              </button>
-            )}
+          {!arePorfilePostsLoading && profilePosts.length > 0 && hasMorePosts && (
+            <button
+              onClick={() => {
+                promiseRef.current = dispatch(
+                  fetchProfilePosts({ profileId, limit: 10 })
+                );
+              }}
+            >
+              Load more posts
+            </button>
+          )}
           {!arePorfilePostsLoading && profilePosts.length === 0 && (
             <p className={classes.postsNotFoundMessage}>
               This user has no posts

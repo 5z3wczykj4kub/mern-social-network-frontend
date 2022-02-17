@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { baseURL } from '../utils/constants/api';
 
 export const navbarSclice = createSlice({
   name: 'navbar',
@@ -80,7 +81,7 @@ export const searchUsers = (event) => (dispatch, getState) => {
     prevAbortController = new AbortController();
     try {
       const res = await fetch(
-        `/api/users?query=${encodeURI(inputValue)}&limit=5`,
+        `${baseURL}/users?search=${encodeURI(inputValue)}&limit=5`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -88,7 +89,7 @@ export const searchUsers = (event) => (dispatch, getState) => {
           signal: prevAbortController.signal,
         }
       );
-      const users = await res.json();
+      const { rows: users } = await res.json();
       dispatch(setSearchedUsers(users));
       dispatch(setIsLoading(false));
     } catch (error) {
