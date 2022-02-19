@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import ProfileFriendsSubpage from '../../../pages/subpages/ProfileFriendsSubpage';
 import ProfilePostsSubpage from '../../../pages/subpages/ProfilePostsSubpage';
 import Tabs from '../../Tabs/Tabs';
 import ProfileAboutList from './ProfileAboutList/ProfileAboutList';
 import classes from './ProfileBody.module.scss';
-import ProfileFriendsList from './ProfileFriendsList/ProfileFriendsList';
 
 const ProfileBody = ({ profile }) => {
   const authUserID = useSelector((state) => state.authProfile.id);
@@ -28,7 +28,7 @@ const ProfileBody = ({ profile }) => {
       <Tabs labels={labels}></Tabs>
       <Switch>
         <Route path={`${url}/friends`} exact>
-          <ProfileFriendsList profileId={profile.id} />
+          <ProfileFriendsSubpage profile={profile} disabled={disabled} />
         </Route>
         <Route path={`${url}/about`} exact>
           <ProfileAboutList {...profile} />

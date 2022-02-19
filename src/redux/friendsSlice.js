@@ -20,6 +20,7 @@ export const getFriendsQuery = createAsyncThunk(
       );
       let { count, rows } = await res.json();
       rows = rows.map((row) => ({
+        fid: row.id,
         id: row.userId,
         firstName: row.firstName,
         lastName: row.lastName,
@@ -59,7 +60,7 @@ export const friendsSlice = createSlice({
         state.isLoading = false;
         state.entities.push(...rows);
         state.entitiesCount = count;
-        state.cursor = rows[rows.length - 1].id;
+        state.cursor = rows[rows.length - 1].fid;
       })
       .addCase(getFriendsQuery.rejected, (state) => {
         state.isLoading = false;
