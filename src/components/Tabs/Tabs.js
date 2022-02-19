@@ -1,31 +1,17 @@
 import { useCallback, useRef, useState } from 'react';
-import useLocationChange from '../../hooks/useLocationChange';
 import Tab from './Tab/Tab';
 import classes from './Tabs.module.scss';
 
-const Tabs = ({ labels, children }) => {
+const Tabs = ({ labels, disabled, children }) => {
   const tabsRef = useRef();
 
-  const activeTabIndex = labels.findIndex(
-    (label) => label.to === document.location.pathname
-  );
-
   const [tabWidths, setTabWidths] = useState([]);
-  const [selectedTabIndex, setSelectedTabIndex] = useState(activeTabIndex);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(disabled ? 2 : 0);
 
   const getTabWidth = useCallback(
     (tabWidth) => setTabWidths((prevTabWidths) => [...prevTabWidths, tabWidth]),
     []
   );
-
-  // Set active tab on location change.
-  const locationChangeHandler = useCallback(() => {
-    const activeTabIndex = labels.findIndex(
-      (label) => label.to === document.location.pathname
-    );
-    setSelectedTabIndex(activeTabIndex);
-  }, [labels]);
-  useLocationChange(locationChangeHandler);
 
   const translateX = tabWidths.reduce((p, q, i) => {
     const r = i < selectedTabIndex ? p + q : p + 0;
@@ -40,9 +26,9 @@ const Tabs = ({ labels, children }) => {
             key={label + index}
             label={label}
             disabled={disabled}
-            to={to}
             index={index}
             getTabWidth={getTabWidth}
+            setSelectedTabIndex={setSelectedTabIndex}
           />
         ))}
       </div>
@@ -55,7 +41,7 @@ const Tabs = ({ labels, children }) => {
           }}
         ></div>
       </div>
-      {children}
+      {children(selectedTabIndex, setSelectedTabIndex)}
     </>
   );
 };

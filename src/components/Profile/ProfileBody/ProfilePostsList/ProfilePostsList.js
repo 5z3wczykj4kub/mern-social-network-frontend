@@ -7,7 +7,10 @@ import PersonalInfo from './PersonalInfo/PersonalInfo';
 import classes from './ProfilePostsList.module.scss';
 import RecentlyAddedFriendsList from './RecentlyAddedFriendsList/RecentlyAddedFriendsList';
 
-const ProfilePostsList = ({ profile: { id: profileId } }) => {
+const ProfilePostsList = ({
+  profile: { id: profileId },
+  setSelectedTabIndex,
+}) => {
   const profilePosts = useSelector((state) => state.profile.profilePosts);
   const arePorfilePostsLoading = useSelector(
     (state) => state.profile.arePorfilePostsLoading
@@ -40,7 +43,7 @@ const ProfilePostsList = ({ profile: { id: profileId } }) => {
       <div className={classes.profilePostsList}>
         <aside>
           <PersonalInfo />
-          <RecentlyAddedFriendsList />
+          <RecentlyAddedFriendsList setSelectedTabIndex={setSelectedTabIndex} />
         </aside>
         <main>
           {postsList}

@@ -1,14 +1,13 @@
-import styles from './RecentlyAddedFriendsList.module.scss';
-import FriendsIcon from '../../../../FriendsIcon/FriendsIcon';
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getRecentFriendsQuery } from '../../../../../redux/recentFriendsSlice';
-import RecentlyAddedFriendsListItem from './RecentlyAddedFriendsListItem/RecentlyAddedFriendsListItem';
-import { Link } from 'react-router-dom';
-import SkeletonRecentlyAddedFriendsListItem from './RecentlyAddedFriendsListItem/SkeletonRecentlyAddedFriendsListItem/SkeletonRecentlyAddedFriendsListItem';
 import classNames from 'classnames';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRecentFriendsQuery } from '../../../../../redux/recentFriendsSlice';
+import FriendsIcon from '../../../../FriendsIcon/FriendsIcon';
+import styles from './RecentlyAddedFriendsList.module.scss';
+import RecentlyAddedFriendsListItem from './RecentlyAddedFriendsListItem/RecentlyAddedFriendsListItem';
+import SkeletonRecentlyAddedFriendsListItem from './RecentlyAddedFriendsListItem/SkeletonRecentlyAddedFriendsListItem/SkeletonRecentlyAddedFriendsListItem';
 
-const RecentlyAddedFriendsList = () => {
+const RecentlyAddedFriendsList = ({ setSelectedTabIndex }) => {
   const profileId = useSelector((state) => state.profile.id);
   const { entities, entitiesTotalCount, isLoading } = useSelector(
     (state) => state.recentFriends
@@ -26,9 +25,9 @@ const RecentlyAddedFriendsList = () => {
     <section className={styles.RecentlyAddedFriendsList}>
       <p>
         <FriendsIcon /> Recently added
-        <Link className={styles.Link} to={`/profiles/${profileId}/friends`}>
+        <span className={styles.Link} onClick={() => setSelectedTabIndex(1)}>
           See all
-        </Link>
+        </span>
       </p>
       <div
         className={classNames({

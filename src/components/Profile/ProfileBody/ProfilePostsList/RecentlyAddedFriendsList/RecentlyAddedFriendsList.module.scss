@@ -24,6 +24,7 @@
 .Link {
   position: absolute;
   right: 1rem;
+  cursor: pointer;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
