@@ -10,3 +10,17 @@
     }
   }
 }
+
+.disabled {
+  color: #999;
+
+  .tab {
+    cursor: default;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: unset;
+      }
+    }
+  }
+}

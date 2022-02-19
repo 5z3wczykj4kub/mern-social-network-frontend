@@ -1,11 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { baseURL } from '../utils/constants/api';
 
 export const getFriendsQuery = createAsyncThunk(
   'friends/getFriendsQuery',
-  async ({ profileId, page, limit }, { signal }) => {
+  async ({ profileId, limit }, { signal, getState }) => {
+    const { cursor } = getState().friends;
+
     try {
       const res = await fetch(
-        `/api/profiles/${profileId}/friends?page=${page}&limit=${limit}`,
+        `${baseURL}/users/${profileId}/friends?limit=${limit}${
+          cursor ? `&cursor=${cursor}` : ''
+        }`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -13,7 +18,14 @@ export const getFriendsQuery = createAsyncThunk(
           signal,
         }
       );
-      return await res.json();
+      let { count, rows } = await res.json();
+      rows = rows.map((row) => ({
+        id: row.userId,
+        firstName: row.firstName,
+        lastName: row.lastName,
+        avatarImageUrl: row.avatar,
+      }));
+      return { count, rows };
     } catch (error) {
       console.log(error.message);
     }
@@ -23,7 +35,7 @@ export const getFriendsQuery = createAsyncThunk(
 const initialState = {
   entities: [],
   entitiesCount: null,
-  page: 0,
+  cursor: null,
   isLoading: false,
 };
 
@@ -42,11 +54,14 @@ export const friendsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getFriendsQuery.fulfilled, (state, action) => {
+        const { count, rows } = action.payload;
+
         state.isLoading = false;
-        state.entities.push(...action.payload.entities);
-        state.entitiesCount = action.payload.entitiesCount;
+        state.entities.push(...rows);
+        state.entitiesCount = count;
+        state.cursor = rows[rows.length - 1].id;
       })
-      .addCase(getFriendsQuery.rejected, (state, action) => {
+      .addCase(getFriendsQuery.rejected, (state) => {
         state.isLoading = false;
         if (state.page === 0) return;
         state.page--;

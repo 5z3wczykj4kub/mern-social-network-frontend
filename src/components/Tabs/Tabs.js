@@ -35,10 +35,11 @@ const Tabs = ({ labels, children }) => {
   return (
     <>
       <div ref={tabsRef} className={classes.tabs}>
-        {labels.map(({ label, to }, index) => (
+        {labels.map(({ label, to, disabled }, index) => (
           <Tab
             key={label + index}
             label={label}
+            disabled={disabled}
             to={to}
             index={index}
             getTabWidth={getTabWidth}
@@ -49,7 +50,7 @@ const Tabs = ({ labels, children }) => {
         <div
           className={classes.lineHighlight}
           style={{
-            width: tabWidths[selectedTabIndex],
+            width: selectedTabIndex !== -1 ? tabWidths[selectedTabIndex] : 0,
             transform: `translateX(${translateX}px)`,
           }}
         ></div>
