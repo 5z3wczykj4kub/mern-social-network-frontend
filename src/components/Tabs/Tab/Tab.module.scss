@@ -3,6 +3,7 @@
   text-transform: uppercase;
   font-size: 0.9rem;
   cursor: pointer;
+  transition: background-color 250ms;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {

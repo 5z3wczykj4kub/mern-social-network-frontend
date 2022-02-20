@@ -1,11 +1,14 @@
 import classNames from 'classnames';
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import classes from './Tab.module.scss';
 
 const Tab = ({ getTabWidth, label, index, disabled, setSelectedTabIndex }) => {
   const tabRef = useRef(null);
 
-  useEffect(() => getTabWidth(tabRef.current.offsetWidth), [getTabWidth]);
+  useLayoutEffect(
+    () => getTabWidth(tabRef.current.getBoundingClientRect().width),
+    [getTabWidth]
+  );
 
   return (
     <div

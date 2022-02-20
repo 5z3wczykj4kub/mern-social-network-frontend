@@ -13,15 +13,16 @@ const Tabs = ({ labels, disabled, children }) => {
     []
   );
 
-  const translateX = tabWidths.reduce((p, q, i) => {
-    const r = i < selectedTabIndex ? p + q : p + 0;
-    return r;
-  }, 0);
+  const translateX =
+    tabWidths.reduce((p, q, i) => {
+      const r = i < selectedTabIndex ? p + q : p + 0;
+      return r;
+    }, 0) + 1; // `+ 1` add border width (1px);
 
   return (
     <>
       <div ref={tabsRef} className={classes.tabs}>
-        {labels.map(({ label, to, disabled }, index) => (
+        {labels.map(({ label, disabled }, index) => (
           <Tab
             key={label + index}
             label={label}
