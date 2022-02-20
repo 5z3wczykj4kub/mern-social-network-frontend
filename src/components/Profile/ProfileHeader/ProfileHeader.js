@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import addFriend from '../../../assets/add-friend.png';
-import friends from '../../../assets/friends.png';
+import friendsIcon from '../../../assets/friends.png';
 import Avatar from '../../Avatar/Avatar';
 import classes from './ProfileHeader.module.scss';
 
@@ -9,7 +9,7 @@ const ProfileHeader = ({
   avatarImageUrl,
   firstName,
   lastName,
-  friendship,
+  friends,
 }) => {
   const authProfileID = useSelector((state) => state.authProfile.id);
   const isAuthProfile = authProfileID === id;
@@ -23,7 +23,7 @@ const ProfileHeader = ({
           {firstName} {lastName}
         </h1>
         <p>
-          <img src={friends} alt='friends' /> 128
+          <img src={friendsIcon} alt='friends' /> {friends}
         </p>
         {!isAuthProfile && (
           <button>

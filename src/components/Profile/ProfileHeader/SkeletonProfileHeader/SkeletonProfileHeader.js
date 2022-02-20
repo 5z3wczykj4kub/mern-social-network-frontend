@@ -18,7 +18,7 @@ const SkeletonProfileHeader = () => {
         <p>
           <img src={friends} alt='friends' /> <span></span>
         </p>
-        {authProfileId !== profileId && (
+        {authProfileId.toString() !== profileId && (
           <div className={classes.skeletonButton}></div>
         )}
       </div>

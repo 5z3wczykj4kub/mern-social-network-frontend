@@ -64,6 +64,7 @@ const initialState = {
   arePorfilePostsLoading: true,
   profilePostsPage: 0,
   friendship: null,
+  friends: null,
 };
 
 export const profileSlice = createSlice({
@@ -92,6 +93,7 @@ export const profileSlice = createSlice({
         state.location = payload.domicile;
         state.dateOfBirth = payload.dateOfBirth;
         state.friendship = payload.friendship;
+        state.friends = payload.friends;
       })
       .addCase(fetchProfile.rejected, (state) => {
         state.isLoading = true;
