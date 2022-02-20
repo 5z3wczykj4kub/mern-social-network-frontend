@@ -1,0 +1,50 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  height: 2.25rem;
+  margin: 0.75rem auto 0 auto;
+  padding: 0 0.75rem;
+  outline: none;
+  border: none;
+  border-radius: 0.2rem;
+  font-size: 0.96rem;
+  background-color: #04a1fc;
+  color: #fff;
+  cursor: pointer;
+
+  &:focus-visible {
+    filter: brightness(1.05);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  @media (min-width: 768px) {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    margin: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled) {
+      filter: brightness(1.05);
+    }
+  }
+
+  img {
+    height: 1.15rem;
+    filter: invert(100);
+  }
+}
+
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #fff;
+  border-right-color: transparent;
+}

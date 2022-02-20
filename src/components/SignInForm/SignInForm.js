@@ -21,11 +21,12 @@ function SignInForm() {
 
   // Current input validation. Use Formik in the future.
   function isButtonDisabled() {
-    const passwordMinLength = 6;
+    const passwordRegex =
+      /^([a-zA-Z~`!@#$%^&*()_\-+={[}\]:;"'|\\<,>.?/\d]){12,72}$/;
     return !(
       validateEmail(email) &&
       email.length > 0 &&
-      password.length >= passwordMinLength &&
+      passwordRegex.test(password) &&
       authStatus !== 'pending'
     );
   }

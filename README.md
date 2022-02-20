@@ -2,6 +2,8 @@
 
 ## FIXME:
 
+After accepting a friend request, increment profile total friends count.
+
 ### Warning: A history supports only one prompt at a time
 
 Above message shows because `<Prompt />` can be rendered multiple times ( ͡° ʖ̯ ͡°).

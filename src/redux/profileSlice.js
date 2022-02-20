@@ -71,6 +71,9 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
+    updateFriendshipStatus: (state, action) => {
+      state.friendship = action.payload;
+    },
     incrementProfilePostsPage: (state) => {
       state.profilePostsPage++;
     },
@@ -138,7 +141,10 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { incrementProfilePostsPage, cleanupProfile } =
-  profileSlice.actions;
+export const {
+  incrementProfilePostsPage,
+  cleanupProfile,
+  updateFriendshipStatus,
+} = profileSlice.actions;
 
 export default profileSlice.reducer;

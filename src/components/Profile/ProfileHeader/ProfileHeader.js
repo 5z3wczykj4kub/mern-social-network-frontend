@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
-import addFriend from '../../../assets/add-friend.png';
 import friendsIcon from '../../../assets/friends.png';
+import { baseURL } from '../../../utils/constants/api';
 import Avatar from '../../Avatar/Avatar';
+import FriendButton from './FriendButton/FriendButton';
 import classes from './ProfileHeader.module.scss';
 
 const ProfileHeader = ({
@@ -10,9 +11,39 @@ const ProfileHeader = ({
   firstName,
   lastName,
   friends,
+  friendship,
 }) => {
   const authProfileID = useSelector((state) => state.authProfile.id);
   const isAuthProfile = authProfileID === id;
+
+  // Friend requests handlers
+  const url = `${baseURL}/users/${authProfileID}/friends/${id}`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+
+  const sendFriendRequest = async (signal) =>
+    fetch(url, {
+      headers,
+      signal,
+      method: 'POST',
+    });
+
+  const cancelFriendRequest = async (signal) =>
+    fetch(url, {
+      headers,
+      signal,
+      method: 'DELETE',
+    });
+
+  const acceptFriendRequest = async (signal) =>
+    fetch(url, {
+      headers,
+      signal,
+      method: 'PUT',
+      body: JSON.stringify({ response: 'accepted' }), // TODO: It can also be 'rejected'
+    });
 
   return (
     <header className={classes.profileHeader}>
@@ -26,9 +57,12 @@ const ProfileHeader = ({
           <img src={friendsIcon} alt='friends' /> {friends}
         </p>
         {!isAuthProfile && (
-          <button>
-            <img src={addFriend} alt='add friend' /> Add friend
-          </button>
+          <FriendButton
+            friendship={friendship}
+            cancelFriendRequest={cancelFriendRequest}
+            sendFriendRequest={sendFriendRequest}
+            acceptFriendRequest={acceptFriendRequest}
+          />
         )}
       </div>
     </header>
